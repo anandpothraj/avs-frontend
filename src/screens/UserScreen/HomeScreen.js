@@ -43,7 +43,7 @@ const HomeScreen = () => {
               <p className="subtitle">Vaccine Ensured , Life Secured</p>
             </div>
             <div className="buttonContainer">
-              <Link to="/">
+              <Link to="/options">
                 <Button size="lg" className="landingbutton btn-success" >
                   Enter AVS
                 </Button>
