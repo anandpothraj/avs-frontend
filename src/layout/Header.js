@@ -7,7 +7,7 @@ const Header = () => {
 
   const navigate = useNavigate();
   const user = localStorage.getItem('user');
-  const linkCss = "text-decoration-none text-light m-2";
+  const linkCss = "text-decoration-none text-dark m-2";
 
   const logoutHandler = () => {
     if (window.confirm("Are you sure you want LOGOUT?")) {
