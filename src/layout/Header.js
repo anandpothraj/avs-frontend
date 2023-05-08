@@ -27,7 +27,7 @@ const Header = () => {
           <Nav className="m-auto">
           </Nav>
           <Nav>
-            <Link to="/" className={linkCss}>About</Link>
+            <Link to="/about" className={linkCss}>About</Link>
             {
               user ?
               <>
@@ -36,7 +36,7 @@ const Header = () => {
               </>
               :
               <>
-                <Link to="/" className={linkCss}>Login</Link>
+                <Link to="/login" className={linkCss}>Login</Link>
                 <Link to="/" className={linkCss}>Register</Link>
               </>
             }
