@@ -36,7 +36,7 @@ const Header = () => {
               </>
               :
               <>
-                <Link to="/" className={linkCss}>Login</Link>
+                <Link to="/login" className={linkCss}>Login</Link>
                 <Link to="/" className={linkCss}>Register</Link>
               </>
             }

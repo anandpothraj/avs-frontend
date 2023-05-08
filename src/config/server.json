@@ -1,0 +1,11 @@
+{
+    "url": {
+        "production": "http://localhost:6678/",
+        "development": "http://localhost:6678/",
+        "local": "http://localhost:6678/"
+    },
+    "api": {
+        "LOGIN_STEP1": "login/first",
+        "LOGIN_STEP2": "login"
+    }
+}
