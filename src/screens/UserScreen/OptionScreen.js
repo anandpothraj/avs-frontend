@@ -52,7 +52,7 @@ const OptionScreen = () => {
                                 </Link>
                             </div>
                             <div className="loginBtn">
-                                <Link to="/">
+                                <Link to="/login">
                                     <Button className="btn-success" >
                                         Already a User
                                     </Button>
