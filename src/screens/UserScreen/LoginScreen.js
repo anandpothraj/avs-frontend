@@ -7,7 +7,6 @@ import React, { useContext, useEffect } from 'react';
 import { Container, Row , Col , Image} from 'react-bootstrap';
 import LoginForm from '../../components/Form/LoginForm/LoginForm';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
-import LoginFormNavigator from '../../components/FormNavigator/FormNavigator';
 
 const LoginScreen = () => {
 
@@ -48,7 +47,6 @@ const LoginScreen = () => {
                         <Col>
                             <ProgressBar noOfSteps={3}/>
                             <LoginForm/>
-                            <LoginFormNavigator FormType={"Login"}/>
                         </Col>
                     </Row>
                 </Container>
