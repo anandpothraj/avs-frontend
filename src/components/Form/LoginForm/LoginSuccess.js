@@ -31,9 +31,9 @@ const LoginSuccess = (props) => {
   return (
       <>
         <div className="row justify-content-center">
-            <div className="col-3">
-                <Image className="fit-image SuccessImg ml-0" src={SuccessImg} fluid />
-            </div>
+          <div className="col-3">
+            <Image className="fit-image SuccessImg ml-0" src={SuccessImg} fluid />
+          </div>
         </div> 
         <br/>
         <div className="row justify-content-center">

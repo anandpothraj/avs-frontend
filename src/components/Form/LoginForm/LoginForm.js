@@ -5,6 +5,7 @@ import LoginSuccess from './LoginSuccess';
 import React, { useContext } from 'react';
 import { Step } from '../../../Context/Context';
 import LoginContext from '../../../Context/LoginContext';
+import LoginFormNavigator from '../../../components/FormNavigator/FormNavigator';
 
 const LoginForm = () => {
 
@@ -22,6 +23,7 @@ const LoginForm = () => {
                         default:return (<LoginForm1/>)
                     }
                 })()}
+                <LoginFormNavigator FormType={"Login"}/>
             </LoginContext>
         </>
     )
