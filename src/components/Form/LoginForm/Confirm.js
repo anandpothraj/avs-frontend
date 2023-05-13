@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import React , { useContext } from 'react';
-import { Step } from '../../Context/Context';
+import { Step } from '../../../Context/Context';
 import { Register } from '../../Context/RegisterContext';
 
 const Confirm = (props) =>  {
