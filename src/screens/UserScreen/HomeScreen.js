@@ -32,22 +32,20 @@ const HomeScreen = () => {
 
   return (
     <div className="main" fluid="md">
-      <Container className="container">
+      <Container>
         <Row>
-          <Col xs={6} md={4} className="imgCls m-auto">
-            <Image src={HomeImg} fluid  />
+          <Col xs={6} md={4} className="m-auto">
+            <Image src={HomeImg} fluid />
           </Col>
-          <Col xs={12} md={8} className="align-self-center">
-            <div className="intro-text">
-              <h4 className="title">Welcome To Anand Vaccination System</h4>
-              <p className="subtitle">Vaccine Ensured , Life Secured</p>
-            </div>
-            <div className="buttonContainer">
-              <Link to="/options">
-                <Button size="lg" className="landingbutton btn-success" >
-                  Enter AVS
-                </Button>
-              </Link>
+          <Col xs={12} md={8} className="d-flex">
+            <div className="m-auto text-center">
+              <div>
+                <h4>Welcome To Anand Vaccination System</h4>
+                <p>Vaccine Ensured , Life Secured</p>
+              </div>
+              <div>
+                <Link to="/options"><Button size="lg" variant="success" >Enter AVS</Button></Link>
+              </div>
             </div>
           </Col>
         </Row>
