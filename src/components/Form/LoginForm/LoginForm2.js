@@ -16,7 +16,7 @@ const LoginForm2 = () => {
                     <Form.Control type="password" placeholder="Enter Secret Code" onChange={(e)=>setSecretCode(e.target.value)} value={secretCode} />
                 </Form.Group>
                 <span className="small">
-                    <Link to="/forgetsecretcode">Forget Secretcode</Link>
+                    <Link to="/">Forget Secretcode</Link>
                 </span>
             </Row>
         </Form>  

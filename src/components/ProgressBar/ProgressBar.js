@@ -2,14 +2,14 @@ import { Col } from 'react-bootstrap';
 import React, { useContext } from 'react';
 import { Step } from '../../Context/Context';
 
-const ProgressBar = ({noOfSteps}) => {
+const ProgressBar = ({noOfSteps, progressBarType}) => {
 
     const {step} = useContext(Step);
 
     return (
         <>
             <Col>
-                <h5>Please Follow The Steps For Login.</h5>
+                <h5>Please follow the steps to {progressBarType}.</h5>
                 <div className="progressBar">
                     <ul id="progressbar" className='p-0'>
                         {
