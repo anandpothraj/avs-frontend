@@ -45,7 +45,7 @@ const OptionScreen = () => {
                         </div>
                         <div className="buttonContainer mt-2">
                             <div className="registerBtn">
-                                <Link to="/">
+                                <Link to="/register">
                                     <Button className=" btn-success" >
                                         New to website
                                     </Button>

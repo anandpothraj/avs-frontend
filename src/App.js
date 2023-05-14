@@ -7,6 +7,7 @@ import AboutScreen from './screens/UserScreen/AboutScreen';
 import LoginScreen from './screens/UserScreen/LoginScreen';
 import OptionScreen from './screens/UserScreen/OptionScreen';
 import DoctorScreen from './screens/DoctorScreen/DoctorScreen';
+import RegisterScreen from './screens/UserScreen/RegisterScreen';
 import PatientScreen from './screens/PatientScreen/PatientScreen';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -22,6 +23,7 @@ const App = () => {
               <Route path='/login' element={<LoginScreen/>} exact />
               <Route path='/about' element={<AboutScreen/>} exact />
               <Route path='/options' element={<OptionScreen/>} exact />
+              <Route path='/register' element={<RegisterScreen/>} exact />
               {/* Open Routes */}
 
               {/* Private Routes */}
