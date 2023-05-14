@@ -34,7 +34,7 @@ const HomeScreen = () => {
     <div className="main" fluid="md">
       <Container>
         <Row>
-          <Col xs={6} md={4} className="m-auto">
+          <Col xs={9} md={4} className="m-auto">
             <Image src={HomeImg} fluid />
           </Col>
           <Col xs={12} md={8} className="d-flex">

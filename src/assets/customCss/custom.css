@@ -4,3 +4,23 @@
   display: flex;
   align-items: center;
 }
+
+/* css for main screen */
+.mainback {
+  min-height: 85vh;
+  display: flex;
+}
+
+.heading {
+  font-size: 40px;
+  margin-top: 15px;
+  font-family: "Work Sans", sans-serif;
+}
+
+@media only screen and (max-width: 600px) {
+  .heading {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+  }
+}

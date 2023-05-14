@@ -6,30 +6,23 @@ import { Col, Container, Image, Row } from 'react-bootstrap';
 const AboutScreen = () => {
     return (
         <>
-            <MainScreen title="ABOUT US">
-                <div className="main mt-0" fluid="md">
-                    <Container>
-                        <Row>
-                            <Col className="img" xs={6} md={6}>
-                                <Image src={AboutImg} fluid  />
-                            </Col>
-                            <Col className='d-flex' xs={12} md={6}>
-                                <div className='m-auto'>
-                                    <p>
-                                        <b>Welcome To Anand Vaccination System.</b>
-                                    </p>
-                                    <span>Hii. I am Anand Pothraj (Full Stack Web Developer).</span>
-                                    <ul>
-                                        <li>We provide vaccination services.</li>
-                                        <li>Accurate and secured vaccination facility.</li>
-                                        <li>High validation for proper vaccination.</li>
-                                        <li>Ensuring your health safety by providing value in your life</li>
-                                    </ul>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Container>
-                </div>
+            <MainScreen title="ABOUT US" fluid="md">
+                <Container>
+                    <Row>
+                        <Col xs={9} md={4} className="m-auto">
+                            <Image src={AboutImg} fluid />
+                        </Col>
+                        <Col xs={12} md={8} className='d-flex'>
+                            <div className='m-auto text-center'>
+                                <h4>Welcome To Anand Vaccination System.</h4>
+                                <p>Hii, Myself Anand Pothraj (MERN Stack Developer). This vaccination system is build as my final year project.
+                                    It is responsible for providing accurate and secured vaccination facility with high validation and safety standard.
+                                    Creating value in your life by ensuring your health safety.
+                                </p>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
             </MainScreen>   
         </>
     );

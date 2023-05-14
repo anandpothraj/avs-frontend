@@ -34,8 +34,8 @@ const OptionScreen = () => {
         <div className="main" fluid="md">
             <Container>
                 <Row>
-                    <Col xs={6} md={4} className="m-auto">
-                        <Image src={OptionImg} fluid />
+                    <Col xs={9} md={4} className="m-auto">
+                        <Image src={OptionImg} fluid className="mb-4"/>
                     </Col>
                     <Col xs={12} md={8} className="d-flex">
                         <div className="m-auto text-center">
@@ -44,8 +44,8 @@ const OptionScreen = () => {
                                 <p>Vaccine Ensured , Life Secured</p>
                             </div>
                             <div className="d-flex justify-content-between">
-                                <Link to="/register"><Button variant="success">New to website</Button></Link>
-                                <Link to="/login"><Button variant="success">Already a User</Button></Link>
+                                <Link to="/register"><Button variant="success" size="sm">New to website</Button></Link>
+                                <Link to="/login"><Button variant="success" size="sm">Already a User</Button></Link>
                             </div>
                         </div>
                     </Col>
