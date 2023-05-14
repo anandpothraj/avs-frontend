@@ -98,7 +98,7 @@ const LoginFormNavigator = (props) => {
               <Button className="m-1" variant="success" onClick={next}>Continue</Button>
           </Col>
       </Row>    
-      {step === 1 && props.FormType === "Login" ? <p className="mt-2">New to website <Link to="/">Register.</Link></p> : null}
+      {step === 1 && props.FormType === "Login" ? <p className="mt-2">New to website <Link to="/register">Register.</Link></p> : null}
     </>
   );
 };

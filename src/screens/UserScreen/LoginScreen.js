@@ -45,8 +45,8 @@ const LoginScreen = () => {
                             <Image src={(step === 4)?(ErrorBg):(LogImg)} fluid  className="logImg"/>
                         </Col>
                         <Col>
-                            <ProgressBar noOfSteps={3}/>
-                            <LoginForm/>
+                            <ProgressBar noOfSteps={3} progressBarType={"login"}/>
+                            <LoginForm/> 
                         </Col>
                     </Row>
                 </Container>
