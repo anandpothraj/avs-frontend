@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import React, { useContext } from 'react';
 import { Step } from '../../Context/Context';
 import { Login } from '../../Context/LoginContext';
-import { Col, Row, Button } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 
 const LoginFormNavigator = (props) => {
@@ -85,19 +85,11 @@ const LoginFormNavigator = (props) => {
   return (
     <>
       <ToastContainer/>
-      <Row>
-          {step === 2 ?
-          <Col>
-              <Button className="m-1" variant="warning" onClick={previous}>Previous</Button>
-          </Col> : null
-          }
-          <Col>
-              <Button className="m-1" variant="danger" onClick={reset}>Reset</Button>
-          </Col>
-          <Col>
-              <Button className="m-1" variant="success" onClick={next}>Continue</Button>
-          </Col>
-      </Row>    
+      <div className='d-flex justify-content-between'>
+        {step < 3 ? <Button className="m-1" size='sm' variant="danger" onClick={reset}>Reset</Button> : null} 
+        {step === 2 ? <Button className="m-1" size='sm' variant="warning" onClick={previous}>Previous</Button> : null}
+        {step < 3 ? <Button className="m-1" size='sm' variant="success" onClick={next}>Continue</Button> : null} 
+      </div>
       {step === 1 && props.FormType === "Login" ? <p className="mt-2">New to website <Link to="/register">Register.</Link></p> : null}
     </>
   );

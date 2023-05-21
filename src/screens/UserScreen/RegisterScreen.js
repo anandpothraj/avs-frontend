@@ -38,15 +38,17 @@ const RegisterScreen = () => {
 
     return (
         <MainScreen title="Register">
-            <div className="main mt-0" fluid="md">
+            <div className="main" fluid="md">
                 <Container>
                     <Row>
-                        <Col className="img" xs={6} md={4}>
-                            <Image src={(step === 4)?(ErrorBg):(RegisterImg)} fluid  className="RegisterImg"/>
+                        <Col className="d-sm-none d-md-flex d-xs-none" xs={6} md={4}>
+                            <Image className='m-auto' src={(step === 4)?(ErrorBg):(RegisterImg)} fluid/>
                         </Col>
-                        <Col>
-                            <ProgressBar noOfSteps={5} progressBarType={"register"}/>
-                            <RegisterForm/>
+                        <Col className='d-flex'>
+                            <div className="m-auto">
+                                <ProgressBar noOfSteps={5} progressBarType={"register"} formClass={"registerLi"}/>
+                                <RegisterForm/> 
+                            </div>
                         </Col>
                     </Row>
                 </Container>
