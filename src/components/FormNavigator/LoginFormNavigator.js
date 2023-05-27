@@ -72,13 +72,10 @@ const LoginFormNavigator = (props) => {
   };
 
   const checkLoginCredentials = () => {
-    console.log("Aadhaar Card : ", aadhaar);
-    console.log("Password : ", password);
     setStep(step+1);
   };
 
   const checkSecretCode = () => {
-    console.log("Secret Code : ", secretCode);
     setStep(step+1);
   };
 

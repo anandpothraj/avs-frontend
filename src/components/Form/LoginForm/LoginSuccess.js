@@ -10,9 +10,17 @@ const LoginSuccess = (props) => {
   const navigate = useNavigate();
   const {setStep} = useContext(Step);
   const [progress , setProgress] = useState(0);
-  const data = JSON.parse(localStorage.getItem('user'));
-  const accountType = data.data.accountType.toLowerCase();
   const {setAadhaar,setPassword,setSecretCode} = useContext(Login);
+
+  // This function takes an json and return true if the json is valid and false if json is invalid
+  const isJson = (json) => {
+    try {
+    JSON.parse(json);
+    } catch (e) {
+    return false;
+    }
+    return true;
+};
 
   setTimeout(()=>{
     setProgress(100);
@@ -20,13 +28,22 @@ const LoginSuccess = (props) => {
 
   useEffect(() => {
     setTimeout(() => {
-    setStep(1);
-    setAadhaar("");
-    setPassword("");
-    setSecretCode("");
-    navigate(`/${accountType}`);
+      // fetching user from localstorage
+    let user = localStorage.getItem("user");
+    // if user exist then check the json is valid or not and if user is not exist then redirect to "/"
+    if (user && isJson(user)) {
+      user = JSON.parse(user);
+      let accountType = user.data.accountType.toLowerCase();
+      setStep(1);
+      setAadhaar("");
+      setPassword("");
+      setSecretCode("");
+      navigate(`/${accountType}`);
+    } else {
+      setStep(4);
+    }
     } , 4000);
-  });
+  },[]);
   
   return (
       <>

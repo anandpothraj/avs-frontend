@@ -40,6 +40,7 @@ const RegisterForm3 = (props) => {
                 <Form.Group className="mb-3">
                     <Form.Label htmlFor="age" >Age</Form.Label>
                     <Form.Control type="number" placeholder="Enter age" name="age" value={age} readOnly/>
+                    <small>Age should always be greater then 0.</small>
                 </Form.Group>
             </Form>
         </div>

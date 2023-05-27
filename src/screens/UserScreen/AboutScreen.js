@@ -7,7 +7,7 @@ const AboutScreen = () => {
     return (
         <>
             <MainScreen title="ABOUT US" fluid="md">
-                <Container>
+                <Container style={{minHeight : "70vh"}} className='d-flex'>
                     <Row>
                         <Col xs={9} md={4} className="m-auto">
                             <Image src={AboutImg} fluid />
