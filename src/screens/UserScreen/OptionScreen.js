@@ -31,36 +31,24 @@ const OptionScreen = () => {
     }, [navigate]);
 
     return (
-        <div className="main mt-0" fluid="md">
+        <div className="main" fluid="md">
             <Container>
-            <Row>
-                <Col xs={6} md={4} className="imgCls m-auto">
-                    <Image src={OptionImg} fluid />
-                </Col>
-                <Col xs={12} md={8} className="align-self-center">
-                    <Row className='m-auto text-center'>
-                        <div className="intro-text mt-2">
-                            <h4 className="title">Get Started To Vaccinated</h4>
-                            <p className="subtitle">Vaccine Ensured , Life Secured</p>
-                        </div>
-                        <div className="buttonContainer mt-2">
-                            <div className="registerBtn">
-                                <Link to="/register">
-                                    <Button className=" btn-success" >
-                                        New to website
-                                    </Button>
-                                </Link>
+                <Row>
+                    <Col xs={9} md={4} className="m-auto">
+                        <Image src={OptionImg} fluid className="mb-4"/>
+                    </Col>
+                    <Col xs={12} md={8} className="d-flex">
+                        <div className="m-auto text-center">
+                            <div>
+                                <h4>Get Started To Vaccinated</h4>
+                                <p>Vaccine Ensured , Life Secured</p>
                             </div>
-                            <div className="loginBtn">
-                                <Link to="/login">
-                                    <Button className="btn-success" >
-                                        Already a User
-                                    </Button>
-                                </Link>
+                            <div className="d-flex justify-content-between">
+                                <Link to="/register"><Button variant="success" size="sm">New to website</Button></Link>
+                                <Link to="/login"><Button variant="success" size="sm">Already a User</Button></Link>
                             </div>
                         </div>
-                    </Row>
-                </Col>
+                    </Col>
                 </Row>
             </Container>
         </div>

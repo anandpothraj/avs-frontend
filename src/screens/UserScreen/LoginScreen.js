@@ -38,15 +38,17 @@ const LoginScreen = () => {
 
     return (
         <MainScreen title="LOGIN">
-            <div className="main mt-0" fluid="md">
+            <div className='main' fluid="md">
                 <Container>
                     <Row>
-                        <Col className="img" xs={6} md={4}>
-                            <Image src={(step === 4)?(ErrorBg):(LogImg)} fluid  className="logImg"/>
+                        <Col className='d-sm-none d-md-flex d-xs-none' sm={0} md={4}>
+                            <Image className='m-auto' src={(step === 4)?(ErrorBg):(LogImg)} fluid/>
                         </Col>
-                        <Col>
-                            <ProgressBar noOfSteps={3} progressBarType={"login"}/>
-                            <LoginForm/> 
+                        <Col className='d-flex'>
+                            <div className="m-auto">
+                                <ProgressBar noOfSteps={3} progressBarType={"login"} formClass={"loginLi"}/>
+                                <LoginForm/> 
+                            </div>
                         </Col>
                     </Row>
                 </Container>
