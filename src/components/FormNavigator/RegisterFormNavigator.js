@@ -50,7 +50,8 @@ const RegiterFormNavigator = (props) => {
                         const data = { aadhaar };
                         axios.post(`${local}${REGISTER_STEP1}`,data)
                         .then(res => {
-                          setStep(step + 1);
+                            console.log(res);
+                            setStep(step + 1);
                         })
                         .catch(err => {
                             console.log(err);
