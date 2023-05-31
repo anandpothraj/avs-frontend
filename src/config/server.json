@@ -5,7 +5,7 @@
         "local": "http://localhost:6678/"
     },
     "api": {
-        "REGISTER_STEP1": "api/users/register/checkaadhaar",
+        "REGISTER_STEP1": "api/users/register/checkuser",
         "REGISTER_STEP2": "api/users/register/createuser"
     }
 }

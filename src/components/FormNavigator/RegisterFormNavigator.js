@@ -47,11 +47,15 @@ const RegiterFormNavigator = (props) => {
             if(accountType && name && aadhaar){
                 if(aadhaar.length === 12){
                     if(aadhaar.length === 12){
-                        const data = { aadhaar };
+                        const data = { aadhaar, accountType };
                         axios.post(`${local}${REGISTER_STEP1}`,data)
                         .then(res => {
-                            console.log(res);
-                            setStep(step + 1);
+                            if(res.status === 200){
+                                setStep(step + 1);
+                            }
+                            else{
+                                setStep(6);
+                            }
                         })
                         .catch(err => {
                             console.log(err);
@@ -106,7 +110,12 @@ const RegiterFormNavigator = (props) => {
             axios
             .post(`${local}${REGISTER_STEP2}`,data)
             .then(res => {
-                setStep(step + 1);
+                if(res.status === 201){
+                    setStep(step + 1);
+                }
+                else{
+                    setStep(6);
+                }
             })
             .catch(err => {
                 console.log(err);
