@@ -1,16 +1,18 @@
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import React, { useContext } from 'react';
 import { Step } from '../../Context/Context';
 import server from '../../config/server.json';
+import Spinner from 'react-bootstrap/Spinner';
 import { Col, Row, Button } from 'react-bootstrap';
+import React, { useState, useContext } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { Register } from '../../Context/RegisterContext';
 
 const RegiterFormNavigator = (props) => {
 
-    const local = server.url.local;
+    const production = server.url.production;
     const { step, setStep } = useContext(Step);
+    const [ loading, setLoading ] = useState(false);
     const REGISTER_STEP1 = server.api.REGISTER_STEP1;
     const REGISTER_STEP2 = server.api.REGISTER_STEP2;
     const { accountType, setAccountType, name, setName, aadhaar, setAadhaar, email, setEmail, password, 
@@ -47,20 +49,22 @@ const RegiterFormNavigator = (props) => {
             if(accountType && name && aadhaar){
                 if(aadhaar.length === 12){
                     if(aadhaar.length === 12){
-                        const data = { aadhaar, accountType };
-                        axios.post(`${local}${REGISTER_STEP1}`,data)
+                        setLoading(true);
+                        let params = { aadhaar : aadhaar, accountType: accountType }
+                        axios.get(`${production}${REGISTER_STEP1}`, { params : params })
                         .then(res => {
-                            if(res.status === 200){
+                            if (res.status === 200) {
                                 setStep(step + 1);
-                            }
-                            else{
+                            } else {
                                 setStep(6);
                             }
+                            setLoading(false);
                         })
                         .catch(err => {
                             console.log(err);
+                            setLoading(false);
                             notify(err.response.data.message);
-                        })
+                        });
                       }
                       else{
                           notify("Aadhaar Number should must have 12 digits");
@@ -106,9 +110,10 @@ const RegiterFormNavigator = (props) => {
             }
         }
         else if (step === 4){
+            setLoading(true);
             const data = { accountType, name, email, phone, password, secretCode, age, dob, gender, aadhaar };
             axios
-            .post(`${local}${REGISTER_STEP2}`,data)
+            .post(`${production}${REGISTER_STEP2}`,data)
             .then(res => {
                 if(res.status === 201){
                     setStep(step + 1);
@@ -116,9 +121,11 @@ const RegiterFormNavigator = (props) => {
                 else{
                     setStep(6);
                 }
+                setLoading(false);
             })
             .catch(err => {
                 console.log(err);
+                setLoading(false);
                 notify(err.message);
                 setStep(step + 2);
             })
@@ -133,8 +140,7 @@ const RegiterFormNavigator = (props) => {
         setStep(step-1);
         }
     };
-
-
+    
     return (
         <>
             <ToastContainer/>
@@ -151,7 +157,15 @@ const RegiterFormNavigator = (props) => {
                 }
                 {step < 5 ?
                     <Col>
-                        <Button className="m-1" variant="success" onClick={next}>Continue</Button>
+                        <Button className="m-1" variant="success" onClick={next} disabled={loading}>
+                            Continue
+                            {
+                                loading ? 
+                                <Spinner animation="border" variant="white" size='sm' className='mx-2'>
+                                    <span className="visually-hidden">Loading...</span>
+                                </Spinner> : null
+                            }
+                        </Button>
                     </Col> : null
                 }
             </Row>    

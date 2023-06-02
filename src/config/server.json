@@ -1,7 +1,7 @@
 {
     "url": {
-        "production": "https://anand-vaccination-system.netlify.app/",
-        "development": "https://dev-anand-vaccination-system.netlify.app/",
+        "production": "https://main-avs-backend.onrender.com/",
+        "development": "https://dev-avs-backend.onrender.com/",
         "local": "http://localhost:6678/"
     },
     "api": {
