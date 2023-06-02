@@ -1,15 +1,26 @@
+import axios from 'axios';
 import { Link } from 'react-router-dom';
-import React, { useContext } from 'react';
 import { Step } from '../../Context/Context';
+import server from '../../config/server.json';
+import Spinner from 'react-bootstrap/Spinner';
 import { Col, Row, Button } from 'react-bootstrap';
+import React, { useState, useContext } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { Register } from '../../Context/RegisterContext';
 
 const RegiterFormNavigator = (props) => {
 
+    const production = server.url.production;
     const { step, setStep } = useContext(Step);
+    const [ loading, setLoading ] = useState(false);
+    const REGISTER_STEP1 = server.api.REGISTER_STEP1;
+    const REGISTER_STEP2 = server.api.REGISTER_STEP2;
     const { accountType, setAccountType, name, setName, aadhaar, setAadhaar, email, setEmail, password, 
     setPassword, secretCode, setSecretCode, phone, setPhone, age, setAge, dob, setDob, gender, setGender } = useContext(Register);
+
+    const notify = (errorMessage) => {
+        toast.error(errorMessage);
+    }
 
     const reset = () => {
         if(step === 1){
@@ -29,7 +40,7 @@ const RegiterFormNavigator = (props) => {
             setGender("");
         }
         else{
-            toast.error("Something went wrong");
+            notify("Something went wrong");
         }
     };
 
@@ -37,20 +48,40 @@ const RegiterFormNavigator = (props) => {
         if(step === 1){
             if(accountType && name && aadhaar){
                 if(aadhaar.length === 12){
-                    setStep(step+1);
+                    if(aadhaar.length === 12){
+                        setLoading(true);
+                        let params = { aadhaar : aadhaar, accountType: accountType }
+                        axios.get(`${production}${REGISTER_STEP1}`, { params : params })
+                        .then(res => {
+                            if (res.status === 200) {
+                                setStep(step + 1);
+                            } else {
+                                setStep(6);
+                            }
+                            setLoading(false);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            setLoading(false);
+                            notify(err.response.data.message);
+                        });
+                      }
+                      else{
+                          notify("Aadhaar Number should must have 12 digits");
+                      }
                 }
                 else{
-                    toast.error("Aadhaar card should only have 12 digits!");
+                    notify("Aadhaar card should only have 12 digits!");
                 }
             }
             else{
-                toast.error("Please fill all the fields!");
+                notify("Please fill all the fields!");
             }
         }
         else if(step === 2){
             if(email && password && secretCode && phone){
                 if(password.length < 6){
-                    toast.error("Password length should be always greater than 6 characters.");
+                    notify("Password length should be always greater than 6 characters.");
                 }
                 else{
                     if(secretCode.length === 4){
@@ -58,16 +89,16 @@ const RegiterFormNavigator = (props) => {
                             setStep(step+1);
                         }
                         else{
-                            toast.error("Phone number should be always only of 10 digits.");
+                            notify("Phone number should be always only of 10 digits.");
                         }
                     }
                     else{
-                        toast.error("Secret Code should always be equal to 4 digits only");
+                        notify("Secret Code should always be equal to 4 digits only");
                     }
                 }
             }
             else{
-                toast.error("Please fill all the fields.");
+                notify("Please fill all the fields.");
             }
         }
         else if(step === 3){
@@ -75,14 +106,32 @@ const RegiterFormNavigator = (props) => {
                 setStep(step+1);
             }
             else{
-                toast.error("Please fill all the fields!");
+                notify("Please fill all the fields!");
             }
         }
         else if (step === 4){
-            setStep(step+1);
+            setLoading(true);
+            const data = { accountType, name, email, phone, password, secretCode, age, dob, gender, aadhaar };
+            axios
+            .post(`${production}${REGISTER_STEP2}`,data)
+            .then(res => {
+                if(res.status === 201){
+                    setStep(step + 1);
+                }
+                else{
+                    setStep(6);
+                }
+                setLoading(false);
+            })
+            .catch(err => {
+                console.log(err);
+                setLoading(false);
+                notify(err.message);
+                setStep(step + 2);
+            })
         }
         else{
-            toast.error("Something went wrong");
+            notify("Something went wrong");
         }
     };
 
@@ -91,8 +140,7 @@ const RegiterFormNavigator = (props) => {
         setStep(step-1);
         }
     };
-
-
+    
     return (
         <>
             <ToastContainer/>
@@ -109,7 +157,15 @@ const RegiterFormNavigator = (props) => {
                 }
                 {step < 5 ?
                     <Col>
-                        <Button className="m-1" variant="success" onClick={next}>Continue</Button>
+                        <Button className="m-1" variant="success" onClick={next} disabled={loading}>
+                            Continue
+                            {
+                                loading ? 
+                                <Spinner animation="border" variant="white" size='sm' className='mx-2'>
+                                    <span className="visually-hidden">Loading...</span>
+                                </Spinner> : null
+                            }
+                        </Button>
                     </Col> : null
                 }
             </Row>    

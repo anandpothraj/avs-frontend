@@ -1,11 +1,11 @@
 {
     "url": {
-        "production": "http://localhost:6678/",
-        "development": "http://localhost:6678/",
+        "production": "https://main-avs-backend.onrender.com/",
+        "development": "https://dev-avs-backend.onrender.com/",
         "local": "http://localhost:6678/"
     },
     "api": {
-        "LOGIN_STEP1": "login/first",
-        "LOGIN_STEP2": "login"
+        "REGISTER_STEP1": "api/users/register/checkuser",
+        "REGISTER_STEP2": "api/users/register/createuser"
     }
 }
