@@ -126,7 +126,7 @@ const RegiterFormNavigator = (props) => {
             .catch(err => {
                 console.log(err);
                 setLoading(false);
-                notify(err.message);
+                notify(err.response.data.message);
                 setStep(step + 2);
             })
         }

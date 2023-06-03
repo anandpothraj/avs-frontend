@@ -1,19 +1,30 @@
+import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-import React, { useContext } from 'react';
 import { Step } from '../../Context/Context';
+import server from '../../config/server.json';
+import { Button, Spinner } from 'react-bootstrap';
 import { Login } from '../../Context/LoginContext';
+import React, { useState, useContext } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 const LoginFormNavigator = (props) => {
 
+  const production = server.url.production;
   const { step, setStep } = useContext(Step);
-  const { aadhaar, setAadhaar, password, setPassword, secretCode, setSecretCode } = useContext(Login);
+  const [ loading, setLoading ] = useState(false);
+  const LOGIN_STEP1 = server.api.LOGIN_STEP1;
+  const LOGIN_STEP2 = server.api.LOGIN_STEP2;
+  const { aadhaar, setAadhaar, password, setPassword, secretCode, setSecretCode, accountType, setAccountType } = useContext(Login);
+
+  const notify = (e) => {
+    toast.error(e)
+  }
 
   const reset = () => {
     if(step === 1){
       setAadhaar("");
       setPassword("");
+      setAccountType("Patient");
     }
     else if(step === 2){
       setSecretCode("");
@@ -25,26 +36,21 @@ const LoginFormNavigator = (props) => {
 
   const next = () => {
     if(step === 1){
-      if(aadhaar){
-        if(password){
-          if(aadhaar.length === 12){
-            if(password.length >=6){
-              checkLoginCredentials();
-            }
-            else{
-              toast.error("Your password length should be always greater or equal to 6 characters!")
-            }
+      if(aadhaar && password){
+        if(aadhaar.length === 12){
+          if(password.length >=6){
+            checkLoginCredentials();
           }
           else{
-            toast.error("Aadhaar number length should be 12 only characters!")
+            notify("Your password length should be always greater or equal to 6 characters!")
           }
         }
         else{
-          toast.error("Please enter your password!")
+          notify("Aadhaar number length should be 12 only characters!")
         }
       }
       else{
-        toast.error("Please enter your Aadhaar Number!")
+        notify("Please fill all the fields!");
       }
     }
     else if(step === 2){
@@ -72,11 +78,45 @@ const LoginFormNavigator = (props) => {
   };
 
   const checkLoginCredentials = () => {
-    setStep(step+1);
+    setLoading(true);
+      const data = { accountType, aadhaar, password };
+      axios
+      .post(`${production}${LOGIN_STEP1}`,data)
+      .then(res => {
+        if(res.status === 200){
+          setStep(step + 1);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+        notify(err.response.data.message);
+      })
   };
 
   const checkSecretCode = () => {
-    setStep(step+1);
+    setLoading(true);
+      const data = { accountType, aadhaar, secretCode };
+      axios
+      .post(`${production}${LOGIN_STEP2}`,data)
+      .then(res => {
+        if (res.status === 200) {
+          const { data } = res;
+          const { aadhaar, accountType, age, dob, email, gender, name, phone, _id, token } = data;
+          const user = { _id, aadhaar, accountType, name, age, dob, gender, phone, email };
+          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("token", token);
+          setStep(step + 1);
+        }
+        
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+        notify(err.response.data.message);
+      })
   };
 
   return (
@@ -85,7 +125,13 @@ const LoginFormNavigator = (props) => {
       <div className='d-flex justify-content-between'>
         {step < 3 ? <Button className="m-1" size='sm' variant="danger" onClick={reset}>Reset</Button> : null} 
         {step === 2 ? <Button className="m-1" size='sm' variant="warning" onClick={previous}>Previous</Button> : null}
-        {step < 3 ? <Button className="m-1" size='sm' variant="success" onClick={next}>Continue</Button> : null} 
+        {step < 3 ? <Button className="m-1" size='sm' variant="success" onClick={next}>Continue
+          {
+              loading ? 
+              <Spinner animation="border" variant="white" size='sm' className='mx-2'>
+                  <span className="visually-hidden">Loading...</span>
+              </Spinner> : null
+          }</Button> : null} 
       </div>
       {step === 1 && props.FormType === "Login" ? <p className="mt-2">New to website <Link to="/register">Register.</Link></p> : null}
     </>

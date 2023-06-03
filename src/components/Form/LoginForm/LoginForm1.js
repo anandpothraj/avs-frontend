@@ -5,12 +5,20 @@ import { Login } from '../../../Context/LoginContext';
 
 const LoginForm1 = () => {
 
-  const { aadhaar, setAadhaar, password, setPassword } = useContext(Login);
+  const { aadhaar, setAadhaar, password, setPassword, accountType, setAccountType } = useContext(Login);
 
   return (
     <>
       <Form>
         <Row className="mb-3">
+        <Form.Group className="mb-3">
+            <Form.Label  htmlFor="accountType" className="form-label mt-4 w-50">Login As ?</Form.Label>
+            <select className="form-select form-select-sm w-50" name="accountType" onChange={(e)=>setAccountType(e.target.value)} value={accountType} required>
+                <option>Patient</option>
+                <option>Doctor</option>
+                <option>Inspector</option>
+            </select>
+        </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label htmlFor="aadhaar" > Enter Aadhaar Number</Form.Label>
               <Form.Control type="number" placeholder="Enter Your Aadhaar Number" value={aadhaar} name="aadhaar" onChange={(e)=>setAadhaar(e.target.value)}/>
