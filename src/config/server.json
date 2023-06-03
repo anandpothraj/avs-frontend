@@ -5,6 +5,8 @@
         "local": "http://localhost:6678/"
     },
     "api": {
+        "LOGIN_STEP1": "api/users/login/step1",
+        "LOGIN_STEP2": "api/users/login/step2",
         "REGISTER_STEP1": "api/users/register/checkuser",
         "REGISTER_STEP2": "api/users/register/createuser"
     }
