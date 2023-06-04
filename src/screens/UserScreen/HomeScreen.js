@@ -23,7 +23,7 @@ const HomeScreen = () => {
     // if user exist then check the json is valid or not and if user is not exist then redirect to "/"
     if (user && isJson(user)) {
       user = JSON.parse(user);
-      let accountType = user.data.accountType.toLowerCase();
+      let accountType = user.accountType.toLowerCase();
       navigate(`/${accountType}`);
     } else {
       navigate("/");

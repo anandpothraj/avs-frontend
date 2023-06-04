@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { clearUserData } from '../utils/clearUserData';
 import { Container, Nav, Navbar} from "react-bootstrap";
 
 const Header = () => {
@@ -11,8 +12,7 @@ const Header = () => {
 
   const logoutHandler = () => {
     if (window.confirm("Are you sure you want LOGOUT?")) {
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
+      clearUserData();
       navigate('/');
     }
   };
