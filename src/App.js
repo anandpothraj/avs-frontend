@@ -6,6 +6,7 @@ import HomeScreen from './screens/UserScreen/HomeScreen';
 import AboutScreen from './screens/UserScreen/AboutScreen';
 import LoginScreen from './screens/UserScreen/LoginScreen';
 import OptionScreen from './screens/UserScreen/OptionScreen';
+import VaccineInfo from './screens/DoctorScreen/VaccineInfo';
 import DoctorScreen from './screens/DoctorScreen/DoctorScreen';
 import RegisterScreen from './screens/UserScreen/RegisterScreen';
 import PatientScreen from './screens/PatientScreen/PatientScreen';
@@ -29,8 +30,12 @@ const App = () => {
               
               {/* Private Routes */}
                 <Route element={<PrivateRoutes/>}>
-                  <Route path='/doctor' element={<DoctorScreen/>} exact />
+                  {/* Patient Routes */}
                   <Route path='/patient' element={<PatientScreen/>} exact />
+
+                  {/* Doctor Routes */}
+                  <Route path='/doctor' element={<DoctorScreen/>} exact />
+                  <Route path='/doctor/vaccineinfo' element={<VaccineInfo/>} exact />
                 </Route>
               {/* Private Routes */}
             </Routes>
