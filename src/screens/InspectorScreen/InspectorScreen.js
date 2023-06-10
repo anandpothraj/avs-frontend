@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { redirectUser } from '../../utils/redirectUser';
 
-const DoctorScreen = () => {
+const InspectorScreen = () => {
 
   const navigate = useNavigate();
 
@@ -11,10 +11,10 @@ const DoctorScreen = () => {
     navigate(`/${accountType}`);
     // eslint-disable-next-line
   },[]);
-
+  
   return (
-    <div>DoctorScreen</div>
+    <div>InspectorScreen</div>
   )
 }
 
-export default DoctorScreen
+export default InspectorScreen

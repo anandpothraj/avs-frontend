@@ -46,37 +46,7 @@ const RegiterFormNavigator = (props) => {
 
     const next = () => {
         if(step === 1){
-            if(accountType && name && aadhaar){
-                if(aadhaar.length === 12){
-                    if(aadhaar.length === 12){
-                        setLoading(true);
-                        let params = { aadhaar : aadhaar, accountType: accountType }
-                        axios.get(`${production}${REGISTER_STEP1}`, { params : params })
-                        .then(res => {
-                            if (res.status === 200) {
-                                setStep(step + 1);
-                            } else {
-                                setStep(6);
-                            }
-                            setLoading(false);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            setLoading(false);
-                            notify(err.response.data.message);
-                        });
-                      }
-                      else{
-                          notify("Aadhaar Number should must have 12 digits");
-                      }
-                }
-                else{
-                    notify("Aadhaar card should only have 12 digits!");
-                }
-            }
-            else{
-                notify("Please fill all the fields!");
-            }
+            checkUser();
         }
         else if(step === 2){
             if(email && password && secretCode && phone){
@@ -110,25 +80,7 @@ const RegiterFormNavigator = (props) => {
             }
         }
         else if (step === 4){
-            setLoading(true);
-            const data = { accountType, name, email, phone, password, secretCode, age, dob, gender, aadhaar };
-            axios
-            .post(`${production}${REGISTER_STEP2}`,data)
-            .then(res => {
-                if(res.status === 201){
-                    setStep(step + 1);
-                }
-                else{
-                    setStep(6);
-                }
-                setLoading(false);
-            })
-            .catch(err => {
-                console.log(err);
-                setLoading(false);
-                notify(err.response.data.message);
-                setStep(step + 2);
-            })
+            createUser();
         }
         else{
             notify("Something went wrong");
@@ -140,6 +92,62 @@ const RegiterFormNavigator = (props) => {
         setStep(step-1);
         }
     };
+
+    const checkUser = () => {
+        if(accountType && name && aadhaar){
+            if(aadhaar.length === 12){
+                if(aadhaar.length === 12){
+                    setLoading(true);
+                    let params = { aadhaar : aadhaar, accountType: accountType }
+                    axios.get(`${production}${REGISTER_STEP1}`, { params : params })
+                    .then(res => {
+                        if (res.status === 200) {
+                            setStep(step + 1);
+                        } else {
+                            setStep(6);
+                        }
+                        setLoading(false);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        setLoading(false);
+                        notify(err.response.data.message);
+                    });
+                  }
+                  else{
+                      notify("Aadhaar Number should must have 12 digits");
+                  }
+            }
+            else{
+                notify("Aadhaar card should only have 12 digits!");
+            }
+        }
+        else{
+            notify("Please fill all the fields!");
+        }
+    }
+
+    const createUser = () => {
+        setLoading(true);
+        const data = { accountType, name, email, phone, password, secretCode, age, dob, gender, aadhaar };
+        axios
+        .post(`${production}${REGISTER_STEP2}`,data)
+        .then(res => {
+            if(res.status === 201){
+                setStep(step + 1);
+            }
+            else{
+                setStep(6);
+            }
+            setLoading(false);
+        })
+        .catch(err => {
+            console.log(err);
+            setLoading(false);
+            notify(err.response.data.message);
+            setStep(step + 2);
+        })
+    }
     
     return (
         <>

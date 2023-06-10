@@ -1,3 +1,4 @@
+import { isJson } from '../../utils/isJson';
 import { Step } from '../../Context/Context';
 import { useNavigate } from "react-router-dom";
 import MainScreen from '../../layout/MainScreen';
@@ -12,16 +13,6 @@ const LoginScreen = () => {
 
     const navigate = useNavigate();
     const step  = useContext(Step);
-
-    // This function takes an json and return true if the json is valid and false if json is invalid
-    const isJson = (json) => {
-        try {
-        JSON.parse(json);
-        } catch (e) {
-        return false;
-        }
-        return true;
-    };
 
     useEffect(() => {
         // fetching user from localstorage
