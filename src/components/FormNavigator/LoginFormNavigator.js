@@ -11,9 +11,9 @@ const LoginFormNavigator = (props) => {
 
   const production = server.url.production;
   const { step, setStep } = useContext(Step);
-  const [ loading, setLoading ] = useState(false);
   const LOGIN_STEP1 = server.api.LOGIN_STEP1;
   const LOGIN_STEP2 = server.api.LOGIN_STEP2;
+  const [ loading, setLoading ] = useState(false);
   const { aadhaar, setAadhaar, password, setPassword, secretCode, setSecretCode, accountType, setAccountType } = useContext(Login);
 
   const notify = (e) => {

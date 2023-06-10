@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { isJson } from "../../utils/isJson";
 import { Link, useNavigate } from "react-router-dom";
 import OptionImg from '../../assets/img/OptionImg.png';
 import { Container, Row , Col, Button , Image } from "react-bootstrap";
@@ -7,16 +8,6 @@ const OptionScreen = () => {
 
     const navigate = useNavigate();
     
-    // This function takes an json and return true if the json is valid and false if json is invalid
-    const isJson = (json) => {
-        try {
-        JSON.parse(json);
-        } catch (e) {
-        return false;
-        }
-        return true;
-    };
-
     useEffect(() => {
         // fetching user from localstorage
         let user = localStorage.getItem("user");
