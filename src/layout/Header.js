@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { clearUserData } from '../utils/clearUserData';
 import { Container, Nav, Navbar} from "react-bootstrap";
+import { collapseNavbar } from '../utils/collapseNavbar';
 
 const Header = () => {
 
@@ -15,6 +16,7 @@ const Header = () => {
       clearUserData();
       navigate('/');
     }
+    collapseNavbar();
   };
   
   return(

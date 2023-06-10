@@ -21,7 +21,7 @@ const LoginForm1 = () => {
         </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label htmlFor="aadhaar" > Enter Aadhaar Number</Form.Label>
-              <Form.Control type="number" placeholder="Enter Your Aadhaar Number" value={aadhaar} name="aadhaar" onChange={(e)=>setAadhaar(e.target.value)}/>
+              <Form.Control type="number" placeholder="Enter Your Aadhaar Number" value={aadhaar} name="aadhaar" onChange={(e)=>setAadhaar(e.target.value)} autoFocus/>
             </Form.Group>
             <Form.Group className="mb-1">
                 <Form.Label htmlFor="password">Enter Password</Form.Label>
