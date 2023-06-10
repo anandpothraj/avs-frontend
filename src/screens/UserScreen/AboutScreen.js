@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MainScreen from '../../layout/MainScreen';
 import AboutImg from '../../assets/img/AboutBg.png';
 import { Col, Container, Image, Row } from 'react-bootstrap';
 
 const AboutScreen = () => {
+
+    useEffect(() => {
+        let navbar = document.querySelector('#responsive-navbar-nav');
+        let navbar2 = document.querySelector('.navbar-toggler');
+        let navClass = navbar.classList;
+        let navClass2 = navbar2.classList;
+        if (navClass.contains('show')) {
+            navClass.remove('show');
+            navClass2.add('collasped');
+        }
+    },[]);
+
     return (
         <>
             <MainScreen title="ABOUT US" fluid="md">
