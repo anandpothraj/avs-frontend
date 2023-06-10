@@ -13,7 +13,7 @@ const LoginForm2 = () => {
                 <Row className="mb-3">
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="secretCode" >Enter Secret Code</Form.Label>
-                        <Form.Control type="number" placeholder="Enter Your Secret Code" value={secretCode} name="secretCode" onChange={(e)=>setSecretCode(e.target.value)}/>
+                        <Form.Control type="number" placeholder="Enter Your Secret Code" value={secretCode} name="secretCode" onChange={(e)=>setSecretCode(e.target.value)} autoFocus/>
                     </Form.Group>
                     <span className="small">
                         <Link to="/">Forget Secret Code</Link>

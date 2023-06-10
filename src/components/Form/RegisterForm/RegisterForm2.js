@@ -14,7 +14,7 @@ const RegisterForm2 = (props) => {
         <Form className='mt-3'>
             <Form.Group className="mb-3" >
                 <Form.Label htmlFor="email">Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" name="email"  onChange={(e)=>setEmail(e.target.value)} value={email}/>
+                <Form.Control type="email" placeholder="Enter email" name="email"  onChange={(e)=>setEmail(e.target.value)} value={email} autoFocus/>
             </Form.Group>  
             <Form.Group className="mb-3">
                 <Form.Label htmlFor="password">Create New Password</Form.Label>
