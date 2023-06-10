@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
+import { isJson } from '../../../utils/isJson';
 import { Step } from '../../../Context/Context';
 import { Image, ProgressBar } from 'react-bootstrap';
-import SuccessImg from '../../../assets/img/Success.png';
 import { Login } from '../../../Context/LoginContext';
+import SuccessImg from '../../../assets/img/Success.png';
 import React, { useState, useContext, useEffect } from 'react';
 
 const LoginSuccess = (props) => {
@@ -12,23 +13,13 @@ const LoginSuccess = (props) => {
   const [progress , setProgress] = useState(0);
   const {setAadhaar,setPassword,setSecretCode} = useContext(Login);
 
-  // This function takes an json and return true if the json is valid and false if json is invalid
-  const isJson = (json) => {
-    try {
-    JSON.parse(json);
-    } catch (e) {
-    return false;
-    }
-    return true;
-};
-
   setTimeout(()=>{
     setProgress(100);
   },1000);
 
   useEffect(() => {
     setTimeout(() => {
-      // fetching user from localstorage
+    // fetching user from localstorage
     let user = localStorage.getItem("user");
     // if user exist then check the json is valid or not and if user is not exist then redirect to "/"
     if (user && isJson(user)) {

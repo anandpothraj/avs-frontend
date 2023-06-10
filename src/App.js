@@ -11,6 +11,7 @@ import RegisterScreen from './screens/UserScreen/RegisterScreen';
 import PatientScreen from './screens/PatientScreen/PatientScreen';
 import PrivateRoutes from './components/PrivateRoute/PrivateRoutes';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import InspectorScreen from './screens/InspectorScreen/InspectorScreen';
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
                 <Route element={<PrivateRoutes/>}>
                   <Route path='/doctor' element={<DoctorScreen/>} exact />
                   <Route path='/patient' element={<PatientScreen/>} exact />
+                  <Route path='/inspector' element={<InspectorScreen/>} exact />
                 </Route>
               {/* Private Routes */}
             </Routes>
