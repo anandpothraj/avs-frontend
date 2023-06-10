@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { isJson } from "../../utils/isJson";
 import HomeImg from '../../assets/img/HomeBg.png';
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Row , Col, Button, Image } from "react-bootstrap";
@@ -6,16 +7,6 @@ import { Container, Row , Col, Button, Image } from "react-bootstrap";
 const HomeScreen = () => {
 
   const navigate = useNavigate();
-
-  // This function takes an json and return true if the json is valid and false if json is invalid
-  const isJson = (json) => {
-    try {
-      JSON.parse(json);
-    } catch (e) {
-      return false;
-    }
-    return true;
-  };
 
   useEffect(() => {
     // fetching user from localstorage
