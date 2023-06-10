@@ -6,7 +6,6 @@ import { IoChevronForwardSharp } from 'react-icons/io5';
 import { redirectUser } from '../../utils/redirectUser';
 import { Button, Container, Col, Row } from 'react-bootstrap';
 
-
 const DoctorScreen = () => {
 
   const navigate = useNavigate();

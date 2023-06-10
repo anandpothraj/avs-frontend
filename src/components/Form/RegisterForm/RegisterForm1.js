@@ -14,7 +14,6 @@ const RegisterForm1 = (props) => {
         <Form.Group className="mb-3">
             <Form.Label  htmlFor="accountType" className="form-label mt-4">You Are ?</Form.Label>
             <select className="form-select" name="accountType" onChange={(e)=>setAccountType(e.target.value)} value={accountType} required>
-                <option value={""}>--select--</option>
                 <option>Patient</option>
                 <option>Doctor</option>
                 <option>Inspector</option>
@@ -22,7 +21,7 @@ const RegisterForm1 = (props) => {
         </Form.Group>
         <Form.Group className="mb-3" autoComplete="none" >
             <Form.Label htmlFor="name" >Full Name</Form.Label>
-            <Form.Control type="text" placeholder="Enter name" name="name" onChange={(e)=>setName(e.target.value)} value={name}  id="validationCustom01" required/>
+            <Form.Control type="text" placeholder="Enter name" name="name" onChange={(e)=>setName(e.target.value)} value={name}  id="validationCustom01" required autoFocus/>
         </Form.Group>
         <Form.Group className="mb-3">
                 <Form.Label htmlFor="aadhaar" >Aadhaar Number</Form.Label>
