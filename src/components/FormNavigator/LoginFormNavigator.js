@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { notify } from '../../utils/notify';
 import { Step } from '../../Context/Context';
 import server from '../../config/server.json';
 import { Button, Spinner } from 'react-bootstrap';
 import { Login } from '../../Context/LoginContext';
 import React, { useState, useContext } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
 
 const LoginFormNavigator = (props) => {
 
@@ -15,10 +15,6 @@ const LoginFormNavigator = (props) => {
   const LOGIN_STEP2 = server.api.LOGIN_STEP2;
   const [ loading, setLoading ] = useState(false);
   const { aadhaar, setAadhaar, password, setPassword, secretCode, setSecretCode, accountType, setAccountType } = useContext(Login);
-
-  const notify = (e) => {
-    toast.error(e)
-  }
 
   const reset = () => {
     if(step === 1){
@@ -30,7 +26,7 @@ const LoginFormNavigator = (props) => {
       setSecretCode("");
     }
     else{
-      toast.error("Something went wrong");
+      notify("Something went wrong");
     }
   };
 
@@ -59,15 +55,15 @@ const LoginFormNavigator = (props) => {
           checkSecretCode();
         }
         else{
-          toast.error("Your secret code length should always be 4 digits!")
+          notify("Your secret code length should always be 4 digits!")
         }
       }
       else{
-        toast.error("Please enter your secret code!");
+        notify("Please enter your secret code!");
       }
     }
     else{
-      toast.error("Something went wrong");
+      notify("Something went wrong");
     }
   };
 
@@ -121,7 +117,6 @@ const LoginFormNavigator = (props) => {
 
   return (
     <>
-      <ToastContainer/>
       <div className='d-flex justify-content-between'>
         {step < 3 ? <Button className="m-1" size='sm' variant="danger" onClick={reset}>Reset</Button> : null} 
         {step === 2 ? <Button className="m-1" size='sm' variant="warning" onClick={previous}>Previous</Button> : null}

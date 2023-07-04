@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { notify } from '../../utils/notify';
+import { isJson } from '../../utils/isJson';
 import { Button, Modal, Form } from 'react-bootstrap';
 
 const AddVaccine = (props) => {
 
+    const addedOn = new Date();
     const [ minAge, setMinAge ] = useState("");
+    const [ addedBy, setAddedBy ] = useState("");
     const [ timeGap, setTimeGap ] = useState("");
     const [ noOfDose, setNoOfDose ] = useState("");
     const [ vaccineName, setVaccineName ] = useState("");
+
+    useEffect(() => {
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        addedBy = userInfo.data.name;
+    },[]);
 
     const resetFields = () => {
         setMinAge("");
@@ -15,8 +24,13 @@ const AddVaccine = (props) => {
         setVaccineName("");   
     }
 
-    const addVaccine = () => {
-        console.log(minAge, timeGap, noOfDose, vaccineName);
+    const addVaccine = async () => {
+        if(minAge && timeGap && noOfDose && vaccineName){
+            const data = { vaccineName, noOfDose, }
+        }
+        else{
+            notify("Please fill all the fields!");
+        }
     };
 
     return (
@@ -37,7 +51,7 @@ const AddVaccine = (props) => {
                         />
                     </Form.Group>
                     <Form.Group className="mt-2">
-                        <Form.Label htmlFor="noOfDose" className="form-label">No of Dose</Form.Label>
+                        <Form.Label htmlFor="noOfDose">No of Dose</Form.Label>
                         <select className="form-select" 
                             name="noOfDose"
                             type="number"
@@ -52,7 +66,7 @@ const AddVaccine = (props) => {
                         </select>
                     </Form.Group>
                     <Form.Group className="mt-2">
-                        <Form.Label  htmlFor="timeGap" className="form-label">Time interval between each doses</Form.Label>
+                        <Form.Label  htmlFor="timeGap">Time interval between each doses</Form.Label>
                             <select className="form-select"  
                                 name="timeGap" 
                                 type="text"
@@ -76,11 +90,12 @@ const AddVaccine = (props) => {
                         />
                     </Form.Group>
                 </Form>
+                <small>Vaccine Adding on  - <b>Sunday 18 26 229999</b> by <b>Dr.Anand Narsappa Pothraj</b></small>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="success" className="m-2" onClick={addVaccine}>Add Vaccine</Button>
                 <Button className="m-2" variant="warning" onClick={resetFields}>Reset Feilds</Button>
-                <Button variant='danger' onClick={props.onHide}>Close</Button>
+                <Button variant='danger' onClick={props.onHide}>Cancel</Button>
             </Modal.Footer>
         </Modal>
     );

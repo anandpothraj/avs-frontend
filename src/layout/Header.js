@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
 import { clearUserData } from '../utils/clearUserData';
 import { Container, Nav, Navbar} from "react-bootstrap";
 import { collapseNavbar } from '../utils/collapseNavbar';
@@ -22,6 +23,7 @@ const Header = () => {
   return(
     <>
       <Navbar collapseOnSelect expand="lg"  className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <ToastContainer/>
         <Container>
         <Navbar.Brand href="/">AVS</Navbar.Brand> 
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
