@@ -29,7 +29,7 @@ const RegisterForm3 = (props) => {
                     <Form.Control type="date" placeholder="Enter Date of Birth" name="dob" onChange={(e)=>{setDob(e.target.value);getAge(e.target.value)}} value={dob} autoFocus/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <label htmlFor="accountType" className="form-label">Gender</label>
+                    <Form.Label htmlFor="accountType">Gender</Form.Label>
                     <select className="form-select" name="gender" onChange={(e)=>setGender(e.target.value)} value={gender} >
                         <option value={""}>--select--</option>
                         <option>Male</option>

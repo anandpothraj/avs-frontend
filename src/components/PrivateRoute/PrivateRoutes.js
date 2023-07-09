@@ -1,7 +1,7 @@
-import { useLocation, Navigate, Outlet } from "react-router-dom";
-import { clearUserData } from "../../utils/clearUserData";
-import { toast } from "react-toastify";
 import { isExpired } from "react-jwt";
+import { notify } from '../../utils/notify';
+import { clearUserData } from "../../utils/clearUserData";
+import { useLocation, Navigate, Outlet } from "react-router-dom";
 
 const PrivateRoutes = () => {
   const location = useLocation();
@@ -16,7 +16,7 @@ const PrivateRoutes = () => {
     } else {
       clearUserData();
       window.dispatchEvent(new Event("token_update"));
-      toast.error("Session expired, Please login again", {
+      notify("Session expired, Please login again", {
         autoClose: 3000,
         position: "bottom-right",
       });

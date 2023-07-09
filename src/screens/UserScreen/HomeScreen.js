@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { isJson } from "../../utils/isJson";
 import HomeImg from '../../assets/img/HomeBg.png';
 import { Link, useNavigate } from "react-router-dom";
+import { collapseNavbar } from "../../utils/collapseNavbar";
 import { Container, Row , Col, Button, Image } from "react-bootstrap";
 
 const HomeScreen = () => {
@@ -9,6 +10,7 @@ const HomeScreen = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    collapseNavbar();
     // fetching user from localstorage
     let user = localStorage.getItem("user");
     // if user exist then check the json is valid or not and if user is not exist then redirect to "/"
