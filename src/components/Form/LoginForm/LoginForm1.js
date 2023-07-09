@@ -12,7 +12,7 @@ const LoginForm1 = () => {
       <Form>
         <Row className="mb-3">
         <Form.Group className="mb-3">
-            <Form.Label  htmlFor="accountType" className="form-label mt-4 w-50">Login As ?</Form.Label>
+            <Form.Label  htmlFor="accountType" className="mt-4 w-50">Login As ?</Form.Label>
             <select className="form-select form-select-sm w-50" name="accountType" onChange={(e)=>setAccountType(e.target.value)} value={accountType} required>
                 <option>Patient</option>
                 <option>Doctor</option>
@@ -25,7 +25,7 @@ const LoginForm1 = () => {
             </Form.Group>
             <Form.Group className="mb-1">
                 <Form.Label htmlFor="password">Enter Password</Form.Label>
-                <Form.Control type="password" placeholder="Enter Your Password" value={password} name="password" onChange={(e)=>setPassword(e.target.value)}/>
+                <Form.Control type="password" placeholder="Enter Your Password" value={password} name="password" autoComplete='off' onChange={(e)=>setPassword(e.target.value)}/>
             </Form.Group>
             <span className="small">
                 <Link to="/">Forget password</Link>

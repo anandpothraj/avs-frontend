@@ -12,7 +12,7 @@ const RegisterForm1 = (props) => {
     <div className="form-container">
         <h3 className="mb-2">{step}. {props.title}</h3>
         <Form.Group className="mb-3">
-            <Form.Label  htmlFor="accountType" className="form-label mt-4">You Are ?</Form.Label>
+            <Form.Label  htmlFor="accountType" className="mt-4">You Are ?</Form.Label>
             <select className="form-select" name="accountType" onChange={(e)=>setAccountType(e.target.value)} value={accountType} required>
                 <option>Patient</option>
                 <option>Doctor</option>

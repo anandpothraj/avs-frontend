@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { notify } from '../../utils/notify';
 import { Step } from '../../Context/Context';
 import server from '../../config/server.json';
 import Spinner from 'react-bootstrap/Spinner';
 import { Col, Row, Button } from 'react-bootstrap';
 import React, { useState, useContext } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
 import { Register } from '../../Context/RegisterContext';
 
 const RegiterFormNavigator = (props) => {
@@ -17,10 +17,6 @@ const RegiterFormNavigator = (props) => {
     const REGISTER_STEP2 = server.api.REGISTER_STEP2;
     const { accountType, setAccountType, name, setName, aadhaar, setAadhaar, email, setEmail, password, 
     setPassword, secretCode, setSecretCode, phone, setPhone, age, setAge, dob, setDob, gender, setGender } = useContext(Register);
-
-    const notify = (errorMessage) => {
-        toast.error(errorMessage);
-    }
 
     const reset = () => {
         if(step === 1){
@@ -151,7 +147,6 @@ const RegiterFormNavigator = (props) => {
     
     return (
         <>
-            <ToastContainer/>
             <Row>
                 {step > 1 && step < 5 ?
                 <Col>

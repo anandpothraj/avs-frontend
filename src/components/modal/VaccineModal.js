@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 
-const AddVaccine = (props) => {
-
-    const [ minAge, setMinAge ] = useState("");
-    const [ timeGap, setTimeGap ] = useState("");
-    const [ noOfDose, setNoOfDose ] = useState("");
-    const [ vaccineName, setVaccineName ] = useState("");
-
-    const resetFields = () => {
-        setMinAge("");
-        setTimeGap("");
-        setNoOfDose("");
-        setVaccineName("");   
-    }
-
-    const addVaccine = () => {
-        console.log(minAge, timeGap, noOfDose, vaccineName);
-    };
+const VaccineModal = ({
+    minAge,
+    timeGap,
+    noOfDose,
+    addingOn,
+    addingBy,
+    show,
+    setMinAge,
+    setTimeGap,
+    setNoOfDose,
+    vaccineName,
+    setVaccineName,
+    onHide,
+    title,
+    resetFields,
+    operationType,
+    performOperation
+}) => {
 
     return (
-        <Modal {...props}size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+        <Modal show={show} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
             <Modal.Header>
-                <Modal.Title id="contained-modal-title-vcenter">{props.title}</Modal.Title>
+                <Modal.Title id="contained-modal-title-vcenter">{title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
@@ -37,7 +37,7 @@ const AddVaccine = (props) => {
                         />
                     </Form.Group>
                     <Form.Group className="mt-2">
-                        <Form.Label htmlFor="noOfDose" className="form-label">No of Dose</Form.Label>
+                        <Form.Label htmlFor="noOfDose">No of Dose</Form.Label>
                         <select className="form-select" 
                             name="noOfDose"
                             type="number"
@@ -52,7 +52,7 @@ const AddVaccine = (props) => {
                         </select>
                     </Form.Group>
                     <Form.Group className="mt-2">
-                        <Form.Label  htmlFor="timeGap" className="form-label">Time interval between each doses</Form.Label>
+                        <Form.Label  htmlFor="timeGap">Time interval between each doses</Form.Label>
                             <select className="form-select"  
                                 name="timeGap" 
                                 type="text"
@@ -76,14 +76,15 @@ const AddVaccine = (props) => {
                         />
                     </Form.Group>
                 </Form>
+                <small>Vaccine Adding on  - <b>{addingOn.toLocaleDateString()}</b> by <b>Dr.{addingBy}</b></small>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" className="m-2" onClick={addVaccine}>Add Vaccine</Button>
+                <Button variant="success" className="m-2" onClick={performOperation}>{operationType} Vaccine</Button>
                 <Button className="m-2" variant="warning" onClick={resetFields}>Reset Feilds</Button>
-                <Button variant='danger' onClick={props.onHide}>Close</Button>
+                <Button variant='danger' onClick={onHide}>Cancel</Button>
             </Modal.Footer>
         </Modal>
     );
 }
 
-export default AddVaccine;
+export default VaccineModal;
