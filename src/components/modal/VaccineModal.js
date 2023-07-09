@@ -1,42 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { notify } from '../../utils/notify';
-import { isJson } from '../../utils/isJson';
 import { Button, Modal, Form } from 'react-bootstrap';
 
-const AddVaccine = (props) => {
-
-    const addedOn = new Date();
-    const [ minAge, setMinAge ] = useState("");
-    const [ addedBy, setAddedBy ] = useState("");
-    const [ timeGap, setTimeGap ] = useState("");
-    const [ noOfDose, setNoOfDose ] = useState("");
-    const [ vaccineName, setVaccineName ] = useState("");
-
-    useEffect(() => {
-        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-        addedBy = userInfo.data.name;
-    },[]);
-
-    const resetFields = () => {
-        setMinAge("");
-        setTimeGap("");
-        setNoOfDose("");
-        setVaccineName("");   
-    }
-
-    const addVaccine = async () => {
-        if(minAge && timeGap && noOfDose && vaccineName){
-            const data = { vaccineName, noOfDose, }
-        }
-        else{
-            notify("Please fill all the fields!");
-        }
-    };
+const VaccineModal = ({
+    minAge,
+    timeGap,
+    noOfDose,
+    addingOn,
+    addingBy,
+    show,
+    setMinAge,
+    setTimeGap,
+    setNoOfDose,
+    vaccineName,
+    setVaccineName,
+    onHide,
+    title,
+    resetFields,
+    operationType,
+    performOperation
+}) => {
 
     return (
-        <Modal {...props}size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+        <Modal show={show} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
             <Modal.Header>
-                <Modal.Title id="contained-modal-title-vcenter">{props.title}</Modal.Title>
+                <Modal.Title id="contained-modal-title-vcenter">{title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
@@ -90,15 +76,15 @@ const AddVaccine = (props) => {
                         />
                     </Form.Group>
                 </Form>
-                <small>Vaccine Adding on  - <b>Sunday 18 26 229999</b> by <b>Dr.Anand Narsappa Pothraj</b></small>
+                <small>Vaccine Adding on  - <b>{addingOn.toLocaleDateString()}</b> by <b>Dr.{addingBy}</b></small>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" className="m-2" onClick={addVaccine}>Add Vaccine</Button>
+                <Button variant="success" className="m-2" onClick={performOperation}>{operationType} Vaccine</Button>
                 <Button className="m-2" variant="warning" onClick={resetFields}>Reset Feilds</Button>
-                <Button variant='danger' onClick={props.onHide}>Cancel</Button>
+                <Button variant='danger' onClick={onHide}>Cancel</Button>
             </Modal.Footer>
         </Modal>
     );
 }
 
-export default AddVaccine;
+export default VaccineModal;

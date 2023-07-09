@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import MainScreen from '../../layout/MainScreen';
 import AboutImg from '../../assets/img/AboutBg.png';
-import { Col, Container, Image, Row } from 'react-bootstrap';
 import { collapseNavbar } from '../../utils/collapseNavbar';
+import { Col, Container, Image, Row } from 'react-bootstrap';
 
 const AboutScreen = () => {
 
