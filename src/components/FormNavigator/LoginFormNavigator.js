@@ -75,44 +75,43 @@ const LoginFormNavigator = (props) => {
 
   const checkLoginCredentials = () => {
     setLoading(true);
-      const data = { accountType, aadhaar, password };
-      axios
-      .post(`${production}${LOGIN_STEP1}`,data)
-      .then(res => {
-        if(res.status === 200){
-          setStep(step + 1);
-        }
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-        setLoading(false);
-        notify(err.response.data.message);
-      })
+    const data = { accountType, aadhaar, password };
+    axios
+    .post(`${production}${LOGIN_STEP1}`,data)
+    .then(res => {
+      if(res.status === 200){
+        setStep(step + 1);
+      }
+      setLoading(false);
+    })
+    .catch(err => {
+      console.log(err);
+      setLoading(false);
+      notify(err.response.data.message);
+    })
   };
 
   const checkSecretCode = () => {
     setLoading(true);
-      const data = { accountType, aadhaar, secretCode };
-      axios
-      .post(`${production}${LOGIN_STEP2}`,data)
-      .then(res => {
-        if (res.status === 200) {
-          const { data } = res;
-          const { aadhaar, accountType, age, dob, email, gender, name, phone, _id, token } = data;
-          const user = { _id, aadhaar, accountType, name, age, dob, gender, phone, email };
-          localStorage.setItem("user", JSON.stringify(user));
-          localStorage.setItem("token", token);
-          setStep(step + 1);
-        }
-        
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-        setLoading(false);
-        notify(err.response.data.message);
-      })
+    const data = { accountType, aadhaar, secretCode };
+    axios
+    .post(`${production}${LOGIN_STEP2}`,data)
+    .then(res => {
+      if (res.status === 200) {
+        const { data } = res;
+        const { aadhaar, accountType, age, dob, email, gender, name, phone, _id, token } = data;
+        const user = { _id, aadhaar, accountType, name, age, dob, gender, phone, email };
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("token", token);
+        setStep(step + 1);
+      }
+      setLoading(false);
+    })
+    .catch(err => {
+      console.log(err);
+      setLoading(false);
+      notify(err.response.data.message);
+    })
   };
 
   return (

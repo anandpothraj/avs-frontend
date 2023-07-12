@@ -8,6 +8,10 @@
         "LOGIN_STEP1": "api/users/login/step1",
         "LOGIN_STEP2": "api/users/login/step2",
         "REGISTER_STEP1": "api/users/register/checkuser",
-        "REGISTER_STEP2": "api/users/register/createuser"
+        "REGISTER_STEP2": "api/users/register/createuser",
+        "ADD_VACCINE" : "api/doctor/addvaccine",
+        "EDIT_VACCINE" : "api/doctor/editvaccine",
+        "REMOVE_VACCINE" : "api/doctor/removevaccine",
+        "FETCH_VACCINES" : "api/doctor/fetchvaccines"
     }
 }
