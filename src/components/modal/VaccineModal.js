@@ -4,8 +4,8 @@ const VaccineModal = ({
     minAge,
     timeGap,
     noOfDose,
-    addingOn,
-    addingBy,
+    addedOn,
+    addedBy,
     show,
     setMinAge,
     setTimeGap,
@@ -76,7 +76,7 @@ const VaccineModal = ({
                         />
                     </Form.Group>
                 </Form>
-                <small>Vaccine Adding on  - <b>{addingOn.toLocaleDateString()}</b> by <b>Dr.{addingBy}</b></small>
+                <small>Vaccine Adding on  - <b>{addedOn?.toLocaleDateString()}</b> by <b>Dr.{addedBy}</b></small>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="success" className="m-2" onClick={performOperation}>{operationType} Vaccine</Button>

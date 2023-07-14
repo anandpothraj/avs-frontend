@@ -26,7 +26,7 @@ const LoginFormNavigator = (props) => {
       setSecretCode("");
     }
     else{
-      notify("Something went wrong");
+      notify("error","Something went wrong");
     }
   };
 
@@ -38,15 +38,15 @@ const LoginFormNavigator = (props) => {
             checkLoginCredentials();
           }
           else{
-            notify("Your password length should be always greater or equal to 6 characters!")
+            notify("error","Your password length should be always greater or equal to 6 characters!")
           }
         }
         else{
-          notify("Aadhaar number length should be 12 only characters!")
+          notify("error","Aadhaar number length should be 12 only characters!")
         }
       }
       else{
-        notify("Please fill all the fields!");
+        notify("error","Please fill all the fields!");
       }
     }
     else if(step === 2){
@@ -55,15 +55,15 @@ const LoginFormNavigator = (props) => {
           checkSecretCode();
         }
         else{
-          notify("Your secret code length should always be 4 digits!")
+          notify("error","Your secret code length should always be 4 digits!")
         }
       }
       else{
-        notify("Please enter your secret code!");
+        notify("error","Please enter your secret code!");
       }
     }
     else{
-      notify("Something went wrong");
+      notify("error","Something went wrong");
     }
   };
 
@@ -87,7 +87,7 @@ const LoginFormNavigator = (props) => {
     .catch(err => {
       console.log(err);
       setLoading(false);
-      notify(err.response.data.message);
+      notify("error",err.response.data.message);
     })
   };
 
@@ -110,7 +110,7 @@ const LoginFormNavigator = (props) => {
     .catch(err => {
       console.log(err);
       setLoading(false);
-      notify(err.response.data.message);
+      notify("error",err.response.data.message);
     })
   };
 
