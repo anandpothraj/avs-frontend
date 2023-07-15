@@ -4,12 +4,11 @@ import { isJson } from '../../utils/isJson';
 import { notify } from '../../utils/notify';
 import { AiFillDelete } from "react-icons/ai";
 import server from '../../config/server.json';
-import { Button, Table } from 'react-bootstrap';
+import { Button, Table, Spinner } from 'react-bootstrap';
 import MainScreen from '../../layout/MainScreen';
 import React, { useState, useEffect } from 'react';
 import { collapseNavbar } from '../../utils/collapseNavbar';
 import VaccineModal from '../../components/modal/VaccineModal';
-// import { AiFillDelete, AiOutlineDelete } from "react-icons/ai";
 
 const VaccineInfo = () => {
 
@@ -21,6 +20,7 @@ const VaccineInfo = () => {
   const [ addedBy, setAddedBy ] = useState("");
   const [ noOfDose, setNoOfDose ] = useState("");
   const [ vaccines, setVaccines ] = useState([]);
+  const [ loading, setLoading ] = useState(true);
   const FETCH_VACCINES = server.api.FETCH_VACCINES;
   const [ modalType, setModalType ] = useState(null);
   const [ showModal, setShowModal ] = useState(false);
@@ -33,8 +33,9 @@ const VaccineInfo = () => {
     setVaccineName("");   
   };
 
-  const fetchVaccines = () => {
-    axios
+  const fetchVaccines = async () => {
+    setLoading(true);
+    await axios
     .get(`${production}${FETCH_VACCINES}`)
     .then(res => {
       if(res.status === 200){
@@ -45,10 +46,12 @@ const VaccineInfo = () => {
       console.log(err);
       notify("error",err.response.data.message);
     })
+    setLoading(false);
   }
 
-  const addVaccine = (data) => {
-    axios
+  const addVaccine = async (data) => {
+    setLoading(false);
+    await axios
     .post(`${production}${ADD_VACCINE}`,data)
     .then(res => {
       if(res.status === 201){
@@ -60,10 +63,12 @@ const VaccineInfo = () => {
     .catch(err => {
       console.log(err);
       notify("error",err.response.data.message);
-    })
+    });
+    setLoading(true);
+    fetchVaccines();
   };
 
-  const performOperation = async () => {
+  const performOperation = () => {
     if(minAge && timeGap && noOfDose && vaccineName){
       const data = { vaccineName, noOfDose, minAge, timeGap, addedBy, addedOn };
       if(modalType && modalType === "Add"){
@@ -76,7 +81,6 @@ const VaccineInfo = () => {
     else{
       notify("error","Please fill all the fields!");
     }
-    fetchVaccines();
   };
 
   const openModal = (operationType) => {
@@ -109,11 +113,11 @@ const VaccineInfo = () => {
     <MainScreen title="Vaccines Information" md="fluid">
       <Button variant="outline-success" onClick={() => {openModal("Add")}}>+ Add Vaccine</Button>
       <hr />
-      {
-        vaccines && vaccines.length > 0 ?
-        <div className='my-2'>
-          <h5>Vaccines List</h5>
-          <hr/>
+      <div className='my-2'>
+        <h5>Vaccines List</h5>
+        <hr/>
+        {loading ? <div className='d-flex align-items-center'><Spinner as="span"/><span className='mx-3'>Fetching Vaccines...</span></div> : 
+          vaccines && vaccines.length > 0 ? 
           <Table className="table table-hover my-3">
             <thead>
               <tr>
@@ -123,31 +127,32 @@ const VaccineInfo = () => {
               </tr>
             </thead>
             <tbody>
-              {vaccines.map((vaccine, index) => {
-                return (
-                  <tr key={index} className="table-active">
-                    <th scope="row">{vaccine.vaccineName}</th>
-                    <td className='text-center'><BiEdit color='green' cursor="pointer"/></td>
-                    <td className='text-center'><AiFillDelete color='red' cursor="pointer"/></td>
-                  </tr>
-                )
+              {vaccines && vaccines.map((vaccine, index) => {
+                  return (
+                    <tr key={index} className="table-active">
+                      <th scope="row">{vaccine.vaccineName}</th>
+                      <td className='text-center'><BiEdit color='green' cursor="pointer"/></td>
+                      <td className='text-center'><AiFillDelete color='red' cursor="pointer"/></td>
+                    </tr>
+                  );
               })}
             </tbody>
-          </Table>
-        </div> : null 
-      }
+          </Table>  : <h6 className='text-danger'>No vaccines found!</h6>
+        }
+      </div>
       <VaccineModal
         minAge={minAge}
         show={showModal}
         timeGap={timeGap}
-        noOfDose={noOfDose}
+        loading={loading}
         addedOn={addedOn}
         addedBy={addedBy}
         onHide={closeModal}
+        noOfDose={noOfDose}
         setMinAge={setMinAge}
         setTimeGap={setTimeGap}
-        operationType={modalType}
         setAddedBy={setAddedBy}
+        operationType={modalType}
         setNoOfDose={setNoOfDose}
         vaccineName={vaccineName}
         resetFields={resetFields}
