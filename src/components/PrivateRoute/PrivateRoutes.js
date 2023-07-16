@@ -16,7 +16,7 @@ const PrivateRoutes = () => {
     } else {
       clearUserData();
       window.dispatchEvent(new Event("token_update"));
-      notify("Session expired, Please login again", {
+      notify("error","Session expired, Please login again", {
         autoClose: 3000,
         position: "bottom-right",
       });

@@ -26,7 +26,7 @@ const LoginFormNavigator = (props) => {
       setSecretCode("");
     }
     else{
-      notify("Something went wrong");
+      notify("error","Something went wrong");
     }
   };
 
@@ -38,15 +38,15 @@ const LoginFormNavigator = (props) => {
             checkLoginCredentials();
           }
           else{
-            notify("Your password length should be always greater or equal to 6 characters!")
+            notify("error","Your password length should be always greater or equal to 6 characters!")
           }
         }
         else{
-          notify("Aadhaar number length should be 12 only characters!")
+          notify("error","Aadhaar number length should be 12 only characters!")
         }
       }
       else{
-        notify("Please fill all the fields!");
+        notify("error","Please fill all the fields!");
       }
     }
     else if(step === 2){
@@ -55,15 +55,15 @@ const LoginFormNavigator = (props) => {
           checkSecretCode();
         }
         else{
-          notify("Your secret code length should always be 4 digits!")
+          notify("error","Your secret code length should always be 4 digits!")
         }
       }
       else{
-        notify("Please enter your secret code!");
+        notify("error","Please enter your secret code!");
       }
     }
     else{
-      notify("Something went wrong");
+      notify("error","Something went wrong");
     }
   };
 
@@ -75,44 +75,43 @@ const LoginFormNavigator = (props) => {
 
   const checkLoginCredentials = () => {
     setLoading(true);
-      const data = { accountType, aadhaar, password };
-      axios
-      .post(`${production}${LOGIN_STEP1}`,data)
-      .then(res => {
-        if(res.status === 200){
-          setStep(step + 1);
-        }
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-        setLoading(false);
-        notify(err.response.data.message);
-      })
+    const data = { accountType, aadhaar, password };
+    axios
+    .post(`${production}${LOGIN_STEP1}`,data)
+    .then(res => {
+      if(res.status === 200){
+        setStep(step + 1);
+      }
+      setLoading(false);
+    })
+    .catch(err => {
+      console.log(err);
+      setLoading(false);
+      notify("error",err.response.data.message);
+    })
   };
 
   const checkSecretCode = () => {
     setLoading(true);
-      const data = { accountType, aadhaar, secretCode };
-      axios
-      .post(`${production}${LOGIN_STEP2}`,data)
-      .then(res => {
-        if (res.status === 200) {
-          const { data } = res;
-          const { aadhaar, accountType, age, dob, email, gender, name, phone, _id, token } = data;
-          const user = { _id, aadhaar, accountType, name, age, dob, gender, phone, email };
-          localStorage.setItem("user", JSON.stringify(user));
-          localStorage.setItem("token", token);
-          setStep(step + 1);
-        }
-        
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-        setLoading(false);
-        notify(err.response.data.message);
-      })
+    const data = { accountType, aadhaar, secretCode };
+    axios
+    .post(`${production}${LOGIN_STEP2}`,data)
+    .then(res => {
+      if (res.status === 200) {
+        const { data } = res;
+        const { aadhaar, accountType, age, dob, email, gender, name, phone, _id, token } = data;
+        const user = { _id, aadhaar, accountType, name, age, dob, gender, phone, email };
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("token", token);
+        setStep(step + 1);
+      }
+      setLoading(false);
+    })
+    .catch(err => {
+      console.log(err);
+      setLoading(false);
+      notify("error",err.response.data.message);
+    })
   };
 
   return (

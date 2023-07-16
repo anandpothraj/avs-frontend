@@ -1,11 +1,11 @@
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Button, Modal, Form, Spinner } from 'react-bootstrap';
 
 const VaccineModal = ({
     minAge,
     timeGap,
     noOfDose,
-    addingOn,
-    addingBy,
+    addedOn,
+    addedBy,
     show,
     setMinAge,
     setTimeGap,
@@ -16,7 +16,8 @@ const VaccineModal = ({
     title,
     resetFields,
     operationType,
-    performOperation
+    performOperation,
+    loading,
 }) => {
 
     return (
@@ -76,10 +77,10 @@ const VaccineModal = ({
                         />
                     </Form.Group>
                 </Form>
-                <small>Vaccine Adding on  - <b>{addingOn.toLocaleDateString()}</b> by <b>Dr.{addingBy}</b></small>
+                <small>Vaccine Adding on  - <b>{addedOn?.toLocaleDateString()}</b> by <b>Dr.{addedBy}</b></small>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" className="m-2" onClick={performOperation}>{operationType} Vaccine</Button>
+                <Button variant="success" className="m-2" onClick={performOperation}>{loading && <Spinner size='sm' as="span" />}{operationType} Vaccine</Button>
                 <Button className="m-2" variant="warning" onClick={resetFields}>Reset Feilds</Button>
                 <Button variant='danger' onClick={onHide}>Cancel</Button>
             </Modal.Footer>
