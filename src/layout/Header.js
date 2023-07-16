@@ -1,23 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import { clearUserData } from '../utils/clearUserData';
 import { Container, Nav, Navbar} from "react-bootstrap";
 import { collapseNavbar } from '../utils/collapseNavbar';
+import BooleanModal from '../components/modal/BooleanModal';
 
 const Header = () => {
 
   const navigate = useNavigate();
   const user = localStorage.getItem('user');
   const linkCss = "text-decoration-none text-dark m-2";
+  const [ showLogoutModal, setShowLogoutModel ] = useState(false);
+
+  const openLogoutModal = () => {
+    setShowLogoutModel(true);
+  }
+
+  const closeLogoutModal = () => {
+    setShowLogoutModel(false);
+    collapseNavbar();
+  }
 
   const logoutHandler = () => {
-    if (window.confirm("Are you sure you want LOGOUT?")) {
-      clearUserData();
-      navigate('/');
-    }
-    collapseNavbar();
+    clearUserData();
+    closeLogoutModal();
+    navigate('/');
   };
   
   return(
@@ -36,7 +45,7 @@ const Header = () => {
               user ?
               <>
                 <Link to="/" className={linkCss}>Edit Profile</Link>
-                <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
+                <Nav.Link onClick={openLogoutModal}>Logout</Nav.Link>
               </>
               :
               <>
@@ -48,6 +57,7 @@ const Header = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <BooleanModal show={showLogoutModal} onHide={closeLogoutModal} title="Logout" next={logoutHandler}/>
     </>
   );
 };
