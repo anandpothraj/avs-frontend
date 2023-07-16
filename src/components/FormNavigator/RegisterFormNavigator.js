@@ -36,7 +36,7 @@ const RegiterFormNavigator = (props) => {
             setGender("");
         }
         else{
-            notify("Something went wrong");
+            notify("error","Something went wrong");
         }
     };
 
@@ -47,7 +47,7 @@ const RegiterFormNavigator = (props) => {
         else if(step === 2){
             if(email && password && secretCode && phone){
                 if(password.length < 6){
-                    notify("Password length should be always greater than 6 characters.");
+                    notify("error","Password length should be always greater than 6 characters.");
                 }
                 else{
                     if(secretCode.length === 4){
@@ -55,16 +55,16 @@ const RegiterFormNavigator = (props) => {
                             setStep(step+1);
                         }
                         else{
-                            notify("Phone number should be always only of 10 digits.");
+                            notify("error","Phone number should be always only of 10 digits.");
                         }
                     }
                     else{
-                        notify("Secret Code should always be equal to 4 digits only");
+                        notify("error","Secret Code should always be equal to 4 digits only");
                     }
                 }
             }
             else{
-                notify("Please fill all the fields.");
+                notify("error","Please fill all the fields.");
             }
         }
         else if(step === 3){
@@ -72,14 +72,14 @@ const RegiterFormNavigator = (props) => {
                 setStep(step+1);
             }
             else{
-                notify("Please fill all the fields!");
+                notify("error","Please fill all the fields!");
             }
         }
         else if (step === 4){
             createUser();
         }
         else{
-            notify("Something went wrong");
+            notify("error","Something went wrong");
         }
     };
 
@@ -107,19 +107,19 @@ const RegiterFormNavigator = (props) => {
                     .catch(err => {
                         console.log(err);
                         setLoading(false);
-                        notify(err.response.data.message);
+                        notify("error",err.response.data.message);
                     });
                   }
                   else{
-                      notify("Aadhaar Number should must have 12 digits");
+                      notify("error","Aadhaar Number should must have 12 digits");
                   }
             }
             else{
-                notify("Aadhaar card should only have 12 digits!");
+                notify("error","Aadhaar card should only have 12 digits!");
             }
         }
         else{
-            notify("Please fill all the fields!");
+            notify("error","Please fill all the fields!");
         }
     }
 
@@ -140,7 +140,7 @@ const RegiterFormNavigator = (props) => {
         .catch(err => {
             console.log(err);
             setLoading(false);
-            notify(err.response.data.message);
+            notify("error",err.response.data.message);
             setStep(step + 2);
         })
     }
