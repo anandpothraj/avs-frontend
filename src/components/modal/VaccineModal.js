@@ -14,7 +14,7 @@ const VaccineModal = ({
     setVaccineName,
     onHide,
     title,
-    resetFields,
+    resetModal,
     operationType,
     performOperation,
     loading,
@@ -42,7 +42,12 @@ const VaccineModal = ({
                         <select className="form-select" 
                             name="noOfDose"
                             type="number"
-                            onChange={(e) => setNoOfDose(e.target.value)}
+                            onChange={(e) => {
+                                if(e.target.value === "1"){
+                                    setTimeGap("");
+                                }
+                                setNoOfDose(e.target.value)
+                             }}
                             value={noOfDose}
                         >
                             <option value={""}>--select--</option>
@@ -52,20 +57,22 @@ const VaccineModal = ({
                             <option>4</option>
                         </select>
                     </Form.Group>
-                    <Form.Group className="mt-2">
-                        <Form.Label  htmlFor="timeGap">Time interval between each doses</Form.Label>
-                            <select className="form-select"  
-                                name="timeGap" 
-                                type="text"
-                                value={timeGap}
-                                onChange={(e) => setTimeGap(e.target.value)}
-                            >
-                                <option value={""}>--select--</option>
-                                <option>30 days</option>
-                                <option>60 days</option>
-                                <option>90 days</option>
-                            </select>
-                    </Form.Group>
+                    {noOfDose > 1 &&
+                        <Form.Group className="mt-2">
+                            <Form.Label  htmlFor="timeGap">Time interval between each doses</Form.Label>
+                                <select className="form-select"  
+                                    name="timeGap" 
+                                    type="text"
+                                    value={timeGap}
+                                    onChange={(e) => setTimeGap(e.target.value)}
+                                >
+                                    <option value={""}>--select--</option>
+                                    <option>30 days</option>
+                                    <option>60 days</option>
+                                    <option>90 days</option>
+                                </select>
+                        </Form.Group>
+                    }
                     <Form.Group className='mt-2'>
                         <Form.Label htmlFor="minAge" >Minimum age required</Form.Label>
                         <Form.Control
@@ -81,7 +88,7 @@ const VaccineModal = ({
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="success" className="m-2" onClick={performOperation}>{loading && <Spinner size='sm' as="span" />}{operationType} Vaccine</Button>
-                <Button className="m-2" variant="warning" onClick={resetFields}>Reset Feilds</Button>
+                <Button className="m-2" variant="warning" onClick={resetModal}>Reset Feilds</Button>
                 <Button variant='danger' onClick={onHide}>Cancel</Button>
             </Modal.Footer>
         </Modal>
