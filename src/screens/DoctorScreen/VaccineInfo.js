@@ -34,14 +34,27 @@ const VaccineInfo = () => {
   const [ vaccineName, setVaccineName ] = useState("");
   const [ showDeleteModal, setShowDeleteModal ] = useState(false);
   const [ showVaccineModal, setShowVaccineModal ] = useState(false);
+  const [ currentVaccineDetails, setCurrentVaccineDetails ] = useState(null);
 
   const resetFields = () => {
     setId(null);
     setMinAge("");
     setTimeGap("");
     setNoOfDose("");
-    setVaccineName("");   
+    setVaccineName("");
+    setCurrentVaccineDetails(null);
   };
+
+  const resetPreviousVaccineFields = () => {
+    if(currentVaccineDetails){
+      const { _id, vaccineName, timeGap, noOfDose, minAge } = currentVaccineDetails;
+      setId(_id);
+      setMinAge(minAge);
+      setTimeGap(timeGap);
+      setNoOfDose(noOfDose);
+      setVaccineName(vaccineName);
+    };
+  }
 
   const fetchVaccines = async () => {
     setLoading(true);
@@ -126,20 +139,43 @@ const VaccineInfo = () => {
     fetchVaccines();
   };
 
+  const triggerOperation = () => {
+    let data = { vaccineName, noOfDose, minAge, timeGap, addedBy, addedOn };
+    if(modalType && modalType === "Add"){
+      addVaccine(data);
+    }
+    else if(modalType && modalType === "Edit"){
+      editVaccine();
+    }
+  }
+
   const performOperation = () => {
-    if(minAge && timeGap && noOfDose && vaccineName){
-      const data = { vaccineName, noOfDose, minAge, timeGap, addedBy, addedOn };
-      if(modalType && modalType === "Add"){
-        addVaccine(data);
+    if(minAge && noOfDose && vaccineName){
+      if(noOfDose > 1){
+        if(timeGap){
+          triggerOperation();
+        }
+        else{
+          notify("error","Please fill all the fields!");
+        }
       }
-      else if(modalType && modalType === "Edit"){
-        editVaccine();
+      else{
+        triggerOperation();
       }
     }
     else{
       notify("error","Please fill all the fields!");
     }
   };
+
+  const resetModal = () => {
+    if(modalType === "Edit"){
+      resetPreviousVaccineFields();
+    }
+    if(modalType === "Add"){
+      resetFields();
+    }
+  }
 
   const openVaccineModal = (operationType, data) => {
     setShowVaccineModal(true);
@@ -154,6 +190,7 @@ const VaccineInfo = () => {
       setTimeGap(timeGap);
       setNoOfDose(noOfDose);
       setVaccineName(vaccineName);
+      setCurrentVaccineDetails(data);
     }
   }
 
@@ -210,10 +247,30 @@ const VaccineInfo = () => {
                   return (
                     <tr key={index} className="table-active">
                       <td>
-                        <TbVaccine color='green' className='mx-2'/>{vaccineName} / 
-                        <MdOutlineTimer color='red' className='mx-2'/>{timeGap} / 
-                        <GiOverdose color='yellow' className='mx-2'/>{noOfDose} doses/
-                        <SlCalender color='orange' className='mx-2'/>{minAge} years.
+                      {vaccineName && (
+                        <>
+                          <TbVaccine color="green" className="mx-2" />
+                          {vaccineName} /
+                        </>
+                      )}
+                      {timeGap && (
+                        <>
+                          <MdOutlineTimer color='red' className='mx-2'/>
+                          {timeGap} /
+                        </>
+                      )}
+                      {noOfDose && (
+                        <>
+                          <GiOverdose color='yellow' className='mx-2'/>
+                          {noOfDose} doses /
+                        </>
+                      )}
+                      {minAge && (
+                        <>
+                          <SlCalender color='orange' className='mx-2'/>
+                          {minAge} years.
+                        </>
+                      )}
                       </td>
                       <td className='text-center'>
                         <Button variant='transparent' className="pe-auto" onClick={()=>openVaccineModal("Edit",vaccine)}><BiEdit color='green'/></Button>
@@ -239,14 +296,15 @@ const VaccineInfo = () => {
         setTimeGap={setTimeGap}
         setAddedBy={setAddedBy}
         show={showVaccineModal}
+        resetModal={resetModal}
         operationType={modalType}
         setNoOfDose={setNoOfDose}
         vaccineName={vaccineName}
-        resetFields={resetFields}
         onHide={closeVaccineModal}
         title={`${modalType} Vaccine`}
         setVaccineName={setVaccineName}
         performOperation={performOperation}
+        resetPreviousVaccineFields={resetPreviousVaccineFields}
       />
       <BooleanModal 
         item={vaccineName}

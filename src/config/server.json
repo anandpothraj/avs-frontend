@@ -12,6 +12,7 @@
         "ADD_VACCINE" : "api/doctors/add/vaccine",
         "EDIT_VACCINE" : "api/doctors/edit/vaccine",
         "REMOVE_VACCINE" : "api/doctors/remove/vaccine",
-        "FETCH_VACCINES" : "api/doctors/fetch/vaccines"
+        "FETCH_VACCINES" : "api/doctors/fetch/vaccines",
+        "BOOK_APPOINTMENT" : "api/patient/book/appointment"
     }
 }
