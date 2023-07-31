@@ -21,7 +21,7 @@ const PatientScreen = () => {
   }]);
   const [ loading, setLoading ] = useState(false);
   const FETCH_VACCINES = server.api.FETCH_VACCINES;
-  // const BOOK_APPOINTMENT = server.api.BOOK_APPOINTMENT;
+  const BOOK_APPOINTMENT = server.api.BOOK_APPOINTMENT;
   const [ selectedDose, setSelectedDose ] = useState(initialBlankValue);
   const [ selectedVaccine, setSelectedVaccine ] = useState(initialBlankValue);
   const [ vaccineDose, setVaccineDose ] = useState([initialBlankValue]);
@@ -85,19 +85,24 @@ const PatientScreen = () => {
   const bookAppointment = async () => {
     if(selectedVaccine !== initialBlankValue && selectedDose !== initialBlankValue){
       setLoading(true);
-      let data = { userId, selectedVaccine, selectedDose }
-      console.log(data);
-      // await axios
-      // .post(`${production}${BOOK_APPOINTMENT}`,data)
-      // .then(res => {
-      //   if(res.status === 201){
-      //     console.log(res);
-      //   }
-      // })
-      // .catch(err => {
-      //   console.log(err);
-      //   notify("error",err.response.data.message);
-      // })
+      let data = { 
+        userId : userId, 
+        doseNo : selectedDose,
+        vaccineName : selectedVaccine
+      }
+      await axios
+      .post(`${production}${BOOK_APPOINTMENT}`,data)
+      .then(res => {
+        if(res.status === 201){
+          resetFields();
+          closeAppointmentModal();
+          notify("success",res.data.message);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        notify("error",err.response.data.message);
+      })
       setLoading(false);
     }
     else{
