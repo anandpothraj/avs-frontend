@@ -1,7 +1,7 @@
 {
     "url": {
-        "production": "https://main-avs-backend.onrender.com/",
-        "development": "https://dev-avs-backend.onrender.com/",
+        "production": "http://localhost:6678/",
+        "development": "http://localhost:6678/",
         "local": "http://localhost:6678/"
     },
     "api": {
@@ -14,6 +14,7 @@
         "REMOVE_VACCINE" : "api/doctors/remove/vaccine",
         "FETCH_VACCINES" : "api/doctors/fetch/vaccines",
         "BOOK_APPOINTMENT" : "api/patients/book/appointment",
-        "FETCH_APPOINTMENTS" : "api/patients/fetch/appointments"
+        "FETCH_APPOINTMENTS" : "api/patients/fetch/appointments",
+        "REMOVE_APPOINTMENT" : "api/patients/remove/appointment"
     }
 }

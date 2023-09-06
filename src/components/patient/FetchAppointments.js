@@ -3,10 +3,11 @@ import { TbVaccine } from "react-icons/tb";
 import { GiOverdose } from "react-icons/gi";
 import { AiFillDelete } from "react-icons/ai";
 import { MdOutlineTimer } from "react-icons/md";
+import BooleanModal from '../modal/BooleanModal';
 import { Table, Button, Badge } from "react-bootstrap";
 
 
-const FetchAppointments = ({ appointments, calculateTimeToExpire }) => {
+const FetchAppointments = ({ appointments, calculateTimeToExpire, showDeleteModal, deleteAppointment, closeDeleteModal, openDeleteModal, appointmentName }) => {
 
     return (
         <div className="my-2">
@@ -29,7 +30,7 @@ const FetchAppointments = ({ appointments, calculateTimeToExpire }) => {
                     </thead>
                     <tbody>
                         {appointments && appointments.map((appointment, index) => {
-                            const { vaccineName, doseNo, updatedAt } = appointment;
+                            const { _id, vaccineName, doseNo, updatedAt } = appointment;
                             return (
                                 <tr key={index} className="table-active">
                                     <td>
@@ -66,7 +67,7 @@ const FetchAppointments = ({ appointments, calculateTimeToExpire }) => {
                                         </Button>
                                     </td>
                                     <td className="text-center">
-                                        <Button variant="transparent" className="pe-auto" >
+                                        <Button variant="transparent" className="pe-auto" onClick={()=>openDeleteModal(vaccineName, _id)}>
                                             <AiFillDelete color="red" />
                                         </Button>
                                     </td>
@@ -78,6 +79,13 @@ const FetchAppointments = ({ appointments, calculateTimeToExpire }) => {
             ) : (
                 "No appointments are booked!"
             )}
+            <BooleanModal
+                show={showDeleteModal}
+                next={deleteAppointment}
+                onHide={closeDeleteModal}
+                title={"Do you want to delete"}
+                item={`${appointmentName}'s appointment`}
+            />
         </div>
     );
 };
