@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { redirectUser } from '../../utils/redirectUser';
 import { collapseNavbar } from '../../utils/collapseNavbar';
 import BookAppointment from '../../components/patient/BookAppointment';
+import FetchAppointments from '../../components/patient/FetchAppointments';
 
 const PatientScreen = () => {
 
@@ -21,10 +22,39 @@ const PatientScreen = () => {
   const [ loading, setLoading ] = useState(false);
   const FETCH_VACCINES = server.api.FETCH_VACCINES;
   const BOOK_APPOINTMENT = server.api.BOOK_APPOINTMENT;
+  const [ appointments, setAppointments ] = useState([]);
+  const FETCH_APPOINTMENTS = server.api.FETCH_APPOINTMENTS;
   const [ vaccineDose, setVaccineDose ] = useState([initialBlankValue]);
   const [ selectedDose, setSelectedDose ] = useState(initialBlankValue);
   const [ showAppointmentModal, setShowAppointmentModal ] = useState(false);
   const [ selectedVaccine, setSelectedVaccine ] = useState(initialBlankValue);
+
+  const fetchAppointments = async (id) => {
+    let payload;
+    userId ? payload = userId : payload = id;
+    setLoading(true);
+    await axios
+    .get(`${production}${FETCH_APPOINTMENTS}/${payload}`)
+    .then(res => {
+      if(res.status === 200){
+        setAppointments(res.data);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      notify("error",err.response.data.message);
+    })
+    setLoading(false);
+  }
+
+  const calculateTimeToExpire = (updatedAt) => {
+      const updatedDate = new Date(updatedAt);
+      const expirationDate = new Date(updatedDate);
+      expirationDate.setHours(updatedDate.getHours() + 48);
+      const currentDate = new Date();
+      const remainingTimeMillis = expirationDate - currentDate;
+      return remainingTimeMillis;
+  }
 
   const fetchVaccines = async () => {
     setLoading(true);
@@ -103,7 +133,7 @@ const PatientScreen = () => {
         notify("error",err.response.data.message);
     })
     setLoading(false);
-    
+    fetchAppointments(userId);
     }
     else{
     notify("error", "Please select all the fields!")
@@ -120,6 +150,7 @@ const PatientScreen = () => {
       if(patient){
         setUser(patient);
         setUserId(patient._id);
+        fetchAppointments(patient._id);
       }
     };
     // eslint-disable-next-line
@@ -145,6 +176,25 @@ const PatientScreen = () => {
         closeAppointmentModal={closeAppointmentModal}
       />
       <hr />
+      <FetchAppointments
+        user={user}
+        loading={loading}
+        vaccines={vaccines}
+        vaccineDose={vaccineDose}
+        resetFields={resetFields}
+        selectedDose={selectedDose}
+        appointments={appointments}
+        handleVaccine={handleVaccine}
+        selectedVaccine={selectedVaccine}
+        bookAppointment={bookAppointment}
+        setSelectedDose={setSelectedDose}
+        initialBlankValue={initialBlankValue}
+        setSelectedVaccine={setSelectedVaccine}
+        openAppointmentModal={openAppointmentModal}
+        showAppointmentModal={showAppointmentModal}
+        closeAppointmentModal={closeAppointmentModal}
+        calculateTimeToExpire={calculateTimeToExpire}
+    />
     </MainScreen> 
   );
 };
