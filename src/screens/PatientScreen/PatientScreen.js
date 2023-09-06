@@ -12,6 +12,7 @@ import FetchAppointments from '../../components/patient/FetchAppointments';
 const PatientScreen = () => {
 
   const navigate = useNavigate();
+  const [ id, setId ] = useState(null);
   const initialBlankValue = "--select--";
   const [ user, setUser ] = useState({});
   const production = server.url.production;
@@ -24,6 +25,9 @@ const PatientScreen = () => {
   const BOOK_APPOINTMENT = server.api.BOOK_APPOINTMENT;
   const [ appointments, setAppointments ] = useState([]);
   const FETCH_APPOINTMENTS = server.api.FETCH_APPOINTMENTS;
+  const REMOVE_APPOINTMENT = server.api.REMOVE_APPOINTMENT;
+  const [ appointmentName, setAppointmentName ] = useState(null);
+  const [ showDeleteModal, setShowDeleteModal ] =  useState(false);
   const [ vaccineDose, setVaccineDose ] = useState([initialBlankValue]);
   const [ selectedDose, setSelectedDose ] = useState(initialBlankValue);
   const [ showAppointmentModal, setShowAppointmentModal ] = useState(false);
@@ -48,12 +52,12 @@ const PatientScreen = () => {
   }
 
   const calculateTimeToExpire = (updatedAt) => {
-      const updatedDate = new Date(updatedAt);
-      const expirationDate = new Date(updatedDate);
-      expirationDate.setHours(updatedDate.getHours() + 48);
-      const currentDate = new Date();
-      const remainingTimeMillis = expirationDate - currentDate;
-      return remainingTimeMillis;
+    const updatedDate = new Date(updatedAt);
+    const expirationDate = new Date(updatedDate);
+    expirationDate.setHours(updatedDate.getHours() + 48);
+    const currentDate = new Date();
+    const remainingTimeMillis = expirationDate - currentDate;
+    return remainingTimeMillis;
   }
 
   const fetchVaccines = async () => {
@@ -103,42 +107,71 @@ const PatientScreen = () => {
     setSelectedVaccine(vaccineName);
     const selectedVaccine = vaccines.find(vaccine => vaccine.vaccineName === vaccineName);
     if (selectedVaccine) {
-    updateNoOfDoseArray(selectedVaccine.noOfDose);
-    setSelectedDose(initialBlankValue);
+      updateNoOfDoseArray(selectedVaccine.noOfDose);
+      setSelectedDose(initialBlankValue);
     }
     else{
-    setVaccineDose([initialBlankValue]);
+      setVaccineDose([initialBlankValue]);
     }
   }
 
   const bookAppointment = async () => {
     if(selectedVaccine !== initialBlankValue && selectedDose !== initialBlankValue){
-    setLoading(true);
-    let data = { 
-        userId : userId, 
-        doseNo : selectedDose,
-        vaccineName : selectedVaccine
-    }
-    await axios
-    .post(`${production}${BOOK_APPOINTMENT}`,data)
-    .then(res => {
+      setLoading(true);
+      let data = { 
+          userId : userId, 
+          doseNo : selectedDose,
+          vaccineName : selectedVaccine
+      }
+      await axios
+      .post(`${production}${BOOK_APPOINTMENT}`,data)
+      .then(res => {
         if(res.status === 201){
-        resetFields();
-        closeAppointmentModal();
-        notify("success",res.data.message);
+          resetFields();
+          closeAppointmentModal();
+          notify("success",res.data.message);
         }
-    })
-    .catch(err => {
+      })
+      .catch(err => {
         console.log(err);
         notify("error",err.response.data.message);
-    })
-    setLoading(false);
-    fetchAppointments(userId);
+      })
+      setLoading(false);
+      fetchAppointments(userId);
     }
     else{
-    notify("error", "Please select all the fields!")
+      notify("error", "Please select all the fields!")
     }
   }
+
+  const openDeleteModal = (name, id) => {
+    setId(id);
+    setAppointmentName(name);
+    setShowDeleteModal(true);
+  }
+
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+    setAppointmentName(null);
+  }
+
+  const deleteAppointment = async () => {
+    setLoading(false);
+    await axios
+    .delete(`${production}${REMOVE_APPOINTMENT}/${id}`)
+    .then(res => {
+      if(res.status === 202){
+        closeDeleteModal();
+        notify("success",res.data.message);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      notify("error",err.response.data.message);
+    });
+    fetchAppointments();
+    setLoading(true);
+  };
   
   useEffect(() => {
     collapseNavbar();
@@ -185,16 +218,21 @@ const PatientScreen = () => {
         selectedDose={selectedDose}
         appointments={appointments}
         handleVaccine={handleVaccine}
+        openDeleteModal={openDeleteModal}
         selectedVaccine={selectedVaccine}
         bookAppointment={bookAppointment}
         setSelectedDose={setSelectedDose}
+        appointmentName={appointmentName}
+        showDeleteModal={showDeleteModal}
+        closeDeleteModal={closeDeleteModal}
         initialBlankValue={initialBlankValue}
+        deleteAppointment={deleteAppointment}
         setSelectedVaccine={setSelectedVaccine}
         openAppointmentModal={openAppointmentModal}
         showAppointmentModal={showAppointmentModal}
         closeAppointmentModal={closeAppointmentModal}
         calculateTimeToExpire={calculateTimeToExpire}
-    />
+      />
     </MainScreen> 
   );
 };
