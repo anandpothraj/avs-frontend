@@ -23,9 +23,11 @@ const PatientScreen = () => {
   const [ loading, setLoading ] = useState(false);
   const FETCH_VACCINES = server.api.FETCH_VACCINES;
   const BOOK_APPOINTMENT = server.api.BOOK_APPOINTMENT;
+  const EDIT_APPOINTMENT = server.api.EDIT_APPOINTMENT;
   const [ appointments, setAppointments ] = useState([]);
   const FETCH_APPOINTMENTS = server.api.FETCH_APPOINTMENTS;
   const REMOVE_APPOINTMENT = server.api.REMOVE_APPOINTMENT;
+  const [ operationType, setOperationType ] = useState(null);
   const [ appointmentName, setAppointmentName ] = useState(null);
   const [ showDeleteModal, setShowDeleteModal ] =  useState(false);
   const [ vaccineDose, setVaccineDose ] = useState([initialBlankValue]);
@@ -83,6 +85,7 @@ const PatientScreen = () => {
   }
 
   const openAppointmentModal = () => {
+    setOperationType("Book");
     setShowAppointmentModal(true);
   }
 
@@ -98,9 +101,11 @@ const PatientScreen = () => {
   };
 
   const resetFields = () => {
+    setId(null);
+    updateNoOfDoseArray();
+    setAppointmentName(null);
     setSelectedDose(initialBlankValue);
     setSelectedVaccine(initialBlankValue);
-    updateNoOfDoseArray();
   }
 
   const handleVaccine = (vaccineName) => {
@@ -144,6 +149,49 @@ const PatientScreen = () => {
     }
   }
 
+  const editAppointment = async () => {
+    if(selectedVaccine !== initialBlankValue && selectedDose !== initialBlankValue){
+      setLoading(true);
+      let data = { 
+          id : id, 
+          userId : userId,
+          doseNo : selectedDose,
+          vaccineName : selectedVaccine
+      }
+      await axios
+      .put(`${production}${EDIT_APPOINTMENT}`,data)
+      .then(res => {
+        if(res.status === 200){
+          resetFields();
+          closeEditAppointmentModal();
+          notify("success",res.data.message);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        notify("error",err.response.data.message);
+      })
+      setLoading(false);
+      fetchAppointments(userId);
+    }
+    else{
+      notify("error", "Please select all the fields!")
+    }
+  }
+
+  const openEditAppointmentModal = (_id, vaccineName, doseNo) => {
+    setId(_id);
+    setOperationType("Edit");
+    handleVaccine(vaccineName);
+    setShowAppointmentModal(true);
+    setSelectedDose(doseNo);
+  }
+
+  const closeEditAppointmentModal = () => {
+    setShowAppointmentModal(false);
+    resetFields();
+  }
+
   const openDeleteModal = (name, id) => {
     setId(id);
     setAppointmentName(name);
@@ -152,7 +200,7 @@ const PatientScreen = () => {
 
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
-    setAppointmentName(null);
+    resetFields();
   }
 
   const deleteAppointment = async () => {
@@ -198,10 +246,13 @@ const PatientScreen = () => {
         vaccineDose={vaccineDose}
         resetFields={resetFields}
         selectedDose={selectedDose}
+        operationType={operationType}
         handleVaccine={handleVaccine}
         selectedVaccine={selectedVaccine}
         bookAppointment={bookAppointment}
         setSelectedDose={setSelectedDose}
+        editAppointment={editAppointment}
+        setOperationType={setOperationType}
         initialBlankValue={initialBlankValue}
         setSelectedVaccine={setSelectedVaccine}
         openAppointmentModal={openAppointmentModal}
@@ -218,12 +269,15 @@ const PatientScreen = () => {
         selectedDose={selectedDose}
         appointments={appointments}
         handleVaccine={handleVaccine}
+        operationType={operationType}
+        editAppointment={editAppointment}
         openDeleteModal={openDeleteModal}
         selectedVaccine={selectedVaccine}
         bookAppointment={bookAppointment}
         setSelectedDose={setSelectedDose}
         appointmentName={appointmentName}
         showDeleteModal={showDeleteModal}
+        setOperationType={setOperationType}
         closeDeleteModal={closeDeleteModal}
         initialBlankValue={initialBlankValue}
         deleteAppointment={deleteAppointment}
@@ -232,6 +286,8 @@ const PatientScreen = () => {
         showAppointmentModal={showAppointmentModal}
         closeAppointmentModal={closeAppointmentModal}
         calculateTimeToExpire={calculateTimeToExpire}
+        openEditAppointmentModal={openEditAppointmentModal}
+        closeEditAppointmentModal={closeEditAppointmentModal}
       />
     </MainScreen> 
   );

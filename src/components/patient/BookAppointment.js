@@ -4,21 +4,23 @@ import AppointmentModal from '../../components/modal/ApointmentModal';
 const BookAppointment = (props) => {
 
     const {
-      user,
-      loading,
-      vaccines,
-      vaccineDose,
-      resetFields,
-      selectedDose,
-      handleVaccine,
-      selectedVaccine,
-      bookAppointment,
-      setSelectedDose,
-      initialBlankValue,
-      setSelectedVaccine,
-      openAppointmentModal,
-      showAppointmentModal,
-      closeAppointmentModal,
+        user,
+        loading,
+        vaccines,
+        vaccineDose,
+        resetFields,
+        selectedDose,
+        handleVaccine,
+        operationType,
+        editAppointment,
+        selectedVaccine,
+        bookAppointment,
+        setSelectedDose,
+        initialBlankValue,
+        setSelectedVaccine,
+        openAppointmentModal,
+        showAppointmentModal,
+        closeAppointmentModal,
     } = props;
   
     return (
@@ -28,17 +30,19 @@ const BookAppointment = (props) => {
                 user={user}
                 loading={loading} 
                 vaccines={vaccines}
-                title="Book Appointment" 
                 vaccineDose={vaccineDose}
                 resetFields={resetFields} 
                 selectedDose={selectedDose}
                 show={showAppointmentModal} 
+                operationType={operationType}
                 handleVaccine={handleVaccine}
                 onHide={closeAppointmentModal} 
+                editAppointment={editAppointment}
                 selectedVaccine={selectedVaccine}
                 bookAppointment={bookAppointment}
                 setSelectedDose={setSelectedDose}
                 initialBlankValue={initialBlankValue}
+                title={`${operationType} Appointment`} 
                 setSelectedVaccine={setSelectedVaccine}
             />
         </> 
