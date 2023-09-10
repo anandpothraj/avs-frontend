@@ -14,6 +14,7 @@
         "REMOVE_VACCINE" : "api/doctors/remove/vaccine",
         "FETCH_VACCINES" : "api/doctors/fetch/vaccines",
         "BOOK_APPOINTMENT" : "api/patients/book/appointment",
+        "EDIT_APPOINTMENT" : "api/patients/edit/appointment",
         "FETCH_APPOINTMENTS" : "api/patients/fetch/appointments",
         "REMOVE_APPOINTMENT" : "api/patients/remove/appointment"
     }
