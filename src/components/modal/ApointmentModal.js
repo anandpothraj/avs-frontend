@@ -2,7 +2,7 @@ import { Button, Modal, Form, Spinner, Row, Col } from "react-bootstrap";
 
 const AppointmentModal = (props) => {
 
-    const { show, onHide, title, resetFields, loading, vaccines, user, selectedVaccine, handleVaccine, vaccineDose, bookAppointment, selectedDose, setSelectedDose, initialBlankValue } = props;
+    const { show, onHide, title, resetFields, loading, vaccines, user, selectedVaccine, handleVaccine, vaccineDose, bookAppointment, selectedDose, setSelectedDose, initialBlankValue, operationType, editAppointment } = props;
 
     return (
         <Modal
@@ -102,11 +102,11 @@ const AppointmentModal = (props) => {
             <small>This Appointment is only valid till next 48 hours.</small>
         </Modal.Body>
         <Modal.Footer>
-            <Button variant="success" className="m-2" onClick={bookAppointment}>
-            {loading && <Spinner size="sm" as="span" className="mx-2"/>}Book Appointment
+            <Button variant="success" className="m-2" onClick={operationType === "Edit" ? editAppointment : bookAppointment}>
+            {loading && <Spinner size="sm" as="span" className="mx-2"/>}{operationType} Appointment
             </Button>
             <Button className="m-2" variant="warning" onClick={resetFields}>
-            Reset Feilds
+            Reset Fields
             </Button>
             <Button variant="danger" onClick={onHide}>
             Cancel
