@@ -5,17 +5,26 @@
         "local": "http://localhost:6678/"
     },
     "api": {
-        "LOGIN_STEP1": "api/users/login/step1",
-        "LOGIN_STEP2": "api/users/login/step2",
-        "REGISTER_STEP1": "api/users/register/checkuser",
-        "REGISTER_STEP2": "api/users/register/createuser",
-        "ADD_VACCINE" : "api/doctors/add/vaccine",
-        "EDIT_VACCINE" : "api/doctors/edit/vaccine",
-        "REMOVE_VACCINE" : "api/doctors/remove/vaccine",
-        "FETCH_VACCINES" : "api/doctors/fetch/vaccines",
-        "BOOK_APPOINTMENT" : "api/patients/book/appointment",
-        "EDIT_APPOINTMENT" : "api/patients/edit/appointment",
-        "FETCH_APPOINTMENTS" : "api/patients/fetch/appointments",
-        "REMOVE_APPOINTMENT" : "api/patients/remove/appointment"
+        "users" : {
+            "LOGIN_STEP1": "api/users/login/step1",
+            "LOGIN_STEP2": "api/users/login/step2",
+            "REGISTER_STEP1": "api/users/register/checkuser",
+            "REGISTER_STEP2": "api/users/register/createuser"
+        },
+        "patients" : {
+            "BOOK_APPOINTMENT" : "api/patients/book/appointment",
+            "EDIT_APPOINTMENT" : "api/patients/edit/appointment",
+            "FETCH_APPOINTMENTS" : "api/patients/fetch/appointments",
+            "REMOVE_APPOINTMENT" : "api/patients/remove/appointment"
+        },
+        "doctors" : {
+            "ADD_VACCINE" : "api/doctors/add/vaccine",
+            "EDIT_VACCINE" : "api/doctors/edit/vaccine",
+            "REMOVE_VACCINE" : "api/doctors/remove/vaccine",
+            "FETCH_VACCINES" : "api/doctors/fetch/vaccines",
+            "FETCH_APPOINTMENTS_BY_AADHAAR" : "api/doctors/fetch/appointments",
+            "FETCH_APPOINTMENT_BY_BOOKING_ID" : "api/doctors/fetch/appointment"
+        }
+        
     }
 }

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BiEdit } from "react-icons/bi";
+import { Link } from 'react-router-dom';
 import { TbVaccine } from 'react-icons/tb'; 
 import { isJson } from '../../utils/isJson';
 import { notify } from '../../utils/notify';
@@ -8,6 +9,7 @@ import { SlCalender } from 'react-icons/sl';
 import { AiFillDelete } from "react-icons/ai";
 import server from '../../config/server.json';
 import { MdOutlineTimer } from 'react-icons/md';
+import { IoChevronBack } from 'react-icons/io5';
 import MainScreen from '../../layout/MainScreen';
 import React, { useState, useEffect } from 'react';
 import { Button, Table, Spinner } from 'react-bootstrap';
@@ -21,15 +23,15 @@ const VaccineInfo = () => {
   const [ id, setId ] = useState(null);
   const production = server.url.production;
   const [ minAge, setMinAge ] = useState("");
-  const ADD_VACCINE = server.api.ADD_VACCINE;
-  const EDIT_VACCINE = server.api.EDIT_VACCINE;
   const [ timeGap, setTimeGap ] = useState("");
   const [ addedBy, setAddedBy ] = useState("");
   const [ noOfDose, setNoOfDose ] = useState("");
   const [ vaccines, setVaccines ] = useState([]);
   const [ loading, setLoading ] = useState(true);
-  const REMOVE_VACCINE = server.api.REMOVE_VACCINE;
-  const FETCH_VACCINES = server.api.FETCH_VACCINES;
+  const ADD_VACCINE = server.api.doctors.ADD_VACCINE;
+  const EDIT_VACCINE = server.api.doctors.EDIT_VACCINE;
+  const REMOVE_VACCINE = server.api.doctors.REMOVE_VACCINE;
+  const FETCH_VACCINES = server.api.doctors.FETCH_VACCINES;
   const [ modalType, setModalType ] = useState(null);
   const [ vaccineName, setVaccineName ] = useState("");
   const [ showDeleteModal, setShowDeleteModal ] = useState(false);
@@ -226,7 +228,12 @@ const VaccineInfo = () => {
 
   return (
     <MainScreen title="Vaccines Information" md="fluid">
-      <Button variant="outline-success" onClick={() => {openVaccineModal("Add")}}>+ Add Vaccine</Button>
+      <div className='d-flex justify-content-between'>
+        <Link className='mx-2' to='/doctor'>
+          <Button variant='outline-info'><IoChevronBack/> Back</Button>
+        </Link>
+        <Button variant="outline-success" onClick={() => {openVaccineModal("Add")}}>+ Add Vaccine</Button>
+      </div>
       <hr />
       <div className='my-2'>
         <h5>Vaccines List</h5>

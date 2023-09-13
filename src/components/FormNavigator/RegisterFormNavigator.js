@@ -13,8 +13,8 @@ const RegiterFormNavigator = (props) => {
     const production = server.url.production;
     const { step, setStep } = useContext(Step);
     const [ loading, setLoading ] = useState(false);
-    const REGISTER_STEP1 = server.api.REGISTER_STEP1;
-    const REGISTER_STEP2 = server.api.REGISTER_STEP2;
+    const REGISTER_STEP1 = server.api.users.REGISTER_STEP1;
+    const REGISTER_STEP2 = server.api.users.REGISTER_STEP2;
     const { accountType, setAccountType, name, setName, aadhaar, setAadhaar, email, setEmail, password, 
     setPassword, secretCode, setSecretCode, phone, setPhone, age, setAge, dob, setDob, gender, setGender } = useContext(Register);
 
