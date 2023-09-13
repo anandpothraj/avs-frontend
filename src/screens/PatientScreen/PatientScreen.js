@@ -21,15 +21,15 @@ const PatientScreen = () => {
     vaccineName : initialBlankValue
   }]);
   const [ loading, setLoading ] = useState(false);
-  const FETCH_VACCINES = server.api.FETCH_VACCINES;
-  const BOOK_APPOINTMENT = server.api.BOOK_APPOINTMENT;
-  const EDIT_APPOINTMENT = server.api.EDIT_APPOINTMENT;
   const [ appointments, setAppointments ] = useState([]);
-  const FETCH_APPOINTMENTS = server.api.FETCH_APPOINTMENTS;
-  const REMOVE_APPOINTMENT = server.api.REMOVE_APPOINTMENT;
+  const FETCH_VACCINES = server.api.doctors.FETCH_VACCINES;
   const [ operationType, setOperationType ] = useState(null);
+  const BOOK_APPOINTMENT = server.api.patients.BOOK_APPOINTMENT;
+  const EDIT_APPOINTMENT = server.api.patients.EDIT_APPOINTMENT;
   const [ appointmentName, setAppointmentName ] = useState(null);
   const [ showDeleteModal, setShowDeleteModal ] =  useState(false);
+  const FETCH_APPOINTMENTS = server.api.patients.FETCH_APPOINTMENTS;
+  const REMOVE_APPOINTMENT = server.api.patients.REMOVE_APPOINTMENT;
   const [ vaccineDose, setVaccineDose ] = useState([initialBlankValue]);
   const [ selectedDose, setSelectedDose ] = useState(initialBlankValue);
   const [ showAppointmentModal, setShowAppointmentModal ] = useState(false);
