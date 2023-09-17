@@ -5,7 +5,7 @@ import { GiOverdose } from 'react-icons/gi';
 import { Alert, Button } from 'react-bootstrap';
 import { MdMale, MdFemale } from 'react-icons/md';
 
-const AppointmentInfo = ({appointments, patientName, patientAge, patientGender}) => {
+const AppointmentInfo = ({appointments, patientName, patientAge, patientGender, openVaccinateModal }) => {
     return (
         <>
             {
@@ -28,10 +28,10 @@ const AppointmentInfo = ({appointments, patientName, patientAge, patientGender})
                                 <GiOverdose className='mx-2' />{appointment.doseNo}
                             </span>
                             <span className='mx-2'>
-                                <Button size='sm' variant='success'>Vaccinate</Button>
+                                <Button size='sm' variant='success' onClick={()=>openVaccinateModal(appointment.vaccineName, appointment.doseNo, appointment.maxDose, appointment.appointmentId)}>Vaccinate</Button>
                             </span>
                         </Alert>
-                    )
+                    ) 
                 }) : null
             }
         </>
