@@ -22,6 +22,7 @@
             "EDIT_VACCINE" : "api/doctors/edit/vaccine",
             "REMOVE_VACCINE" : "api/doctors/remove/vaccine",
             "FETCH_VACCINES" : "api/doctors/fetch/vaccines",
+            "VACCINATE_PATIENT" : "api/doctors/vaccinate/patient",
             "FETCH_APPOINTMENTS_BY_AADHAAR" : "api/doctors/fetch/appointments",
             "FETCH_APPOINTMENT_BY_BOOKING_ID" : "api/doctors/fetch/appointment"
         }

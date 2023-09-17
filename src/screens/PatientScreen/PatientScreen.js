@@ -20,10 +20,13 @@ const PatientScreen = () => {
   const [ vaccines, setVaccines ] = useState([{
     vaccineName : initialBlankValue
   }]);
+  const [ lastDose, setLastDose ] = useState("");
   const [ loading, setLoading ] = useState(false);
+  const [ filter, setFilter ] = useState("active");
   const [ appointments, setAppointments ] = useState([]);
   const FETCH_VACCINES = server.api.doctors.FETCH_VACCINES;
   const [ operationType, setOperationType ] = useState(null);
+  const [ allAppointments, setAllAppointments ] = useState([]);
   const BOOK_APPOINTMENT = server.api.patients.BOOK_APPOINTMENT;
   const EDIT_APPOINTMENT = server.api.patients.EDIT_APPOINTMENT;
   const [ appointmentName, setAppointmentName ] = useState(null);
@@ -35,6 +38,17 @@ const PatientScreen = () => {
   const [ showAppointmentModal, setShowAppointmentModal ] = useState(false);
   const [ selectedVaccine, setSelectedVaccine ] = useState(initialBlankValue);
 
+  const filterAppointments = () => {
+    let filteredAppointment;
+    if(filter === "active" || filter === "deactive"){
+      filteredAppointment = allAppointments.filter(appointment => appointment.status === filter);
+      setAppointments(filteredAppointment);
+    }
+    else{
+      setAppointments(allAppointments);
+    }
+  }
+
   const fetchAppointments = async (id) => {
     let payload;
     userId ? payload = userId : payload = id;
@@ -43,7 +57,7 @@ const PatientScreen = () => {
     .get(`${production}${FETCH_APPOINTMENTS}/${payload}`)
     .then(res => {
       if(res.status === 200){
-        setAppointments(res.data);
+        setAllAppointments(res.data.appointments);
       }
     })
     .catch(err => {
@@ -112,8 +126,9 @@ const PatientScreen = () => {
     setSelectedVaccine(vaccineName);
     const selectedVaccine = vaccines.find(vaccine => vaccine.vaccineName === vaccineName);
     if (selectedVaccine) {
-      updateNoOfDoseArray(selectedVaccine.noOfDose);
       setSelectedDose(initialBlankValue);
+      setLastDose(selectedVaccine.noOfDose);
+      updateNoOfDoseArray(selectedVaccine.noOfDose);
     }
     else{
       setVaccineDose([initialBlankValue]);
@@ -125,6 +140,7 @@ const PatientScreen = () => {
       setLoading(true);
       let data = { 
           userId : userId, 
+          maxDose : lastDose,
           doseNo : selectedDose,
           vaccineName : selectedVaccine
       }
@@ -220,6 +236,11 @@ const PatientScreen = () => {
     fetchAppointments();
     setLoading(true);
   };
+
+  useEffect(() => {
+    filterAppointments();
+    // eslint-disable-next-line
+  },[filter, allAppointments])
   
   useEffect(() => {
     collapseNavbar();
@@ -262,8 +283,10 @@ const PatientScreen = () => {
       <hr />
       <FetchAppointments
         user={user}
+        filter={filter}
         loading={loading}
         vaccines={vaccines}
+        setFilter={setFilter}
         vaccineDose={vaccineDose}
         resetFields={resetFields}
         selectedDose={selectedDose}
