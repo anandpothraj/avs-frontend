@@ -20,10 +20,11 @@ const PatientScreen = () => {
   const [ vaccines, setVaccines ] = useState([{
     vaccineName : initialBlankValue
   }]);
+  const [ filter, setFilter ] = useState("all");
   const [ lastDose, setLastDose ] = useState("");
   const [ loading, setLoading ] = useState(false);
-  const [ filter, setFilter ] = useState("active");
   const [ appointments, setAppointments ] = useState([]);
+  const [ expiringTime, setExpiringTime ] = useState("");
   const FETCH_VACCINES = server.api.doctors.FETCH_VACCINES;
   const [ operationType, setOperationType ] = useState(null);
   const [ allAppointments, setAllAppointments ] = useState([]);
@@ -118,6 +119,7 @@ const PatientScreen = () => {
     setId(null);
     updateNoOfDoseArray();
     setAppointmentName(null);
+    setExpiringTime("");
     setSelectedDose(initialBlankValue);
     setSelectedVaccine(initialBlankValue);
   }
@@ -195,12 +197,18 @@ const PatientScreen = () => {
     }
   }
 
-  const openEditAppointmentModal = (_id, vaccineName, doseNo) => {
+  const openEditAppointmentModal = (_id, vaccineName, doseNo, updatedAt) => {
     setId(_id);
     setOperationType("Edit");
     handleVaccine(vaccineName);
     setShowAppointmentModal(true);
     setSelectedDose(doseNo);
+    if(calculateTimeToExpire(updatedAt)  > 1){
+      setExpiringTime(`${Math.floor(calculateTimeToExpire(updatedAt) / (1000 * 60 * 60))} hours.`)
+    }
+    else{
+      setExpiringTime(`${Math.floor(calculateTimeToExpire(updatedAt) / (1000 * 60))} mins.`)
+    }
   }
 
   const closeEditAppointmentModal = () => {
@@ -291,6 +299,7 @@ const PatientScreen = () => {
         resetFields={resetFields}
         selectedDose={selectedDose}
         appointments={appointments}
+        expiringTime={expiringTime}
         handleVaccine={handleVaccine}
         operationType={operationType}
         editAppointment={editAppointment}
@@ -302,6 +311,7 @@ const PatientScreen = () => {
         showDeleteModal={showDeleteModal}
         setOperationType={setOperationType}
         closeDeleteModal={closeDeleteModal}
+        fetchAppointments={fetchAppointments}
         initialBlankValue={initialBlankValue}
         deleteAppointment={deleteAppointment}
         setSelectedVaccine={setSelectedVaccine}
