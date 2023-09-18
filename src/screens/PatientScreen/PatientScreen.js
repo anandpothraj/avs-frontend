@@ -8,6 +8,7 @@ import { redirectUser } from '../../utils/redirectUser';
 import { collapseNavbar } from '../../utils/collapseNavbar';
 import BookAppointment from '../../components/patient/BookAppointment';
 import FetchAppointments from '../../components/patient/FetchAppointments';
+import FetchVaccinationStatus from '../../components/patient/FetchVaccinationStatus';
 
 const PatientScreen = () => {
 
@@ -20,33 +21,52 @@ const PatientScreen = () => {
   const [ vaccines, setVaccines ] = useState([{
     vaccineName : initialBlankValue
   }]);
-  const [ filter, setFilter ] = useState("all");
   const [ lastDose, setLastDose ] = useState("");
   const [ loading, setLoading ] = useState(false);
   const [ appointments, setAppointments ] = useState([]);
+  const [ vaccinations, setVaccinations ] = useState([]);
   const [ expiringTime, setExpiringTime ] = useState("");
   const FETCH_VACCINES = server.api.doctors.FETCH_VACCINES;
   const [ operationType, setOperationType ] = useState(null);
   const [ allAppointments, setAllAppointments ] = useState([]);
+  const [ allVaccinations, setAllVaccinations ] = useState([]);
   const BOOK_APPOINTMENT = server.api.patients.BOOK_APPOINTMENT;
   const EDIT_APPOINTMENT = server.api.patients.EDIT_APPOINTMENT;
   const [ appointmentName, setAppointmentName ] = useState(null);
   const [ showDeleteModal, setShowDeleteModal ] =  useState(false);
   const FETCH_APPOINTMENTS = server.api.patients.FETCH_APPOINTMENTS;
   const REMOVE_APPOINTMENT = server.api.patients.REMOVE_APPOINTMENT;
+  const FETCH_VACCINATIONS = server.api.patients.FETCH_VACCINATIONS;
   const [ vaccineDose, setVaccineDose ] = useState([initialBlankValue]);
   const [ selectedDose, setSelectedDose ] = useState(initialBlankValue);
+  const [ vaccinationFilter, setVaccinationFilter ] = useState("all");
+  const [ appointmentFilter, setAppointmentFilter ] = useState("active");
   const [ showAppointmentModal, setShowAppointmentModal ] = useState(false);
   const [ selectedVaccine, setSelectedVaccine ] = useState(initialBlankValue);
 
   const filterAppointments = () => {
     let filteredAppointment;
-    if(filter === "active" || filter === "deactive"){
-      filteredAppointment = allAppointments.filter(appointment => appointment.status === filter);
+    if(appointmentFilter === "active" || appointmentFilter === "deactive"){
+      filteredAppointment = allAppointments.filter(appointment => appointment.status === appointmentFilter);
       setAppointments(filteredAppointment);
     }
     else{
       setAppointments(allAppointments);
+    }
+  }
+
+  const filterVaccinations = () => {
+    let filteredVaccination;
+    if(vaccinationFilter === "all"){
+      setVaccinations(allVaccinations);
+    }
+    if(vaccinationFilter === "fully vaccinated"){
+      filteredVaccination = allVaccinations.filter(vaccination => vaccination.fullyVaccinated === true);
+      setVaccinations(filteredVaccination);
+    }
+    if(vaccinationFilter === "partially vaccinated"){
+      filteredVaccination = allVaccinations.filter(vaccination => vaccination.fullyVaccinated === false);
+      setVaccinations(filteredVaccination);
     }
   }
 
@@ -59,6 +79,24 @@ const PatientScreen = () => {
     .then(res => {
       if(res.status === 200){
         setAllAppointments(res.data.appointments);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      notify("error",err.response.data.message);
+    })
+    setLoading(false);
+  }
+
+  const fetchVaccinations = async (id) => {
+    let payload;
+    userId ? payload = userId : payload = id;
+    setLoading(true);
+    await axios
+    .get(`${production}${FETCH_VACCINATIONS}/${payload}`)
+    .then(res => {
+      if(res.status === 200){
+        setAllVaccinations(res.data.vaccinations);
       }
     })
     .catch(err => {
@@ -247,8 +285,9 @@ const PatientScreen = () => {
 
   useEffect(() => {
     filterAppointments();
+    filterVaccinations();
     // eslint-disable-next-line
-  },[filter, allAppointments])
+  },[appointmentFilter, allAppointments, allVaccinations, vaccinationFilter])
   
   useEffect(() => {
     collapseNavbar();
@@ -261,6 +300,7 @@ const PatientScreen = () => {
         setUser(patient);
         setUserId(patient._id);
         fetchAppointments(patient._id);
+        fetchVaccinations(patient._id);
       }
     };
     // eslint-disable-next-line
@@ -291,10 +331,8 @@ const PatientScreen = () => {
       <hr />
       <FetchAppointments
         user={user}
-        filter={filter}
         loading={loading}
         vaccines={vaccines}
-        setFilter={setFilter}
         vaccineDose={vaccineDose}
         resetFields={resetFields}
         selectedDose={selectedDose}
@@ -314,13 +352,24 @@ const PatientScreen = () => {
         fetchAppointments={fetchAppointments}
         initialBlankValue={initialBlankValue}
         deleteAppointment={deleteAppointment}
+        appointmentFilter={appointmentFilter}
         setSelectedVaccine={setSelectedVaccine}
+        setAppointmentFilter={setAppointmentFilter}
         openAppointmentModal={openAppointmentModal}
         showAppointmentModal={showAppointmentModal}
         closeAppointmentModal={closeAppointmentModal}
         calculateTimeToExpire={calculateTimeToExpire}
         openEditAppointmentModal={openEditAppointmentModal}
         closeEditAppointmentModal={closeEditAppointmentModal}
+      />
+      {loading && <hr/>}
+      {appointments.length === 0 && <hr/>}
+      <FetchVaccinationStatus
+        loading={loading}
+        vaccinations={vaccinations}
+        vaccinationFilter={vaccinationFilter}
+        fetchVaccinations={fetchVaccinations}
+        setVaccinationFilter={setVaccinationFilter}
       />
     </MainScreen> 
   );

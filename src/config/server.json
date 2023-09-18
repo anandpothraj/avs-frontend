@@ -15,6 +15,7 @@
             "BOOK_APPOINTMENT" : "api/patients/book/appointment",
             "EDIT_APPOINTMENT" : "api/patients/edit/appointment",
             "FETCH_APPOINTMENTS" : "api/patients/fetch/appointments",
+            "FETCH_VACCINATIONS" : "api/patients/fetch/vaccinations",
             "REMOVE_APPOINTMENT" : "api/patients/remove/appointment"
         },
         "doctors" : {
