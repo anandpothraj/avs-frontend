@@ -1,8 +1,8 @@
-import { Button, Modal, Form, Spinner, Row, Col } from "react-bootstrap";
+import { Button, Modal, Form, Spinner, Row, Col, Badge } from "react-bootstrap";
 
 const AppointmentModal = (props) => {
 
-    const { show, onHide, title, resetFields, loading, vaccines, user, selectedVaccine, handleVaccine, vaccineDose, bookAppointment, selectedDose, setSelectedDose, initialBlankValue, operationType, editAppointment } = props;
+    const { show, onHide, title, resetFields, loading, vaccines, user, selectedVaccine, handleVaccine, vaccineDose, bookAppointment, selectedDose, setSelectedDose, initialBlankValue, operationType, editAppointment, expiringTime } = props;
 
     return (
         <Modal
@@ -99,7 +99,9 @@ const AppointmentModal = (props) => {
                 </Col>
             </Row>
             </Form>
-            <small>This Appointment is only valid till next 48 hours.</small>
+            <small>This Appointment is only valid till next 
+                <Badge className="mx-2" bg="danger">{operationType === "Edit" ? expiringTime : "48 hours."}</Badge>
+            </small>
         </Modal.Body>
         <Modal.Footer>
             <Button variant="success" className="m-2" onClick={operationType === "Edit" ? editAppointment : bookAppointment}>
