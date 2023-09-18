@@ -11,6 +11,7 @@ const Header = () => {
 
   const navigate = useNavigate();
   const user = localStorage.getItem('user');
+  const [ loading, setLoading ] = useState(false);
   const linkCss = "text-decoration-none text-dark m-2";
   const [ showLogoutModal, setShowLogoutModel ] = useState(false);
 
@@ -24,7 +25,9 @@ const Header = () => {
   }
 
   const logoutHandler = () => {
+    setLoading(true);
     clearUserData();
+    setLoading(false);
     closeLogoutModal();
     navigate('/');
   };
@@ -57,7 +60,7 @@ const Header = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <BooleanModal show={showLogoutModal} onHide={closeLogoutModal} title="Logout" next={logoutHandler}/>
+      <BooleanModal show={showLogoutModal} onHide={closeLogoutModal} title="Logout" next={logoutHandler} loading={loading}/>
     </>
   );
 };

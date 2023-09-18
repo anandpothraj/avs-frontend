@@ -314,6 +314,7 @@ const VaccineInfo = () => {
         resetPreviousVaccineFields={resetPreviousVaccineFields}
       />
       <BooleanModal 
+        loading={loading}
         item={vaccineName}
         next={deleteVaccine}
         show={showDeleteModal} 
