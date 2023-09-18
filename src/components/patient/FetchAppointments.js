@@ -14,10 +14,8 @@ const FetchAppointments = (props) => {
 
     const {
         user,
-        filter,
         loading,
         vaccines,
-        setFilter,
         vaccineDose,
         resetFields,
         appointments,
@@ -32,11 +30,13 @@ const FetchAppointments = (props) => {
         openDeleteModal,
         bookAppointment,
         setSelectedDose,
+        appointmentFilter,
         closeDeleteModal,
         initialBlankValue,
         deleteAppointment,
         fetchAppointments,
         setSelectedVaccine,
+        setAppointmentFilter,
         showAppointmentModal,
         calculateTimeToExpire,
         openEditAppointmentModal,
@@ -45,14 +45,14 @@ const FetchAppointments = (props) => {
 
     return (
         <div className="my-2">
-            <div className="d-flex flex-row">
+            <div className="d-flex flex-row overflow-auto">
                 <h5 className="d-inline-block">Appointments status</h5>
-                <select className="mx-2 text-capitalize rounded bg-light text-white" name="filter" onChange={(e)=>setFilter(e.target.value)} value={filter} required>
+                <select className="mx-2 text-capitalize rounded bg-light text-white px-1" name="appointmentFilter" onChange={(e)=>setAppointmentFilter(e.target.value)} value={appointmentFilter} required>
                     <option>all</option>
                     <option>active</option>
                     <option>deactive</option>
                 </select>
-                <Button size='sm' className='mx-2' onClick={()=>{fetchAppointments();setFilter("all")}} variant='warning'><GrPowerReset/></Button>
+                <Button size='sm' className='mx-2' onClick={()=>{fetchAppointments();setAppointmentFilter("all")}} variant='warning'><GrPowerReset/></Button>
             </div>
             <hr />
             {
@@ -62,7 +62,7 @@ const FetchAppointments = (props) => {
                         <thead>
                             <tr>
                             <th className="table-info" scope="col">
-                                Appointment Info (Name, Dose, Expires in)
+                                Appointment Info (Name, Dose, Expires in, Status)
                             </th>
                             <th className="table-success" scope="col">
                                 <h6 className="text-center">Edit</h6>
@@ -115,13 +115,13 @@ const FetchAppointments = (props) => {
                                                 <Badge bg="success" className="mx-2">Active</Badge> : 
                                                 <>
                                                     <Badge bg="danger" className="mx-2">Deactive</Badge>
-                                                    <Badge bg="success" className="mx-2">Already Vaccinated</Badge>
+                                                    <Badge bg="info" className="mx-2">Already Vaccinated <Image style={{width:"15px", height:"15px"}} src={SuccessImg} fluid /></Badge>
                                                 </>
                                             }
                                         </td>
                                         <td className="text-center">
                                             { status === "deactive" ? 
-                                                <Image style={{width:"20px", height:"20px"}} src={SuccessImg} fluid /> :
+                                                <Image className="my-2" style={{width:"20px", height:"20px"}} src={SuccessImg} fluid /> :
                                                 <Button 
                                                     className="pe-auto"
                                                     variant="transparent" 
@@ -133,7 +133,7 @@ const FetchAppointments = (props) => {
                                         </td>
                                         <td className="text-center">
                                             {   status === "deactive" ? 
-                                                <Image style={{width:"20px", height:"20px"}} src={SuccessImg} fluid /> :
+                                                <Image className="my-2" style={{width:"20px", height:"20px"}} src={SuccessImg} fluid /> :
                                                 <Button
                                                 className="pe-auto"
                                                 variant="transparent"
@@ -149,7 +149,7 @@ const FetchAppointments = (props) => {
                         </tbody>
                     </Table>
                 ) : (
-                    `No ${filter === "all" ? "" : filter } appointments are booked!`
+                    `No ${appointmentFilter === "all" ? "" : appointmentFilter } appointments are booked!`
                 )
             }
             <AppointmentModal
