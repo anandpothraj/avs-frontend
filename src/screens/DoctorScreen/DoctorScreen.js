@@ -21,6 +21,7 @@ const DoctorScreen = () => {
   const [ doseNo, setDoseNo ] = useState("");
   const [ pincode, setPincode ] = useState("");
   const [ maxDose, setMaxDose ] = useState("");
+  const [ nextDose, setNextDose ] = useState("");
   const [ doctorId, setDoctorId ] = useState("");
   const [ loading, setLoading ] = useState(false);
   const [ patientId, setPatientId ] = useState("");
@@ -45,6 +46,7 @@ const DoctorScreen = () => {
     setDoseNo("");
     setPincode("");
     setMaxDose("");
+    setNextDose("");
     setPatientId("");
     setLoading(false);
     setPatientAge("");
@@ -116,9 +118,10 @@ const DoctorScreen = () => {
     setLoading(false);
   }
 
-  const openVaccinateModal = (name, dose, totalDose, appId) => {
+  const openVaccinateModal = (name, dose, totalDose, appId, timeGap) => {
     setDoseNo(dose);
     setVaccineName(name);
+    setNextDose(timeGap);
     setMaxDose(totalDose);
     setAppointmentId(appId);
     setShowVaccinateModal(true);
@@ -139,7 +142,7 @@ const DoctorScreen = () => {
     if(patientName && patientAadhaar && patientAge && patientGender && vaccineName && doseNo && hospitalName && pincode && doctorId && doctorAadhaar && doctorName && patientId && maxDose && appointmentId){
       if(pincode.length === 6){
         setLoading(true);
-        const data  = { patientId, vaccineName, doseNo, maxDose, hospitalName, pincode, doctorId, appointmentId }
+        const data  = { patientId, vaccineName, doseNo, maxDose, hospitalName, pincode, doctorId, appointmentId, nextDose }
         await axios
         .post(`${production}${VACCINATE_PATIENT}`, data)
         .then(res => {

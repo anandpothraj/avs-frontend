@@ -22,6 +22,7 @@ const PatientScreen = () => {
     vaccineName : initialBlankValue
   }]);
   const [ lastDose, setLastDose ] = useState("");
+  const [ nextDose, setNextDose ] = useState("");
   const [ loading, setLoading ] = useState(false);
   const [ appointments, setAppointments ] = useState([]);
   const [ vaccinations, setVaccinations ] = useState([]);
@@ -160,12 +161,19 @@ const PatientScreen = () => {
     setExpiringTime("");
     setSelectedDose(initialBlankValue);
     setSelectedVaccine(initialBlankValue);
+    setNextDose("");
   }
 
   const handleVaccine = (vaccineName) => {
     setSelectedVaccine(vaccineName);
     const selectedVaccine = vaccines.find(vaccine => vaccine.vaccineName === vaccineName);
     if (selectedVaccine) {
+      if(selectedVaccine.noOfDose > 1){
+        setNextDose(selectedVaccine.timeGap);
+      }
+      else{
+        setNextDose("");
+      }
       setSelectedDose(initialBlankValue);
       setLastDose(selectedVaccine.noOfDose);
       updateNoOfDoseArray(selectedVaccine.noOfDose);
@@ -181,8 +189,9 @@ const PatientScreen = () => {
       let data = { 
           userId : userId, 
           maxDose : lastDose,
+          nextDose : nextDose,
           doseNo : selectedDose,
-          vaccineName : selectedVaccine
+          vaccineName : selectedVaccine,
       }
       await axios
       .post(`${production}${BOOK_APPOINTMENT}`,data)
@@ -211,8 +220,10 @@ const PatientScreen = () => {
       let data = { 
           id : id, 
           userId : userId,
+          maxDose : lastDose,
+          nextDose : nextDose,
           doseNo : selectedDose,
-          vaccineName : selectedVaccine
+          vaccineName : selectedVaccine,
       }
       await axios
       .put(`${production}${EDIT_APPOINTMENT}`,data)

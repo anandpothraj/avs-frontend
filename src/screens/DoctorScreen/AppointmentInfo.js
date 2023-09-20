@@ -11,6 +11,7 @@ const AppointmentInfo = ({appointments, patientName, patientAge, patientGender, 
             {
                 appointments && appointments.length > 0 ? appointments.map((appointment, index) => {
                     return (
+                    appointment.status === "active" &&
                         <Alert key={index} variant='light' className='d-flex flex-row align-items-center overflow-auto justify-content-start justify-content-lg-around'>
                             <span className='mx-2 text-info'>
                                 <FaUser className='mx-2'/>{patientName}
@@ -28,7 +29,7 @@ const AppointmentInfo = ({appointments, patientName, patientAge, patientGender, 
                                 <GiOverdose className='mx-2' />{appointment.doseNo}
                             </span>
                             <span className='mx-2'>
-                                <Button size='sm' variant='success' onClick={()=>openVaccinateModal(appointment.vaccineName, appointment.doseNo, appointment.maxDose, appointment.appointmentId)}>Vaccinate</Button>
+                                <Button size='sm' variant='success' onClick={()=>openVaccinateModal(appointment.vaccineName, appointment.doseNo, appointment.maxDose, appointment.appointmentId, appointment.nextDose)}>Vaccinate</Button>
                             </span>
                         </Alert>
                     ) 
