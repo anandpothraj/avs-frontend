@@ -16,7 +16,8 @@
             "EDIT_APPOINTMENT" : "api/patients/edit/appointment",
             "FETCH_APPOINTMENTS" : "api/patients/fetch/appointments",
             "FETCH_VACCINATIONS" : "api/patients/fetch/vaccinations",
-            "REMOVE_APPOINTMENT" : "api/patients/remove/appointment"
+            "REMOVE_APPOINTMENT" : "api/patients/remove/appointment",
+            "FETCH_VACCINATION_INFO" : "api/patients/fetch/vaccination/info"
         },
         "doctors" : {
             "ADD_VACCINE" : "api/doctors/add/vaccine",

@@ -10,6 +10,7 @@ import VaccineInfo from './screens/DoctorScreen/VaccineInfo';
 import DoctorScreen from './screens/DoctorScreen/DoctorScreen';
 import RegisterScreen from './screens/UserScreen/RegisterScreen';
 import PatientScreen from './screens/PatientScreen/PatientScreen';
+import VaccinationInfo from './components/patient/VaccinationInfo';
 import PrivateRoutes from './components/PrivateRoute/PrivateRoutes';
 import InspectorScreen from './screens/InspectorScreen/InspectorScreen';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -21,6 +22,7 @@ const App = () => {
         <Header/>
           <main>
             <Routes>
+
               {/* Open Routes */}
                 <Route path='/' element={<HomeScreen/>} exact />
                 <Route path='/login' element={<LoginScreen/>} exact />
@@ -31,13 +33,22 @@ const App = () => {
               
               {/* Private Routes */}
                 <Route element={<PrivateRoutes/>}>
+
                   {/* Patient Routes */}
-                  <Route path='/patient' element={<PatientScreen/>} exact />
+                    <Route path='/patient' element={<PatientScreen/>} exact />
+                    <Route path='/patient/:id' element={<VaccinationInfo/>} exact />
+                  {/* Patient Routes */}
+
 
                   {/* Doctor Routes */}
-                  <Route path='/doctor' element={<DoctorScreen/>} exact />
-                  <Route path='/doctor/vaccineinfo' element={<VaccineInfo/>} exact />
-                  <Route path='/inspector' element={<InspectorScreen/>} exact />
+                    <Route path='/doctor' element={<DoctorScreen/>} exact />
+                    <Route path='/doctor/vaccineinfo' element={<VaccineInfo/>} exact />
+                  {/* Doctor Routes */}
+
+                  {/* Inspector Routes */}
+                    <Route path='/inspector' element={<InspectorScreen/>} exact />  
+                  {/* Inspector Routes */}
+
                 </Route>
               {/* Private Routes */}
             </Routes>
