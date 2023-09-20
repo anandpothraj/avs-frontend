@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { AiFillEye } from 'react-icons/ai';
 import { TbVaccine } from 'react-icons/tb';
 import { HiDownload } from 'react-icons/hi';
@@ -29,7 +30,7 @@ const FetchVaccinationStatus = (props) => {
           loading ? <div className="d-flex align-items-center"><Spinner as="span"/><span className='mx-3'>Fetching Vaccinations...</span></div> : 
           vaccinations && vaccinations.length > 0 ? vaccinations.map((vaccination, index) => {
 
-            const { vaccineName, doseNo, fullyVaccinated } = vaccination;
+            const { _id, vaccineName, doseNo, fullyVaccinated } = vaccination;
               return (
                   <div key={index} variant='light' className='border-bottom border-light p-2 d-flex align-items-center overflow-auto justify-content-start justify-content-lg-around'>
                       <span className='mx-2 text-success' >
@@ -42,10 +43,12 @@ const FetchVaccinationStatus = (props) => {
                           {fullyVaccinated ? <><FaUserShield className='mx-1'/> Fully Vaccinated <BsFillShieldLockFill className='mx-1'/></>  : <><BsShieldFillExclamation className='mx-2'/> Partially Vaccinated</>}
                       </span>
                       <span className='mx-2'>
+                        <Link className='m-auto' to={`/patient/${_id}`}>
                           <Button size='sm' variant='info'><AiFillEye className='mx-2'/>Preview</Button>
+                        </Link>
                       </span>
                       <span className='mx-2'>
-                          <Button size='sm' variant='warning'><HiDownload className='mx-2'/>PDF</Button>
+                        <Button size='sm' variant='warning'><HiDownload className='mx-2'/>PDF</Button>
                       </span>
                   </div>
               ) 
