@@ -109,6 +109,7 @@ const DoctorScreen = () => {
           setAppointments([res.data.appointment]);
         }
         setId("");
+        setSearchBy("--select--");
       }
     })
     .catch(err => {
