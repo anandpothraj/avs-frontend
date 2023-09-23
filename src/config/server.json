@@ -17,6 +17,7 @@
             "FETCH_APPOINTMENTS" : "api/patients/fetch/appointments",
             "FETCH_VACCINATIONS" : "api/patients/fetch/vaccinations",
             "REMOVE_APPOINTMENT" : "api/patients/remove/appointment",
+            "DOWNLOAD_CERTIFICATE" : "api/patients/fetch/certificate",
             "FETCH_VACCINATION_INFO" : "api/patients/fetch/vaccination/info"
         },
         "doctors" : {

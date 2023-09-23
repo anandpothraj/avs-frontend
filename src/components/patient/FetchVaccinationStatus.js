@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AiFillEye } from 'react-icons/ai';
 import { TbVaccine } from 'react-icons/tb';
-import { HiDownload } from 'react-icons/hi';
 import { GiOverdose } from 'react-icons/gi';
 import { GrPowerReset } from 'react-icons/gr';
 import { FaUserShield } from 'react-icons/fa';
 import { Button, Spinner } from "react-bootstrap";
-import { BsShieldFillExclamation, BsFillShieldLockFill } from 'react-icons/bs';
+import { IoChevronForwardOutline } from 'react-icons/io5';
+import { BsShieldFillExclamation, BsFillShieldLockFill, BsInfoCircle } from 'react-icons/bs';
 
 const FetchVaccinationStatus = (props) => {
 
@@ -44,11 +43,8 @@ const FetchVaccinationStatus = (props) => {
                       </span>
                       <span className='mx-2'>
                         <Link className='m-auto' to={`/patient/${_id}`}>
-                          <Button size='sm' variant='info'><AiFillEye className='mx-2'/>Preview</Button>
+                          <Button size='sm' variant='outline-info'><BsInfoCircle className='mx-2'/>More Info <IoChevronForwardOutline className='mx-2'/></Button>
                         </Link>
-                      </span>
-                      <span className='mx-2'>
-                        <Button size='sm' variant='warning'><HiDownload className='mx-2'/>PDF</Button>
                       </span>
                   </div>
               ) 
@@ -59,4 +55,4 @@ const FetchVaccinationStatus = (props) => {
   )
 }
 
-export default FetchVaccinationStatus
+export default FetchVaccinationStatus;

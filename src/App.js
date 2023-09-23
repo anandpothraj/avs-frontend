@@ -14,6 +14,7 @@ import VaccinationInfo from './components/patient/VaccinationInfo';
 import PrivateRoutes from './components/PrivateRoute/PrivateRoutes';
 import InspectorScreen from './screens/InspectorScreen/InspectorScreen';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import CertificateTemplate from './components/patient/CertificateTemplate';
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
                   {/* Patient Routes */}
                     <Route path='/patient' element={<PatientScreen/>} exact />
                     <Route path='/patient/:id' element={<VaccinationInfo/>} exact />
+                    <Route path='/certificate/:id' element={<CertificateTemplate/>} exact />
                   {/* Patient Routes */}
 
 
@@ -51,6 +53,7 @@ const App = () => {
 
                 </Route>
               {/* Private Routes */}
+              
             </Routes>
           </main>
         <Footer/>
