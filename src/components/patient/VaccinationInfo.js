@@ -8,7 +8,7 @@ import { BiShieldQuarter } from 'react-icons/bi';
 import MainScreen from '../../layout/MainScreen';
 import { Link, useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { downloadPdf } from '../../utils/downloadPdf';
+import { generatePdf } from '../../utils/generatePdf';
 import { AiFillEye, AiOutlineMail } from "react-icons/ai";
 import { FaRegHospital, FaUserShield } from 'react-icons/fa';
 import { formatDateString } from '../../utils/formatDateString';
@@ -51,7 +51,7 @@ const VaccinationInfo = () => {
                 <Link className='mx-2' to='/patient'>
                     <Button variant='outline-info'><IoChevronBack/> Back</Button>
                 </Link>
-                <Button className='mx-2 d-md-none' onClick={()=>downloadPdf(vaccinationInfo.vaccineName, vaccinationInfo.doseNo, vaccinationId)} size='sm' variant='outline-warning'>Download PDF<HiDownload className='mx-2'/></Button>
+                {(!loading && userInfo && vaccinationInfo) && <Button className='mx-2 d-md-none' onClick={()=>generatePdf(userInfo, vaccinationInfo)} size='sm' variant='outline-warning'>Download PDF<HiDownload className='mx-2'/></Button>}
                 <Link className='mx-2 d-none d-md-block' to={`/certificate/${vaccinationId}`}>
                     <Button size='sm' variant='outline-warning'><AiFillEye className='mx-2'/>Preview & download PDF<HiDownload className='mx-2'/></Button>
                 </Link>
