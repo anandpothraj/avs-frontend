@@ -27,6 +27,17 @@ const CertificateTemplate = (props) => {
         setLoading(false);
     }
 
+    const generatePdf = () =>{
+        let queryParams = "";
+        if(userInfo){
+            queryParams += `certificateId=1234567890&patientName=${userInfo.name}&patientAge=${userInfo.age}&patientGender=${userInfo.gender}&patientUserId=${userInfo._id}&patientAadhaar=${userInfo.aadhaar}&patientEmail=${userInfo.email}&patientPhone=${userInfo.phone}`;
+        }
+        if(vaccinationInfo){
+            queryParams += `&vaccineName=${vaccinationInfo.vaccineName}&doseNo=${parseInt(vaccinationInfo.doseNo)}&vaccinatedOn=${vaccinationInfo.vaccinatedOn}&doctorName=${vaccinationInfo.doctorName}&doctorAadhaar=${vaccinationInfo.doctorAadhaar}&hospitalName=${vaccinationInfo.hospitalName}&pincode=${vaccinationInfo.pincode}&fullyVaccinated=${vaccinationInfo.fullyVaccinated}&remainingNoOfDose=${parseInt(vaccinationInfo.remainingNoOfDose)}&nextDose=${vaccinationInfo.nextDose}`
+            downloadPdf(queryParams, vaccinationInfo.vaccineName, vaccinationInfo.doseNo);
+        }
+    }
+
     useEffect(() => {
         let userDetails = JSON.parse(localStorage.getItem("user"));
         if(userDetails){
@@ -43,7 +54,7 @@ const CertificateTemplate = (props) => {
                 <Link className='m-2' to={`/patient/${vaccinationId}`}>
                     <Button variant='outline-info'><IoChevronBack/> Back</Button>
                 </Link>
-                {!loading && <Button size='sm' className='m-2' variant='outline-warning' onClick={()=>downloadPdf(vaccinationInfo.vaccineName, vaccinationInfo.doseNo, vaccinationId)}>Download PDF<HiDownload className='mx-2'/></Button>}
+                {!loading && <Button size='sm' className='m-2' variant='outline-warning' onClick={generatePdf}>Download PDF<HiDownload className='mx-2'/></Button>}
             </div>
             <hr />
             {loading ? <div className='d-flex align-items-center'><Spinner as="span"/><span className='mx-3'>Fetching PDF...</span></div> :
