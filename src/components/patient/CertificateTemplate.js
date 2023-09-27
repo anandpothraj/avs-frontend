@@ -10,12 +10,13 @@ import { formatDateString } from "../../utils/formatDateString";
 import { fetchVaccinationInfo } from "../../utils/fetchVaccinationInfo";
 import { Container, Row, Col, Badge, Button, Spinner } from 'react-bootstrap';
 
-const CertificateTemplate = (props) => { 
+const CertificateTemplate = () => { 
 
     const params = useParams();
     const [ loading, setLoading ] = useState(true);
     const [ userInfo, setUserInfo ] = useState(null);
     const [ vaccinationId, setVaccinationId ] = useState("");
+    const [ downloadLoader, setdownLoader ] = useState(false);
     const [ vaccinationInfo, setVaccinationInfo ] = useState(null);
     
     const fetchVaccinationInfoDetails = async (payload) => {
@@ -25,6 +26,17 @@ const CertificateTemplate = (props) => {
             setVaccinationInfo(response);
         }
         setLoading(false);
+    }
+
+    const downloadPdf = async () => {
+        try {
+            setdownLoader(true);
+            await generatePdf(userInfo, vaccinationInfo);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setdownLoader(false);
+        }
     }
 
     useEffect(() => {
@@ -43,7 +55,7 @@ const CertificateTemplate = (props) => {
                 <Link className='m-2' to={`/patient/${vaccinationId}`}>
                     <Button variant='outline-info'><IoChevronBack/> Back</Button>
                 </Link>
-                {(!loading && userInfo && vaccinationInfo) && <Button size='sm' className='m-2' variant='outline-warning' onClick={()=>generatePdf(userInfo, vaccinationInfo)}>Download PDF<HiDownload className='mx-2'/></Button>}
+                {(!loading && userInfo && vaccinationInfo) && <Button size='sm' className='m-2' variant='outline-warning' disabled={downloadLoader} onClick={downloadPdf}>{downloadLoader && <Spinner size="sm" as="span" className="mx-2"/>}Download PDF<HiDownload className='mx-2'/></Button>}
             </div>
             <hr />
             {loading ? <div className='d-flex align-items-center'><Spinner as="span"/><span className='mx-3'>Fetching PDF...</span></div> :

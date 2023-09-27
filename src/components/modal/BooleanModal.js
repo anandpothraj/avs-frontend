@@ -8,7 +8,7 @@ const BooleanModal = ({ show, onHide, title, item, next, loading }) => {
                 <Modal.Title id="contained-modal-title-vcenter">{title} <span className='text-danger'>{item}</span>?</Modal.Title>
             </Modal.Header>
             <Modal.Footer>
-                <Button className="m-2" variant="danger" onClick={next}>{loading && <Spinner size='sm' className="mx-2" as="span" />}Yes</Button>
+                <Button className="m-2" variant="danger" disabled={loading} onClick={next}>{loading && <Spinner size='sm' className="mx-2" as="span" />}Yes</Button>
                 <Button variant="success" onClick={onHide}>No</Button>
             </Modal.Footer>
         </Modal>

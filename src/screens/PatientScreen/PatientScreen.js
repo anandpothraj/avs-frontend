@@ -277,7 +277,7 @@ const PatientScreen = () => {
   }
 
   const deleteAppointment = async () => {
-    setLoading(false);
+    setLoading(true);
     await axios
     .delete(`${production}${REMOVE_APPOINTMENT}/${id}`)
     .then(res => {
@@ -291,7 +291,6 @@ const PatientScreen = () => {
       notify("error",err.response.data.message);
     });
     fetchAppointments();
-    setLoading(true);
   };
 
   useEffect(() => {
