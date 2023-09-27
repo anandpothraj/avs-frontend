@@ -87,8 +87,8 @@ const VaccineModal = ({
                 <small>Vaccine Adding on  - <b>{addedOn?.toLocaleDateString()}</b> by <b>Dr.{addedBy}</b></small>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" className="m-2" onClick={performOperation}>{loading && <Spinner size='sm' as="span" />}{operationType} Vaccine</Button>
-                <Button className="m-2" variant="warning" onClick={resetModal}>Reset Feilds</Button>
+                <Button variant="success" className="m-2" disabled={loading} onClick={performOperation}>{loading && <Spinner size='sm' as="span" />}{operationType} Vaccine</Button>
+                <Button className="m-2" variant="warning" disabled={loading} onClick={resetModal}>Reset Feilds</Button>
                 <Button variant='danger' onClick={onHide}>Cancel</Button>
             </Modal.Footer>
         </Modal>

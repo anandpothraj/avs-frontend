@@ -140,26 +140,31 @@ const DoctorScreen = () => {
   }
 
   const vaccinatePatient = async () => {
-    if(patientName && patientAadhaar && patientAge && patientGender && vaccineName && doseNo && hospitalName && pincode && doctorId && doctorAadhaar && doctorName && patientId && maxDose && appointmentId){
-      if(pincode.length === 6){
-        setLoading(true);
-        const data  = { patientId, vaccineName, doseNo, maxDose, hospitalName, pincode, doctorId, appointmentId, nextDose }
-        await axios
-        .post(`${production}${VACCINATE_PATIENT}`, data)
-        .then(res => {
-          if(res.status === 201){
-            resetFields();
-            closeVaccinateModal();
-            notify("success",res.data.message);
-          }
-        })
+    if(hospitalName && pincode){
+      if(patientName && patientAadhaar && patientAge && patientGender && vaccineName && doseNo && hospitalName && pincode && doctorId && doctorAadhaar && doctorName && patientId && maxDose && appointmentId){
+        if(pincode.length === 6){
+          setLoading(true);
+          const data  = { patientId, vaccineName, doseNo, maxDose, hospitalName, pincode, doctorId, appointmentId, nextDose }
+          await axios
+          .post(`${production}${VACCINATE_PATIENT}`, data)
+          .then(res => {
+            if(res.status === 201){
+              resetFields();
+              closeVaccinateModal();
+              notify("success",res.data.message);
+            }
+          })
+        }
+        else{
+          notify('error', "Invalid pincode, Please enter your 6 digits pincode!");
+        }
       }
       else{
-        notify('error', "Invalid pincode, Please enter your 6 digits pincode!");
+        notify('error', "Something went wrong please refresh the page and try again!")
       }
     }
     else{
-      notify('error', "Something went wrong please refresh the page and try again!")
+      notify('error', "Please fill all the fields!")
     }
   }
 

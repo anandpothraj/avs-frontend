@@ -61,7 +61,7 @@ const VaccinateModal = (props) => {
                 <small>Vaccinating by Dr. {doctorName}</small>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" className="m-2" onClick={vaccinatePatient} disabled={hospitalName && pincode ? false : true}>{loading && <Spinner size="sm" as="span" className="mx-2"/>}Vaccinate</Button>
+                <Button variant="success" className="m-2" onClick={vaccinatePatient} disabled={loading}>{loading && <Spinner size="sm" as="span" className="mx-2"/>}Vaccinate</Button>
                 <Button variant="danger" onClick={onHide}>Cancel</Button>
             </Modal.Footer>
         </Modal>

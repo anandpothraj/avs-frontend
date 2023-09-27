@@ -15,7 +15,8 @@ const SearchAppointment = ({ setSearchBy, searchBy, searchAppointments, id, load
       </Col>
       <Col className='d-flex align-items-center flex-column flex-lg-row w-100 w-lg-50 mx-1'>
         <Form.Control type={searchBy === "Aadhaar" ? "number" : "text"} className="w-100 m-1" placeholder={`Enter ${searchBy === "Aadhaar" ? "Aadhaar" : "Appointment Id"} Number`} value={id} name="aadhaar" onChange={(e) => setId(e.target.value)} autoFocus readOnly={searchBy==="--select--"? true : false} />
-        <Button variant='success' className='w-100 mx-1' onClick={searchAppointments} disabled={ searchBy !== "--select--" && id ? false : true}>
+        <Button variant='success' className='w-100 mx-1' onClick={searchAppointments} disabled={loading}
+>
             {loading && <Spinner size="sm" as="span" className="mx-2" />}
             Search
         </Button>
