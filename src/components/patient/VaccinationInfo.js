@@ -24,6 +24,7 @@ const VaccinationInfo = () => {
     const [ loading, setLoading ] = useState(true);
     const [ userInfo, setUserInfo ] = useState(null);
     const [ vaccinationId, setVaccinationId ] = useState("");
+    const [ downloadLoader, setdownLoader ] = useState(false);
     const [ vaccinationInfo, setVaccinationInfo ] = useState(null);
 
     const fetchVaccinationInfoDetails = async (payload) => {
@@ -33,6 +34,17 @@ const VaccinationInfo = () => {
             setVaccinationInfo(response);
         }
         setLoading(false);
+    }
+
+    const downloadPdf = async () => {
+        try {
+            setdownLoader(true);
+            await generatePdf(userInfo, vaccinationInfo);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setdownLoader(false);
+        }
     }
 
     useEffect(() => {
@@ -51,7 +63,7 @@ const VaccinationInfo = () => {
                 <Link className='mx-2' to='/patient'>
                     <Button variant='outline-info'><IoChevronBack/> Back</Button>
                 </Link>
-                {(!loading && userInfo && vaccinationInfo) && <Button className='mx-2 d-md-none' onClick={()=>generatePdf(userInfo, vaccinationInfo)} size='sm' variant='outline-warning'>Download PDF<HiDownload className='mx-2'/></Button>}
+                {(!loading && userInfo && vaccinationInfo) && <Button className='mx-2 d-md-none' disabled={downloadLoader} onClick={downloadPdf} size='sm' variant='outline-warning'>{downloadLoader && <Spinner size="sm" as="span" className="mx-2"/>}Download PDF<HiDownload className='mx-2'/></Button>}
                 <Link className='mx-2 d-none d-md-block' to={`/certificate/${vaccinationId}`}>
                     <Button size='sm' variant='outline-warning'><AiFillEye className='mx-2'/>Preview & download PDF<HiDownload className='mx-2'/></Button>
                 </Link>
