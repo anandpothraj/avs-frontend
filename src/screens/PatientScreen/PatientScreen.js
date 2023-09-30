@@ -24,6 +24,7 @@ const PatientScreen = () => {
   const [ lastDose, setLastDose ] = useState("");
   const [ nextDose, setNextDose ] = useState("");
   const [ loading, setLoading ] = useState(false);
+  const [ userInfo, setUserInfo ] = useState(null);
   const [ appointments, setAppointments ] = useState([]);
   const [ vaccinations, setVaccinations ] = useState([]);
   const [ expiringTime, setExpiringTime ] = useState("");
@@ -44,6 +45,7 @@ const PatientScreen = () => {
   const [ appointmentFilter, setAppointmentFilter ] = useState("active");
   const [ showAppointmentModal, setShowAppointmentModal ] = useState(false);
   const [ selectedVaccine, setSelectedVaccine ] = useState(initialBlankValue);
+  const EMAIL_APPOINTMENT_DETAILS = server.api.patients.EMAIL_APPOINTMENT_DETAILS;
 
   const filterAppointments = () => {
     let filteredAppointment;
@@ -183,6 +185,30 @@ const PatientScreen = () => {
     }
   }
 
+  const emailAppointmentDetails = async ( patientName, patientEmail, vaccineName, doseNo, appointmentId, operationType ) => {
+    setLoading(true);
+    let data = { 
+        patientName : patientName,
+        patientEmail : patientEmail,
+        vaccineName : vaccineName,
+        doseNo : doseNo,
+        appointmentId : appointmentId,
+        operationType : operationType
+    }
+    await axios
+    .post(`${production}${EMAIL_APPOINTMENT_DETAILS}`,data)
+    .then(res => {
+      if(res.status === 201){
+        notify("success",res.data.message);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      notify("error",err.response.data.message);
+    })
+    setLoading(false);
+  }
+
   const bookAppointment = async () => {
     if(selectedVaccine !== initialBlankValue && selectedDose !== initialBlankValue){
       setLoading(true);
@@ -200,6 +226,8 @@ const PatientScreen = () => {
           resetFields();
           closeAppointmentModal();
           notify("success",res.data.message);
+          setLoading(false);
+          emailAppointmentDetails(userInfo.name, userInfo.email, selectedVaccine, selectedDose, res.data.appointment._id, "booked");
         }
       })
       .catch(err => {
@@ -232,6 +260,8 @@ const PatientScreen = () => {
           resetFields();
           closeEditAppointmentModal();
           notify("success",res.data.message);
+          setLoading(false);
+          emailAppointmentDetails(userInfo.name, userInfo.email, selectedVaccine, selectedDose, id, "updated");
         }
       })
       .catch(err => {
@@ -308,6 +338,7 @@ const PatientScreen = () => {
       let patient = JSON.parse(localStorage.getItem("user"));
       if(patient){
         setUser(patient);
+        setUserInfo(patient);
         setUserId(patient._id);
         fetchAppointments(patient._id);
         fetchVaccinations(patient._id);

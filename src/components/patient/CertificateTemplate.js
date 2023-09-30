@@ -1,11 +1,13 @@
 import QRCode from "react-qr-code";
 import { HiDownload } from "react-icons/hi";
-import { AiFillHeart } from 'react-icons/ai';
+import { sendPdf } from '../../utils/sendPdf';
 import { FaPrayingHands } from 'react-icons/fa';
 import { IoChevronBack } from "react-icons/io5";
+import { RiSendPlaneFill } from "react-icons/ri";
 import { Link, useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { generatePdf } from '../../utils/generatePdf';
+import { AiFillHeart, AiOutlineMail } from 'react-icons/ai';
 import { formatDateString } from "../../utils/formatDateString";
 import { fetchVaccinationInfo } from "../../utils/fetchVaccinationInfo";
 import { Container, Row, Col, Badge, Button, Spinner } from 'react-bootstrap';
@@ -17,7 +19,19 @@ const CertificateTemplate = () => {
     const [ userInfo, setUserInfo ] = useState(null);
     const [ vaccinationId, setVaccinationId ] = useState("");
     const [ downloadLoader, setdownLoader ] = useState(false);
+    const [ sendPDFLoader, setSendPDFLoader ] = useState(false);
     const [ vaccinationInfo, setVaccinationInfo ] = useState(null);
+
+    const sendPdfToEmail = async () => {
+        try {
+            setSendPDFLoader(true);
+            await sendPdf(userInfo, vaccinationInfo);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setSendPDFLoader(false);
+        }
+    }
     
     const fetchVaccinationInfoDetails = async (payload) => {
         setLoading(true);
@@ -52,10 +66,17 @@ const CertificateTemplate = () => {
     return (
         <Container>
             <div className='d-flex justify-content-between my-2'>
-                <Link className='m-2' to={`/patient/${vaccinationId}`}>
-                    <Button variant='outline-info'><IoChevronBack/> Back</Button>
-                </Link>
-                {(!loading && userInfo && vaccinationInfo) && <Button size='sm' className='m-2' variant='outline-warning' disabled={downloadLoader} onClick={downloadPdf}>{downloadLoader && <Spinner size="sm" as="span" className="mx-2"/>}Download PDF<HiDownload className='mx-2'/></Button>}
+                <div className="d-flex w-100">
+                    <div className="w-25 d-flex align-items-center">
+                        <Link className='m-2' to={`/patient/${vaccinationId}`}>
+                            <Button size="sm" variant='outline-info'><IoChevronBack/> Back</Button>
+                        </Link>
+                    </div>
+                    <div className='w-75 d-flex justify-content-end align-items-center'>
+                        <Button size='sm' variant='outline-primary' disabled={sendPDFLoader} onClick={sendPdfToEmail}>{sendPDFLoader && <Spinner size="sm" as="span" className="mx-2"/>}<RiSendPlaneFill className='mx-2'/>PDF Email<AiOutlineMail className='mx-2'/></Button>
+                        {(!loading && userInfo && vaccinationInfo) && <Button size='sm' className='m-2' variant='outline-warning' disabled={downloadLoader} onClick={downloadPdf}>{downloadLoader && <Spinner size="sm" as="span" className="mx-2"/>}Download PDF<HiDownload className='mx-2'/></Button>}
+                    </div>
+                </div>
             </div>
             <hr />
             {loading ? <div className='d-flex align-items-center'><Spinner as="span"/><span className='mx-3'>Fetching PDF...</span></div> :
