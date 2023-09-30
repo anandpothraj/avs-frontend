@@ -105,7 +105,7 @@ const VaccineInfo = () => {
       addedBy : addedBy,
       addedOn : addedOn
     };
-    setLoading(false);
+    setLoading(true);
     await axios
     .put(`${production}${EDIT_VACCINE}/${id}`,data)
     .then(res => {
@@ -119,12 +119,12 @@ const VaccineInfo = () => {
       console.log(err);
       notify("error",err.response.data.message);
     });
-    setLoading(true);
+    setLoading(false);
     fetchVaccines();
   };
 
   const deleteVaccine = async () => {
-    setLoading(false);
+    setLoading(true);
     await axios
     .delete(`${production}${REMOVE_VACCINE}/${id}`)
     .then(res => {
@@ -137,7 +137,7 @@ const VaccineInfo = () => {
       console.log(err);
       notify("error",err.response.data.message);
     });
-    setLoading(true);
+    setLoading(false);
     fetchVaccines();
   };
 

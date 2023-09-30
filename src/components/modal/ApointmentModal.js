@@ -104,10 +104,10 @@ const AppointmentModal = (props) => {
             </small>
         </Modal.Body>
         <Modal.Footer>
-            <Button variant="success" className="m-2" onClick={operationType === "Edit" ? editAppointment : bookAppointment}>
+            <Button variant="success" className="m-2" disabled={loading} onClick={operationType === "Edit" ? editAppointment : bookAppointment}>
             {loading && <Spinner size="sm" as="span" className="mx-2"/>}{operationType} Appointment
             </Button>
-            <Button className="m-2" variant="warning" onClick={resetFields}>
+            <Button className="m-2" variant="warning" onClick={resetFields} disabled={loading}>
             Reset Fields
             </Button>
             <Button variant="danger" onClick={onHide}>

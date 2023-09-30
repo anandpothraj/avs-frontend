@@ -52,7 +52,7 @@ const FetchAppointments = (props) => {
                     <option>active</option>
                     <option>deactive</option>
                 </select>
-                <Button size='sm' className='mx-2' onClick={()=>{fetchAppointments();setAppointmentFilter("all")}} variant='warning'><GrPowerReset/></Button>
+                <Button size='sm' className='mx-2' disabled={loading} onClick={()=>{fetchAppointments();setAppointmentFilter("all")}} variant='warning'><GrPowerReset/></Button>
             </div>
             <hr />
             {

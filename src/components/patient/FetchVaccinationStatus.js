@@ -21,7 +21,7 @@ const FetchVaccinationStatus = (props) => {
               <option>fully vaccinated</option>
               <option>partially vaccinated</option>
           </select>
-          <Button size='sm' className='mx-2' variant='warning' onClick={()=>{fetchVaccinations();setVaccinationFilter("all")}}><GrPowerReset/></Button>
+          <Button size='sm' className='mx-2' disabled={loading} variant='warning' onClick={()=>{fetchVaccinations();setVaccinationFilter("all")}}><GrPowerReset/></Button>
       </div>
       <hr />
       <div className='d-flex flex-column'>

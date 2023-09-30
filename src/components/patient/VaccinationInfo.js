@@ -1,16 +1,17 @@
 import { TbVaccine } from 'react-icons/tb';
 import { CgProfile } from 'react-icons/cg';
 import { GiOverdose } from "react-icons/gi";
-import { RiCake2Line } from "react-icons/ri";
+import { sendPdf } from '../../utils/sendPdf';
 import { FaStethoscope } from 'react-icons/fa';
 import { IoChevronBack } from 'react-icons/io5';
 import { BiShieldQuarter } from 'react-icons/bi';
 import MainScreen from '../../layout/MainScreen';
 import { Link, useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { downloadPdf } from '../../utils/downloadPdf';
+import { generatePdf } from '../../utils/generatePdf';
 import { AiFillEye, AiOutlineMail } from "react-icons/ai";
 import { FaRegHospital, FaUserShield } from 'react-icons/fa';
+import { RiCake2Line, RiSendPlaneFill } from "react-icons/ri";
 import { formatDateString } from '../../utils/formatDateString';
 import { Badge, Button, ListGroup, Spinner } from 'react-bootstrap';
 import { BsGenderAmbiguous, BsCalendar2Date } from "react-icons/bs";
@@ -24,6 +25,8 @@ const VaccinationInfo = () => {
     const [ loading, setLoading ] = useState(true);
     const [ userInfo, setUserInfo ] = useState(null);
     const [ vaccinationId, setVaccinationId ] = useState("");
+    const [ downloadLoader, setdownLoader ] = useState(false);
+    const [ sendPDFLoader, setSendPDFLoader ] = useState(false);
     const [ vaccinationInfo, setVaccinationInfo ] = useState(null);
 
     const fetchVaccinationInfoDetails = async (payload) => {
@@ -33,6 +36,28 @@ const VaccinationInfo = () => {
             setVaccinationInfo(response);
         }
         setLoading(false);
+    }
+
+    const downloadPdf = async () => {
+        try {
+            setdownLoader(true);
+            await generatePdf(userInfo, vaccinationInfo);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setdownLoader(false);
+        }
+    }
+
+    const sendPdfToEmail = async () => {
+        try {
+            setSendPDFLoader(true);
+            await sendPdf(userInfo, vaccinationInfo);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setSendPDFLoader(false);
+        }
     }
 
     useEffect(() => {
@@ -47,14 +72,19 @@ const VaccinationInfo = () => {
 
     return (
         <MainScreen title="Vaccination Info!" fluid="md">
-            <div className='d-flex justify-content-between'>
-                <Link className='mx-2' to='/patient'>
-                    <Button variant='outline-info'><IoChevronBack/> Back</Button>
-                </Link>
-                <Button className='mx-2 d-md-none' onClick={()=>downloadPdf(vaccinationInfo.vaccineName, vaccinationInfo.doseNo, vaccinationId)} size='sm' variant='outline-warning'>Download PDF<HiDownload className='mx-2'/></Button>
-                <Link className='mx-2 d-none d-md-block' to={`/certificate/${vaccinationId}`}>
-                    <Button size='sm' variant='outline-warning'><AiFillEye className='mx-2'/>Preview & download PDF<HiDownload className='mx-2'/></Button>
-                </Link>
+            <div className='d-flex'>
+                <div className='w-25'>
+                    <Link className='mx-2' to='/patient'>
+                        <Button size='sm' variant='outline-info'><IoChevronBack/> Back</Button>
+                    </Link>
+                </div>
+                <div className='w-75 d-flex justify-content-end align-items-center'>
+                    <Button size='sm' variant='outline-primary' disabled={sendPDFLoader} onClick={sendPdfToEmail}>{sendPDFLoader && <Spinner size="sm" as="span" className="mx-2"/>}<RiSendPlaneFill className='mx-2'/>PDF Email<AiOutlineMail className='mx-2'/></Button>
+                    {(!loading && userInfo && vaccinationInfo) && <Button className='mx-2 d-md-none' disabled={downloadLoader} onClick={downloadPdf} size='sm' variant='outline-warning'>{downloadLoader && <Spinner size="sm" as="span" className="mx-2"/>}Download PDF<HiDownload className='mx-2'/></Button>}
+                    <Link className='mx-2 d-none d-md-block' to={`/certificate/${vaccinationId}`}>
+                        <Button size='sm' variant='outline-warning'><AiFillEye className='mx-2'/>Preview & download PDF<HiDownload className='mx-2'/></Button>
+                    </Link> 
+                </div>
             </div>
             <hr />
             {
