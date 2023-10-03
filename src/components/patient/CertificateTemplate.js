@@ -90,7 +90,7 @@ const CertificateTemplate = () => {
                             <div>
                                 <h5 style={{fontWeight:"bold"}} className='text-center text-primary'>{vaccinationInfo.remainingNoOfDose? null : "Final "}Certificate for {vaccinationInfo.vaccineName} Vaccination.</h5>
                                 <h6 className='text-center text-primary text-bold my-1'>issued by Ministry of health & family welfare.</h6>
-                                <h6 style={{fontWeight:"bold"}} className='text-center text-black my-2'>Certificate ID : Fetching...</h6>
+                                <h6 style={{fontWeight:"bold"}} className='text-center text-black my-2'>Certificate ID : {vaccinationInfo.certificateId}</h6>
                             </div>
                         </div>
                         <hr />
