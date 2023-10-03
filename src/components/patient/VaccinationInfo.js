@@ -1,3 +1,4 @@
+import { GrNotes } from 'react-icons/gr';
 import { TbVaccine } from 'react-icons/tb';
 import { CgProfile } from 'react-icons/cg';
 import { GiOverdose } from "react-icons/gi";
@@ -101,6 +102,7 @@ const VaccinationInfo = () => {
                     <ListGroup.Item className='mt-2'><Badge bg="info">Vaccination Info</Badge></ListGroup.Item>
                     <ListGroup.Item><TbVaccine color='red' className='mx-2'/>Vaccine Name : {vaccinationInfo.vaccineName}</ListGroup.Item>
                     <ListGroup.Item><GiOverdose color='green' className='mx-2'/>Vaccine Dose No : {vaccinationInfo.doseNo}</ListGroup.Item>
+                    <ListGroup.Item><GrNotes color='white' className='mx-2'/>Certificate Id : {vaccinationInfo.certificateId}</ListGroup.Item>
                     <ListGroup.Item><FaStethoscope color='orange' className="mx-2"/>Vaccinated By : Dr.{vaccinationInfo.doctorName} / {vaccinationInfo.doctorAadhaar}</ListGroup.Item>
                     <ListGroup.Item><FaRegHospital color='grey' className="mx-2"/>Vaccinated At : {vaccinationInfo.hospitalName} / {vaccinationInfo.pincode}</ListGroup.Item>
                     <ListGroup.Item><BsCalendar2Date color='magenta' className="mx-2"/>Vaccinated On : {formatDateString(vaccinationInfo.vaccinatedOn)}</ListGroup.Item>
