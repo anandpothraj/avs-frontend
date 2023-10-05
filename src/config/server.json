@@ -30,7 +30,9 @@
             "VACCINATE_PATIENT" : "api/doctors/vaccinate/patient",
             "FETCH_APPOINTMENTS_BY_AADHAAR" : "api/doctors/fetch/appointments",
             "FETCH_APPOINTMENT_BY_BOOKING_ID" : "api/doctors/fetch/appointment"
+        },
+        "inspectors" : {
+            "FETCH_VACCINATIONS_INFO" : "api/inspectors/fetch/vaccinations/info"
         }
-        
     }
 }
