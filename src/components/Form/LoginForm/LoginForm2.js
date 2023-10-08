@@ -1,23 +1,22 @@
-import { Link } from 'react-router-dom';
 import React , { useContext } from 'react';
 import { Form, Row } from 'react-bootstrap';
+import { BsInfoCircle } from 'react-icons/bs';
+import { maskEmail } from '../../../utils/maskEmail';
 import { Login } from '../../../Context/LoginContext';
 
 const LoginForm2 = () => {
 
-    const { secretCode, setSecretCode } = useContext(Login);
-
+    const { otp, setOtp, email } = useContext(Login);
+    
     return (
         <>
             <Form>
-                <Row className="mb-3">
+                <Row>
                     <Form.Group className="mb-3">
-                        <Form.Label htmlFor="secretCode" >Enter Secret Code</Form.Label>
-                        <Form.Control type="number" placeholder="Enter Your Secret Code" value={secretCode} name="secretCode" onChange={(e)=>setSecretCode(e.target.value)} autoFocus/>
+                        <small className='d-block border p-2 my-2 rounded border-warning text-warning'><BsInfoCircle className='mx-2'/>Please check your email starts with {maskEmail(email)}</small>
+                        <Form.Label htmlFor="otp" >Enter OTP</Form.Label>
+                        <Form.Control type="number" placeholder="Enter Your 6 digits OTP" value={otp} name="otp" onChange={(e)=>setOtp(e.target.value)} autoFocus/>
                     </Form.Group>
-                    <span className="small">
-                        <Link to="/">Forget Secret Code</Link>
-                    </span>
                 </Row>
             </Form>
         </>

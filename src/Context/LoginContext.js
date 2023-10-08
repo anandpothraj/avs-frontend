@@ -4,13 +4,16 @@ export const Login  = createContext();
 
 const LoginContext = ({children}) => {
 
-    const [ aadhaar, setAadhaar] = useState("");
-    const [ password, setPassword] = useState("");
-    const [ secretCode, setSecretCode] = useState("");
-    const [ accountType, setAccountType] = useState("Patient");
+  const [ otp, setOtp] = useState("");
+  const [ email, setEmail] = useState("");
+  const [ aadhaar, setAadhaar] = useState("");
+  const [ seconds, setSeconds] = useState(60);
+  const [ password, setPassword] = useState("");
+  const [ isActive, setIsActive] = useState(true);
+  const [ accountType, setAccountType] = useState("Patient");
 
   return (
-    <Login.Provider value={{aadhaar, setAadhaar, password, setPassword, secretCode, setSecretCode, accountType, setAccountType}}>{children}</Login.Provider>
+    <Login.Provider value={{aadhaar, setAadhaar, password, setPassword, otp, setOtp, accountType, setAccountType, email, setEmail, seconds, setSeconds, isActive, setIsActive}}>{children}</Login.Provider>
   )
 };
 
