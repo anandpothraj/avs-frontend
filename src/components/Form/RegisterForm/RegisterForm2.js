@@ -6,7 +6,7 @@ import { Register } from '../../../Context/RegisterContext';
 const RegisterForm2 = (props) => {
 
   const { step} = useContext(Step);
-  const { email, setEmail, password, setPassword, secretCode, setSecretCode, phone, setPhone } = useContext(Register);
+  const { email, setEmail, password, setPassword, phone, setPhone } = useContext(Register);
 
   return (
     <div className="form-container">
@@ -19,10 +19,6 @@ const RegisterForm2 = (props) => {
             <Form.Group className="mb-3">
                 <Form.Label htmlFor="password">Create New Password</Form.Label>
                 <Form.Control type="password" placeholder="Create New Password" name="password" onChange={(e)=>setPassword(e.target.value)} value={password} />
-            </Form.Group>
-            <Form.Group className="mb-3" >
-                <Form.Label htmlFor="secretCode">Create Secret Code</Form.Label>
-                <Form.Control type="number" placeholder="Create Secret Code" name="secretCode" onChange={(e)=>setSecretCode(e.target.value)} value={secretCode}/>
             </Form.Group>
             <Form.Group className="mb-3" >
                 <Form.Label htmlFor="phone">Phone Number</Form.Label>

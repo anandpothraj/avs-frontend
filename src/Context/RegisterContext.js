@@ -12,13 +12,12 @@ const RegisterContext = ({children}) => {
   const [ gender, setGender] = useState("");
   const [ aadhaar, setAadhaar] = useState("");
   const [ password, setPassword] = useState("");
-  const [ secretCode, setSecretCode] = useState("");
   const [ accountType, setAccountType] = useState("Patient");
 
   return (
     <Register.Provider value={{
       accountType, setAccountType, name, setName, aadhaar, setAadhaar, email, setEmail, password, 
-      setPassword, secretCode, setSecretCode, phone, setPhone, age, setAge, dob, setDob, gender, setGender}}
+      setPassword, phone, setPhone, age, setAge, dob, setDob, gender, setGender}}
     >
       {children}
     </Register.Provider>

@@ -10,7 +10,7 @@ const RegisterSuccess = (props) => {
   const navigate = useNavigate();
   const {setStep} = useContext(Step);
   const [progress , setProgress] = useState(0);
-  const {setAccountType, setName, setAadhaar, setEmail, setPassword, setSecretCode, setPhone, setAge, setDob, setGender} = useContext(Register);
+  const {setAccountType, setName, setAadhaar, setEmail, setPassword, setPhone, setAge, setDob, setGender} = useContext(Register);
 
   setTimeout(()=>{
     setProgress(100);
@@ -24,7 +24,6 @@ const RegisterSuccess = (props) => {
       setAadhaar("");
       setEmail("");
       setPassword("");
-      setSecretCode("");
       setPhone("");
       setAge("");
       setDob(""); 

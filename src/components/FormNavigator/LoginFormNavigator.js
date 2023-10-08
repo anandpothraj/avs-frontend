@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Timer from '../Form/LoginForm/Timer';
 import { notify } from '../../utils/notify';
 import { Step } from '../../Context/Context';
 import server from '../../config/server.json';
+import { AiOutlineReload } from 'react-icons/ai';
 import { Button, Spinner } from 'react-bootstrap';
 import { Login } from '../../Context/LoginContext';
 import React, { useState, useContext } from 'react';
@@ -14,7 +16,7 @@ const LoginFormNavigator = (props) => {
   const LOGIN_STEP1 = server.api.users.LOGIN_STEP1;
   const LOGIN_STEP2 = server.api.users.LOGIN_STEP2;
   const [ loading, setLoading ] = useState(false);
-  const { aadhaar, setAadhaar, password, setPassword, secretCode, setSecretCode, accountType, setAccountType } = useContext(Login);
+  const { aadhaar, setAadhaar, password, setPassword, otp, setOtp, accountType, setAccountType, setEmail, isActive, seconds, setSeconds, setIsActive } = useContext(Login);
 
   const reset = () => {
     if(step === 1){
@@ -23,7 +25,7 @@ const LoginFormNavigator = (props) => {
       setAccountType("Patient");
     }
     else if(step === 2){
-      setSecretCode("");
+      setOtp("");
     }
     else{
       notify("error","Something went wrong");
@@ -35,7 +37,7 @@ const LoginFormNavigator = (props) => {
       if(aadhaar && password){
         if(aadhaar.length === 12){
           if(password.length >=6){
-            checkLoginCredentials();
+            checkLoginCredentials(false);
           }
           else{
             notify("error","Your password length should be always greater or equal to 6 characters!")
@@ -50,16 +52,16 @@ const LoginFormNavigator = (props) => {
       }
     }
     else if(step === 2){
-      if(secretCode){
-        if(secretCode.length === 4){
-          checkSecretCode();
+      if(otp){
+        if(otp.length === 6){
+          checkOtp();
         }
         else{
-          notify("error","Your secret code length should always be 4 digits!")
+          notify("error","Invalid Otp! Your OTP should always be 6 digits!")
         }
       }
       else{
-        notify("error","Please enter your secret code!");
+        notify("error","Please enter your OTP!");
       }
     }
     else{
@@ -67,33 +69,40 @@ const LoginFormNavigator = (props) => {
     }
   };
 
-  const previous = () => {
-    if(step > 1){
-      setStep(step-1);
-    }
-  };
-
-  const checkLoginCredentials = () => {
+  const checkLoginCredentials = (resend) => {
     setLoading(true);
-    const data = { accountType, aadhaar, password };
+    const title = "Your Login OTP for Anand Vaccination System";
+    const data = { accountType, aadhaar, password, title };
     axios
-    .post(`${production}${LOGIN_STEP1}`,data)
-    .then(res => {
-      if(res.status === 200){
-        setStep(step + 1);
+    .post(`${production}${LOGIN_STEP1}`, data)
+    .then((response) => {
+      if (response.status === 200) {
+        setEmail(response.data.email); // Assuming `email` is part of the response data
+        if (resend) {
+          notify("success", "Your OTP resend was successfully!");
+          setIsActive(true);
+          setSeconds(60);
+        } else {
+          notify("success", response.data.message);
+          setStep(step + 1);
+        }
       }
       setLoading(false);
     })
-    .catch(err => {
-      console.log(err);
+    .catch((error) => {
+      console.error(error);
       setLoading(false);
-      notify("error",err.response.data.message);
-    })
+      if (error.response && error.response.data && error.response.data.message) {
+        notify("error", error.response.data.message);
+      } else {
+        notify("error", "An error occurred during login.");
+      }
+    });
   };
-
-  const checkSecretCode = () => {
+  
+  const checkOtp = () => {
     setLoading(true);
-    const data = { accountType, aadhaar, secretCode };
+    const data = { accountType, aadhaar, otp };
     axios
     .post(`${production}${LOGIN_STEP2}`,data)
     .then(res => {
@@ -116,9 +125,19 @@ const LoginFormNavigator = (props) => {
 
   return (
     <>
-      <div className='d-flex justify-content-between'>
-        {step < 3 ? <Button className="m-1" size='sm' variant="danger" onClick={reset}>Reset</Button> : null} 
-        {step === 2 ? <Button className="m-1" size='sm' variant="warning" onClick={previous}>Previous</Button> : null}
+      { step === 2 && <span className="small">
+        <Button size='sm' variant='outline-info' disabled={isActive} onClick={()=>checkLoginCredentials(true)}>
+            <AiOutlineReload className='mx-2'/>Request again 
+            {isActive && <Timer 
+                seconds={seconds}
+                isActive={isActive}
+                setSeconds={setSeconds}
+                setIsActive={setIsActive}
+            />}
+        </Button>
+      </span>}
+      <div className='d-flex justify-content-between my-3'>
+        {step < 3 ? <Button className="m-1" size='sm' variant="danger" onClick={reset}>Reset</Button> : null}
         {step < 3 ? <Button className="m-1" size='sm' variant="success" onClick={next}>Continue
           {
               loading ? 
