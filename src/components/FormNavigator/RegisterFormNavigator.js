@@ -16,7 +16,7 @@ const RegiterFormNavigator = (props) => {
     const REGISTER_STEP1 = server.api.users.REGISTER_STEP1;
     const REGISTER_STEP2 = server.api.users.REGISTER_STEP2;
     const { accountType, setAccountType, name, setName, aadhaar, setAadhaar, email, setEmail, password, 
-    setPassword, secretCode, setSecretCode, phone, setPhone, age, setAge, dob, setDob, gender, setGender } = useContext(Register);
+    setPassword, phone, setPhone, age, setAge, dob, setDob, gender, setGender } = useContext(Register);
 
     const reset = () => {
         if(step === 1){
@@ -28,7 +28,6 @@ const RegiterFormNavigator = (props) => {
             setEmail("");
             setPhone("");
             setPassword("");
-            setSecretCode("");
         }
         else if(step === 3){
             setAge("");
@@ -45,21 +44,16 @@ const RegiterFormNavigator = (props) => {
             checkUser();
         }
         else if(step === 2){
-            if(email && password && secretCode && phone){
+            if(email && password  && phone){
                 if(password.length < 6){
                     notify("error","Password length should be always greater than 6 characters.");
                 }
                 else{
-                    if(secretCode.length === 4){
-                        if(phone.length === 10){
-                            setStep(step+1);
-                        }
-                        else{
-                            notify("error","Phone number should be always only of 10 digits.");
-                        }
+                    if(phone.length === 10){
+                        setStep(step+1);
                     }
                     else{
-                        notify("error","Secret Code should always be equal to 4 digits only");
+                        notify("error","Phone number should be always only of 10 digits.");
                     }
                 }
             }
@@ -125,7 +119,7 @@ const RegiterFormNavigator = (props) => {
 
     const createUser = () => {
         setLoading(true);
-        const data = { accountType, name, email, phone, password, secretCode, age, dob, gender, aadhaar };
+        const data = { accountType, name, email, phone, password, age, dob, gender, aadhaar };
         axios
         .post(`${production}${REGISTER_STEP2}`,data)
         .then(res => {

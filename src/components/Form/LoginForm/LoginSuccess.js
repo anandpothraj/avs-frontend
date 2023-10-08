@@ -9,9 +9,9 @@ import React, { useState, useContext, useEffect } from 'react';
 const LoginSuccess = (props) => {
 
   const navigate = useNavigate();
-  const {setStep} = useContext(Step);
-  const [progress , setProgress] = useState(0);
-  const {setAadhaar,setPassword,setSecretCode} = useContext(Login);
+  const { setStep } = useContext(Step);
+  const [ progress , setProgress ] = useState(0);
+  const { setAadhaar, setPassword, setOtp } = useContext(Login);
 
   setTimeout(()=>{
     setProgress(100);
@@ -26,9 +26,9 @@ const LoginSuccess = (props) => {
       user = JSON.parse(user);
       let accountType = user.accountType.toLowerCase();
       setStep(1);
+      setOtp("");
       setAadhaar("");
       setPassword("");
-      setSecretCode("");
       navigate(`/${accountType}`);
     } else {
       setStep(4);
