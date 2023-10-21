@@ -143,7 +143,7 @@ const RegiterFormNavigator = (props) => {
         <>
             <Row>
                 {step > 1 && step < 5 ?
-                <Col>
+                <Col className='d-flex justify-content-start'>
                     <Button className="m-1" variant="warning" onClick={previous}>Previous</Button>
                 </Col> : null
                 }
@@ -153,7 +153,7 @@ const RegiterFormNavigator = (props) => {
                 </Col> : null
                 }
                 {step < 5 ?
-                    <Col>
+                    <Col className='d-flex justify-content-end'>
                         <Button className="m-1" variant="success" onClick={next} disabled={loading}>
                             Continue
                             {

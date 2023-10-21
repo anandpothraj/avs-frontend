@@ -8,6 +8,8 @@
         "users" : {
             "LOGIN_STEP1": "api/users/login/step1",
             "LOGIN_STEP2": "api/users/login/step2",
+            "EDIT_USER_DETAILS" : "api/users/edit/details",
+            "FETCH_USER_DETAILS" : "api/users/fetch/details",
             "REGISTER_STEP1": "api/users/register/checkuser",
             "REGISTER_STEP2": "api/users/register/createuser"
         },

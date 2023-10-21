@@ -47,7 +47,7 @@ const Header = () => {
             {
               user ?
               <>
-                <Link to="/" className={linkCss}>Edit Profile</Link>
+                <Link to="/profile" className={linkCss}>Profile</Link>
                 <Nav.Link onClick={openLogoutModal}>Logout</Nav.Link>
               </>
               :
