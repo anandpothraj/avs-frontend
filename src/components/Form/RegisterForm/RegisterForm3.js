@@ -1,6 +1,7 @@
 import { Form } from 'react-bootstrap' ;
 import React, { useContext } from 'react';
 import { Step } from '../../../Context/Context';
+import { returnAge } from '../../../utils/returnAge';
 import { Register } from '../../../Context/RegisterContext';
 
 const RegisterForm3 = (props) => {
@@ -9,15 +10,8 @@ const RegisterForm3 = (props) => {
     const { age, setAge, dob, setDob, gender, setGender} = useContext(Register);
   
     const getAge = (dateBirth) => {
-        var today = new Date();
-        var birthDate = new Date(dateBirth);
-        var year = today.getFullYear() - birthDate.getFullYear();
-        var m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
-        {
-            setAge(year);
-        }
-        return setAge(year);
+        let fetchedAge = returnAge(dateBirth);
+        setAge(fetchedAge);
     }
 
     return (

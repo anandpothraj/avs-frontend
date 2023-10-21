@@ -8,6 +8,7 @@ import LoginScreen from './screens/UserScreen/LoginScreen';
 import OptionScreen from './screens/UserScreen/OptionScreen';
 import VaccineInfo from './screens/DoctorScreen/VaccineInfo';
 import DoctorScreen from './screens/DoctorScreen/DoctorScreen';
+import ProfileScreen from './screens/UserScreen/ProfileScreen';
 import RegisterScreen from './screens/UserScreen/RegisterScreen';
 import PatientScreen from './screens/PatientScreen/PatientScreen';
 import VaccinationInfo from './components/patient/VaccinationInfo';
@@ -29,6 +30,7 @@ const App = () => {
                 <Route path='/login' element={<LoginScreen/>} exact />
                 <Route path='/about' element={<AboutScreen/>} exact />
                 <Route path='/options' element={<OptionScreen/>} exact />
+                <Route path='/profile' element={<ProfileScreen/>} exact />
                 <Route path='/register' element={<RegisterScreen/>} exact />
               {/* Open Routes */}
               
