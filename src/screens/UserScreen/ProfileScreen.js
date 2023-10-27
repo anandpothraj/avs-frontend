@@ -24,6 +24,7 @@ const ProfileScreen = () => {
         gender: "",
         aadhaar: "",
         userInfo: {},
+        accountType : "",
     });
 
     const formatDateToYYYYMMDD = (dateString) => {
@@ -45,6 +46,7 @@ const ProfileScreen = () => {
                 phone: user.phone,
                 gender: user.gender,
                 aadhaar: user.aadhaar,
+                accountType : user.accountType,
                 dob: formatDateToYYYYMMDD(user.dob),
             });
             setLoading(false);
@@ -52,10 +54,10 @@ const ProfileScreen = () => {
         }
     };
 
-    const fetchUserDetails = async (aadhaar) => {
+    const fetchUserDetails = async (aadhaar, accountType) => {
         setLoading(true);
         try {
-            const res = await axios.get(`${production}${server.api.users.FETCH_USER_DETAILS}/${aadhaar}`);
+            const res = await axios.get(`${production}${server.api.users.FETCH_USER_DETAILS}?aadhaar=${aadhaar}&accountType=${accountType}`);
             if (res.status === 200 && res.data) {
                 const user = res.data.user;
                 localStorage.setItem("user", JSON.stringify(user));
@@ -66,6 +68,7 @@ const ProfileScreen = () => {
                     gender: user.gender,
                     email: user.email,
                     phone: user.phone,
+                    accountType : user.accountType,
                     dob: formatDateToYYYYMMDD(user.dob),
                 });
             }
@@ -86,7 +89,7 @@ const ProfileScreen = () => {
             const res = await axios.put(`${production}${server.api.users.EDIT_USER_DETAILS}`, data);
             if (res.status === 200 && res.data) {
                 notify("success", res.data.message);
-                fetchUserDetails(aadhaar);
+                fetchUserDetails(aadhaar, accountType);
             }
         } 
         catch (err) {
@@ -123,7 +126,7 @@ const ProfileScreen = () => {
             navigate("/profile");
             const user = JSON.parse(localStorage.getItem("user"));
             if (user) {
-                fetchUserDetails(user.aadhaar);
+                fetchUserDetails(user.aadhaar, user.accountType);
             } 
             else {
                 navigate("/");
@@ -135,7 +138,7 @@ const ProfileScreen = () => {
         // eslint-disable-next-line
     }, []);
 
-    const { aadhaar, name, gender, dob, email, phone, userInfo } = userDetails;
+    const { aadhaar, name, gender, dob, email, phone, userInfo, accountType } = userDetails;
 
     return (
         <MainScreen title="User Profile Details">
@@ -156,7 +159,7 @@ const ProfileScreen = () => {
                                     <Form.Control
                                         type="text"
                                         name="accountType"
-                                        value="Doctor"
+                                        value={accountType}
                                         readOnly
                                     />
                                 </Col>
