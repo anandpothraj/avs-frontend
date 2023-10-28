@@ -1,11 +1,10 @@
-import { Link } from 'react-router-dom';
 import React, { useContext } from 'react';
 import { Form, Row } from 'react-bootstrap';
-import { Login } from '../../../Context/LoginContext';
+import { ForgotPassword } from '../../../Context/ForgotPasswordContext';
 
-const LoginForm1 = () => {
+const ForgetPasswordForm1 = () => {
 
-  const { aadhaar, setAadhaar, password, setPassword, accountType, setAccountType } = useContext(Login);
+  const { accountType, setAccountType, aadhaar, setAadhaar, email, setEmail } = useContext(ForgotPassword);
 
   return (
     <>
@@ -24,16 +23,13 @@ const LoginForm1 = () => {
               <Form.Control type="number" placeholder="Enter Your Aadhaar Number" value={aadhaar} name="aadhaar" onChange={(e)=>setAadhaar(e.target.value)} autoFocus/>
             </Form.Group>
             <Form.Group className="mb-1">
-                <Form.Label htmlFor="password">Enter Password</Form.Label>
-                <Form.Control type="password" placeholder="Enter Your Password" value={password} name="password" autoComplete='off' onChange={(e)=>setPassword(e.target.value)}/>
+                <Form.Label htmlFor="email">Enter Email</Form.Label>
+                <Form.Control type="email" placeholder="Enter Your Email id" value={email} name="email" autoComplete='off' onChange={(e)=>setEmail(e.target.value)}/>
             </Form.Group>
-            <span className="small">
-                <Link to="/forgot/password">Forgot password</Link>
-            </span>
         </Row>
       </Form>
     </>
   );
 };
 
-export default LoginForm1;
+export default ForgetPasswordForm1;

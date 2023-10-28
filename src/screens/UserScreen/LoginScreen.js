@@ -13,7 +13,7 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 const LoginScreen = () => {
 
     const navigate = useNavigate();
-    const step  = useContext(Step);
+    const { step, setStep }  = useContext(Step);
 
     useEffect(() => {
         collapseNavbar();
@@ -26,7 +26,9 @@ const LoginScreen = () => {
             navigate(`/${accountType}`);
         } else {
             navigate("/login");
+            setStep(1);
         }
+        // eslint-disable-next-line
     }, [navigate]);
 
     return (
