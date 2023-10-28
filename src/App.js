@@ -16,6 +16,7 @@ import PrivateRoutes from './components/PrivateRoute/PrivateRoutes';
 import InspectorScreen from './screens/InspectorScreen/InspectorScreen';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CertificateTemplate from './components/patient/CertificateTemplate';
+import ForgotPasswordScreen from './screens/UserScreen/ForgotPasswordScreen';
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
                 <Route path='/options' element={<OptionScreen/>} exact />
                 <Route path='/profile' element={<ProfileScreen/>} exact />
                 <Route path='/register' element={<RegisterScreen/>} exact />
+                <Route path='/forgot/password' element={<ForgotPasswordScreen/>} exact />
               {/* Open Routes */}
               
               {/* Private Routes */}
