@@ -3,14 +3,15 @@ import { Step } from '../../Context/Context';
 import { useNavigate } from "react-router-dom";
 import MainScreen from '../../layout/MainScreen';
 import ErrorBg from '../../assets/img/Error.png';
+import Forgot1Img from '../../assets/img/Forgot1.png';
+import Forgot2Img from '../../assets/img/Forgot2.png';
 import React, { useContext, useEffect } from 'react';
-import RegisterImg from '../../assets/img/RegisterBg.png';
 import { collapseNavbar } from '../../utils/collapseNavbar';
 import { Container, Row , Col , Image} from 'react-bootstrap';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
-import RegisterForm from '../../components/Form/RegisterForm/RegisterForm';
+import ForgotPasswordForm from '../../components/Form/ForgotPasswordForm/ForgotPasswordForm';
 
-const RegisterScreen = () => {
+const ForgotPasswordScreen = () => {
 
     const navigate = useNavigate();
     const { step, setStep }  = useContext(Step);
@@ -24,25 +25,28 @@ const RegisterScreen = () => {
             user = JSON.parse(user);
             let accountType = user.data.accountType.toLowerCase();
             navigate(`/${accountType}`);
-        } else {
-            navigate("/register");
+        } 
+        else {
+            navigate("/forgot/password");
             setStep(1);
         }
         // eslint-disable-next-line
     }, [navigate]);
 
     return (
-        <MainScreen title="Register">
-            <div className="main" fluid="md">
+        <MainScreen title="FORGOT PASSWORD">
+            <div className='main' fluid="md">
                 <Container>
                     <Row>
-                        <Col className="d-sm-none d-md-flex d-xs-none" xs={6} md={4}>
-                            <Image className='m-auto' src={(step === 4)?(ErrorBg):(RegisterImg)} fluid/>
+                        <Col className='d-sm-none d-md-flex d-xs-none' sm={0} md={4}>
+                            {step === 1 && <Image className='m-auto' src={Forgot1Img} fluid/>}
+                            {step === 2 && <Image className='m-auto' src={Forgot2Img} fluid/>}
+                            {step === 4 && <Image className='m-auto' src={ErrorBg} fluid/>}
                         </Col>
                         <Col className='d-flex'>
                             <div className="m-auto">
-                                <ProgressBar noOfSteps={5} progressBarType={"register"} formClass={"registerLi"}/>
-                                <RegisterForm/> 
+                                <ProgressBar noOfSteps={3} progressBarType={"create new password"} formClass={"loginLi"}/>
+                                <ForgotPasswordForm/>
                             </div>
                         </Col>
                     </Row>
@@ -52,4 +56,4 @@ const RegisterScreen = () => {
     );
 };
 
-export default RegisterScreen;
+export default ForgotPasswordScreen;
